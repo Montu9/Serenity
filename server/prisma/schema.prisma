@@ -15,9 +15,10 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  uuid       String @unique @db.Uuid
-  email      String @unique
+  uuid       String  @unique
+  email      String  @unique
   passwdHash String
+  rtHash     String?
 
   firstName String?
   lastName  String?
@@ -36,7 +37,7 @@ model Shelter {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  uuid String  @unique @db.Uuid
+  uuid String  @unique
   name String?
 
   users  UsersShelters[]
@@ -60,7 +61,7 @@ model Kennel {
 
   no      Int
   desc    String?
-  uuid    String  @db.Uuid
+  uuid    String
   shelter Shelter @relation(fields: [shelterId], references: [id])
 
   Dog       Dog[]
@@ -75,7 +76,7 @@ model Role {
 
 model Gender {
   id   Int    @id @default(autoincrement())
-  name String
+  name String @unique
   User User[]
 }
 
@@ -85,7 +86,7 @@ model Dog {
   updatedAt DateTime @updatedAt
 
   name           String
-  uuid           String       @unique @db.Uuid
+  uuid           String       @unique
   dogStatus      DogStatus    @relation(fields: [dogStatusId], references: [id])
   dogStatusId    Int
   dateOfBirth    DateTime     @db.Date
