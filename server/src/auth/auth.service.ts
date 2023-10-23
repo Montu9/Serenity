@@ -1,12 +1,11 @@
 import { ForbiddenException, Injectable } from '@nestjs/common';
-import { PrismaService } from 'src/prisma/prisma.service';
+import { PrismaService } from 'nestjs-prisma';
 import { Signup, Signin } from './dto';
 import * as argon from 'argon2';
 import { nanoid } from 'nanoid';
 import { Tokens } from './types';
 import { JwtService } from '@nestjs/jwt';
 import { JwtPayload } from './types/jwtPayload.type';
-import { uuid } from 'short-uuid';
 
 @Injectable()
 export class AuthService {
