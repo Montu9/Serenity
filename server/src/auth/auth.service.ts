@@ -15,7 +15,6 @@ export class AuthService {
   ) {}
 
   async signup(dto: Signup): Promise<Tokens> {
-    console.log(dto.email);
     const hash = await argon.hash(dto.password);
     const uuid = nanoid();
     const newUser = await this.prisma.user.create({
@@ -49,7 +48,7 @@ export class AuthService {
     const passwordMatches = await argon.verify(user.passwdHash, dto.password);
     if (!passwordMatches) throw new ForbiddenException('Access Denied');
 
-    const tokens = await this.getTokens(user.uuid, user.email);
+    const tokens: Tokens = await this.getTokens(user.uuid, user.email);
     await this.updateRtHash(user.uuid, tokens.refresh_token);
     return tokens;
   }

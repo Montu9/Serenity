@@ -4,6 +4,7 @@ import {
   HttpCode,
   HttpStatus,
   Post,
+  Get,
   UseGuards,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
@@ -34,7 +35,7 @@ export class AuthController {
     return this.authService.signin(dto);
   }
 
-  @Post('logout')
+  @Get('logout')
   @HttpCode(HttpStatus.OK)
   logout(@GetCurrentUserUuid() userUuid: string): Promise<boolean> {
     return this.authService.logout(userUuid);
@@ -42,7 +43,7 @@ export class AuthController {
 
   @Public()
   @UseGuards(RtGuard)
-  @Post('refresh')
+  @Get('refresh')
   @HttpCode(HttpStatus.OK)
   refreshToken(
     @GetCurrentUserUuid() userUuid: string,
