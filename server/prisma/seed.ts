@@ -1,10 +1,12 @@
 import { PrismaClient } from '@prisma/client';
-import { breed } from './data/breed';
-import { dogCondition } from './data/dogCondition';
-import { dogStatus } from './data/dogStatus';
-import { gender } from './data/gender';
-import { intakeType } from './data/intakeType';
-import { role } from './data/role';
+import {
+  breed,
+  dogCondition,
+  dogStatus,
+  gender,
+  intakeType,
+  role,
+} from './data/index';
 
 const prisma = new PrismaClient();
 

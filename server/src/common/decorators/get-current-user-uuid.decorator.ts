@@ -5,6 +5,6 @@ export const GetCurrentUserUuid = createParamDecorator(
   (_: undefined, context: ExecutionContext) => {
     const request = context.switchToHttp().getRequest();
     const user = request.user as JwtPayload;
-    return user.userUuid;
+    return user.sub;
   },
 );

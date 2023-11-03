@@ -3,9 +3,14 @@ import { AuthModule } from './auth/auth.module';
 import { PrismaClientExceptionFilter, PrismaModule } from 'nestjs-prisma';
 import { APP_FILTER, APP_GUARD, HttpAdapterHost } from '@nestjs/core';
 import { AtGuard } from './common/guards';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
-  imports: [AuthModule, PrismaModule.forRoot({ isGlobal: true })],
+  imports: [
+    AuthModule,
+    PrismaModule.forRoot({ isGlobal: true }),
+    ConfigModule.forRoot({ isGlobal: true }),
+  ],
   providers: [
     {
       provide: APP_GUARD,
