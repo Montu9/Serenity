@@ -34,6 +34,9 @@ export class UserEntity implements User {
   @ApiProperty()
   lastName: string;
 
-  @ApiProperty()
+  @Exclude()
   genderId: number;
+
+  @ApiProperty()
+  gender: { name: string };
 }

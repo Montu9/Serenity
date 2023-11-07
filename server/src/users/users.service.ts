@@ -8,7 +8,16 @@ export class UsersService {
   constructor(private prisma: PrismaService) {}
 
   findOnePrivate(uuid: string) {
-    return this.prisma.user.findUnique({ where: { uuid } });
+    return this.prisma.user.findUnique({
+      where: { uuid },
+      include: {
+        gender: {
+          select: {
+            name: true,
+          },
+        },
+      },
+    });
   }
 
   async updatePrivate(uuid: string, updateUserDto: UpdateUserDto) {
@@ -26,6 +35,13 @@ export class UsersService {
         gender: {
           connect: {
             name: updateUserDto.gender,
+          },
+        },
+      },
+      include: {
+        gender: {
+          select: {
+            name: true,
           },
         },
       },
