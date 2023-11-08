@@ -7,12 +7,20 @@ import logo from "@/assets/svg/logo.svg";
 import { Card } from "@/components/ui/card";
 import { useForm } from "react-hook-form";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import loginSchema from "./loginSchema";
+import loginSchema from "./components/loginSchema";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useLoginMutation } from "@/features/auth/authApiSlice";
+import { useDispatch } from "react-redux";
+import { setCredentials } from "@/features/auth/authSlice";
+import { BiLoaderCircle } from "react-icons/bi";
+import getErrorMessage from "@/lib/errorMessage";
 
 export const Login = () => {
-    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [errMsg, setErrMsg] = useState<string>("");
+    const [login, { isLoading }] = useLoginMutation();
+    const dispatch = useDispatch();
+
     const form = useForm<z.infer<typeof loginSchema>>({
         resolver: zodResolver(loginSchema),
         defaultValues: {
@@ -21,8 +29,21 @@ export const Login = () => {
         },
     });
 
-    const onSubmit = (values: z.infer<typeof loginSchema>): void => {
-        console.log(values);
+    const onSubmit = async (values: z.infer<typeof loginSchema>) => {
+        try {
+            const userData = await login({ email: values.email, password: values.password }).unwrap();
+
+            dispatch(
+                setCredentials({
+                    user: userData.userEntity,
+                    accessToken: userData.tokens.accessToken,
+                    refreshToken: userData.tokens.refreshToken,
+                })
+            );
+            setErrMsg("");
+        } catch (err: unknown) {
+            setErrMsg(getErrorMessage(err));
+        }
     };
 
     return (
@@ -80,7 +101,16 @@ export const Login = () => {
                                             )}
                                         />
 
-                                        <Button type="submit">Sign In with Email</Button>
+                                        <Button type="submit" disabled={isLoading}>
+                                            {isLoading && <BiLoaderCircle className="animate-spin" />}Sign In with Email
+                                        </Button>
+                                        {errMsg && errMsg?.length > 0 ? (
+                                            <small className="text-sm font-medium leading-none text-destructive">
+                                                {errMsg}
+                                            </small>
+                                        ) : (
+                                            ""
+                                        )}
                                     </div>
                                 </form>
                             </Form>
@@ -94,7 +124,7 @@ export const Login = () => {
                                     </span>
                                 </div>
                             </div>
-                            <Button variant="outline" type="button" disabled={isLoading}>
+                            <Button variant="outline" type="button">
                                 Create Account
                             </Button>
                         </div>

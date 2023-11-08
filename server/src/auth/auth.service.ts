@@ -1,8 +1,4 @@
-import {
-  ForbiddenException,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PrismaService } from 'nestjs-prisma';
 import { Signup, Signin } from './dto';
 import * as argon from 'argon2';
@@ -10,6 +6,7 @@ import { nanoid } from 'nanoid';
 import { Tokens } from './types';
 import { JwtService } from '@nestjs/jwt';
 import { JwtPayload } from './types/jwtPayload.type';
+import { UserEntity } from 'src/users/entities/user.entity';
 
 @Injectable()
 export class AuthService {
@@ -18,7 +15,7 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async signup(dto: Signup): Promise<boolean> {
+  async signup(dto: Signup): Promise<string> {
     const hash = await argon.hash(dto.password);
     const uuid = nanoid();
 
@@ -37,27 +34,35 @@ export class AuthService {
       },
     });
 
-    return true;
+    return 'User created successfully';
   }
 
-  async signin(dto: Signin): Promise<Tokens> {
+  async signin(
+    dto: Signin,
+  ): Promise<{ tokens: Tokens; userEntity: UserEntity }> {
     const user = await this.prisma.user.findUnique({
-      where: {
-        email: dto.email,
+      where: { email: dto.email },
+      include: {
+        gender: {
+          select: {
+            name: true,
+          },
+        },
       },
     });
-    if (!user) throw new NotFoundException('User not found');
+    if (!user) throw new UnauthorizedException('Unauthorized');
 
     const passwordMatches = await argon.verify(user.passwdHash, dto.password);
-    if (!passwordMatches) throw new ForbiddenException('Access Denied');
+    if (!passwordMatches) throw new UnauthorizedException('Unauthorized');
 
     const tokens: Tokens = await this.getTokens(user.uuid, user.email);
-    await this.updateRtHash(user.uuid, tokens.refresh_token);
+    await this.updateRtHash(user.uuid, tokens.refreshToken);
+    const userEntity = new UserEntity(user);
 
-    return tokens;
+    return { tokens, userEntity };
   }
 
-  async logout(userUuid: string): Promise<boolean> {
+  async logout(userUuid: string): Promise<string> {
     await this.prisma.user.updateMany({
       where: {
         uuid: userUuid,
@@ -69,7 +74,7 @@ export class AuthService {
         rtHash: null,
       },
     });
-    return true;
+    return 'Logged out successfully';
   }
 
   async refreshToken(userUuid: string, rt: string): Promise<Tokens> {
@@ -78,13 +83,13 @@ export class AuthService {
         uuid: userUuid,
       },
     });
-    if (!user || !user.rtHash) throw new ForbiddenException('Access Denied');
+    if (!user || !user.rtHash) throw new UnauthorizedException('Unauthorized');
 
     const rtMatches = await argon.verify(user.rtHash, rt);
-    if (!rtMatches) throw new ForbiddenException('Access Denied');
+    if (!rtMatches) throw new UnauthorizedException('Unauthorized');
 
     const tokens = await this.getTokens(user.uuid, user.email);
-    await this.updateRtHash(user.uuid, tokens.refresh_token);
+    await this.updateRtHash(user.uuid, tokens.refreshToken);
 
     return tokens;
   }
@@ -119,8 +124,8 @@ export class AuthService {
     ]);
 
     return {
-      access_token: at,
-      refresh_token: rt,
+      accessToken: at,
+      refreshToken: rt,
     };
   }
 }

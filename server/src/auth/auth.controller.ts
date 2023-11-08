@@ -17,6 +17,7 @@ import {
 import { RtGuard } from 'src/common/guards';
 import { Tokens } from './types';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { UserEntity } from 'src/users/entities/user.entity';
 
 @Controller('auth')
 @ApiTags('auth')
@@ -26,21 +27,23 @@ export class AuthController {
   @Public()
   @Post('signup')
   @HttpCode(HttpStatus.CREATED)
-  signup(@Body() dto: Signup): Promise<boolean> {
+  signup(@Body() dto: Signup): Promise<string> {
     return this.authService.signup(dto);
   }
 
   @Public()
   @Post('signin')
   @HttpCode(HttpStatus.OK)
-  signin(@Body() dto: Signin): Promise<Tokens> {
+  signin(
+    @Body() dto: Signin,
+  ): Promise<{ tokens: Tokens; userEntity: UserEntity }> {
     return this.authService.signin(dto);
   }
 
   @Get('logout')
   @HttpCode(HttpStatus.OK)
   @ApiBearerAuth()
-  logout(@GetCurrentUserUuid() userUuid: string): Promise<boolean> {
+  logout(@GetCurrentUserUuid() userUuid: string): Promise<string> {
     return this.authService.logout(userUuid);
   }
 
