@@ -15,7 +15,7 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async signup(dto: Signup): Promise<string> {
+  async signup(dto: Signup) {
     const hash = await argon.hash(dto.password);
     const uuid = nanoid();
 
@@ -34,7 +34,7 @@ export class AuthService {
       },
     });
 
-    return 'User created successfully';
+    return { status: 'success', message: 'Account created successfully' };
   }
 
   async signin(
