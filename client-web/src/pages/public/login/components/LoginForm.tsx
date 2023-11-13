@@ -8,12 +8,18 @@ import { useLoginMutation } from "@/features/auth/authApiSlice";
 import { useDispatch } from "react-redux";
 import { setCredentials } from "@/features/auth/authSlice";
 import { BiLoaderCircle } from "react-icons/bi";
-import getErrorMessage from "@/lib/errorMessage";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
+import { Toaster } from "@/components/ui/toaster";
+import { useToast } from "@/components/ui/use-toast";
+import PrepError from "@/types/PrepError";
+import RetrivedError from "@/types/RetrivedError";
+import Login from "@/types/Login";
+import { ErrorHandler } from "@/lib/ErrorHandler";
 
 const LoginForm = () => {
     const [errMsg, setErrMsg] = useState<string>("");
+    const { toast } = useToast();
     const [login, { isLoading }] = useLoginMutation();
     const dispatch = useDispatch();
 
@@ -36,9 +42,30 @@ const LoginForm = () => {
                     refreshToken: userData.tokens.refreshToken,
                 })
             );
+            toast({
+                variant: "success",
+                title: `Hi ${userData.userEntity.firstName}! You have logged in successfully!`,
+                description: "We are going to load your data now.",
+            });
             setErrMsg("");
         } catch (err: unknown) {
-            setErrMsg(getErrorMessage(err));
+            const error = new ErrorHandler(err as PrepError);
+            const retrivedError: RetrivedError = error.getRetrivedError();
+            if (retrivedError.message) {
+                setErrMsg(retrivedError.message);
+            } else {
+                retrivedError.data?.map((error) => {
+                    form.setError(error.property as keyof Login, {
+                        type: "server",
+                        message: error.constraints.join("\n"),
+                    });
+                });
+            }
+            toast({
+                variant: "destructive",
+                title: "Uh oh! Something went wrong!",
+                description: "Check your credentials and try again.",
+            });
         }
     };
 
@@ -84,6 +111,7 @@ const LoginForm = () => {
                     )}
                 </div>
             </form>
+            <Toaster />
         </Form>
     );
 };
