@@ -9,9 +9,16 @@ import { Button } from "@/components/ui/button";
 import { BiLoaderCircle } from "react-icons/bi";
 import { useState } from "react";
 import { useRegisterMutation } from "@/features/auth/authApiSlice";
-import getErrorMessage from "@/lib/errorMessage";
+import { useToast } from "@/components/ui/use-toast";
+import { ToastAction } from "@/components/ui/toast";
+import PrepError from "@/types/PrepError";
+import { ErrorHandler } from "@/lib/ErrorHandler";
+import RetrivedError from "@/types/RetrivedError";
+import Register from "@/types/Register";
+import { Toaster } from "@/components/ui/toaster";
 
 const RegisterForm = () => {
+    const { toast } = useToast();
     const [register, { isLoading }] = useRegisterMutation();
     const [errMsg, setErrMsg] = useState<string>("");
 
@@ -37,9 +44,32 @@ const RegisterForm = () => {
                 gender: values.gender,
             }).unwrap();
 
+            toast({
+                variant: "success",
+                title: "You have sign up successfully!",
+                description: "Now you can log in and set up your account.",
+                action: <ToastAction altText="Sign in">Sign in</ToastAction>,
+            });
             setErrMsg("");
-        } catch (error: unknown) {
-            setErrMsg(getErrorMessage(error));
+        } catch (err: unknown) {
+            console.log(err);
+            const error = new ErrorHandler(err as PrepError);
+            const retrivedError: RetrivedError = error.getRetrivedError();
+            if (retrivedError.message) {
+                setErrMsg(retrivedError.message);
+            } else {
+                retrivedError.data?.map((error) => {
+                    form.setError(error.property as keyof Register, {
+                        type: "server",
+                        message: error.constraints.join("\n"),
+                    });
+                });
+            }
+            toast({
+                variant: "destructive",
+                title: "Uh oh! Something went wrong!",
+                description: "Check your data and try again.",
+            });
         }
     };
 
@@ -148,6 +178,7 @@ const RegisterForm = () => {
                     ""
                 )}
             </form>
+            <Toaster />
         </Form>
     );
 };
