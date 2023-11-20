@@ -14,16 +14,22 @@ export const Login = () => {
                         className="absolute inset-0 bg-zinc-900 bg-cover bg-center rounded-xl"
                         style={{ backgroundImage: `url(${loginImg})` }}
                     />
-                    <div className="relative z-20 flex items-center text-lg font-medium">
-                        <img src={logo} alt="logo" className="h-20 w-20 rounded-full" />
-                        <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl p-4">Serenity</h1>
-                    </div>
+                    <Link to="/">
+                        <div className="relative z-20 flex items-center text-lg font-medium drop-shadow-[0_35px_35px_rgba(0,0,0,1)]">
+                            <img src={logo} alt="logo" className="h-20 w-20 rounded-full" />
+                            <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl p-4">
+                                Serenity
+                            </h1>
+                        </div>
+                    </Link>
                 </div>
 
                 <div className="lg:p-8">
                     <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
                         <div className="flex flex-col space-y-2 text-center items-center">
-                            <img src={logo} alt="logo" className="h-20 w-20 rounded-full lg:hidden" />
+                            <Link to="/">
+                                <img src={logo} alt="logo" className="h-20 w-20 rounded-full lg:hidden" />
+                            </Link>
                             <h1 className="text-2xl font-semibold tracking-tight">Sign in</h1>
                             <p className="text-sm text-muted-foreground">
                                 Enter your email and password to log in to your account

@@ -4,18 +4,17 @@ import loginSchema from "./loginSchema";
 import { Input } from "@/components/ui/input";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useLoginMutation } from "@/features/auth/authApiSlice";
 import { useDispatch } from "react-redux";
-import { setCredentials } from "@/features/auth/authSlice";
 import { BiLoaderCircle } from "react-icons/bi";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
-import { Toaster } from "@/components/ui/toaster";
 import { useToast } from "@/components/ui/use-toast";
 import PrepError from "@/types/PrepError";
 import RetrivedError from "@/types/RetrivedError";
 import Login from "@/types/Login";
 import { ErrorHandler } from "@/lib/ErrorHandler";
+import { setCredentials } from "@/app/api/features/auth/authSlice";
+import { useLoginMutation } from "@/app/api/features/auth/authApiSlice";
 
 const LoginForm = () => {
     const [errMsg, setErrMsg] = useState<string>("");
@@ -111,7 +110,6 @@ const LoginForm = () => {
                     )}
                 </div>
             </form>
-            <Toaster />
         </Form>
     );
 };

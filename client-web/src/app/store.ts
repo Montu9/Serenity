@@ -1,13 +1,15 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { apiSlice } from "./api/apiSlice";
-import authReducer from "../features/auth/authSlice";
+import authReducer from "./api/features/auth/authSlice";
 import storage from "redux-persist/lib/storage";
 import { persistStore, persistReducer } from "redux-persist";
 import thunk from "redux-thunk";
+import { shelterApiSlice } from "./api/features/shelter/shelterApiSlice";
 
 const persistConfig = {
     key: "root",
     storage,
+    blacklist: [shelterApiSlice.reducerPath],
 };
 
 const rootReducer = combineReducers({

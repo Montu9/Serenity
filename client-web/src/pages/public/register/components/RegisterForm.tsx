@@ -8,14 +8,14 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Button } from "@/components/ui/button";
 import { BiLoaderCircle } from "react-icons/bi";
 import { useState } from "react";
-import { useRegisterMutation } from "@/features/auth/authApiSlice";
 import { useToast } from "@/components/ui/use-toast";
 import { ToastAction } from "@/components/ui/toast";
 import PrepError from "@/types/PrepError";
 import { ErrorHandler } from "@/lib/ErrorHandler";
 import RetrivedError from "@/types/RetrivedError";
 import Register from "@/types/Register";
-import { Toaster } from "@/components/ui/toaster";
+import { Link } from "react-router-dom";
+import { useRegisterMutation } from "@/app/api/features/auth/authApiSlice";
 
 const RegisterForm = () => {
     const { toast } = useToast();
@@ -48,7 +48,13 @@ const RegisterForm = () => {
                 variant: "success",
                 title: "You have sign up successfully!",
                 description: "Now you can log in and set up your account.",
-                action: <ToastAction altText="Sign in">Sign in</ToastAction>,
+                action: (
+                    <Link to="/login">
+                        <ToastAction altText="Sign in" className="w-full">
+                            Sign&nbsp;in
+                        </ToastAction>
+                    </Link>
+                ),
             });
             setErrMsg("");
         } catch (err: unknown) {
@@ -178,7 +184,6 @@ const RegisterForm = () => {
                     ""
                 )}
             </form>
-            <Toaster />
         </Form>
     );
 };

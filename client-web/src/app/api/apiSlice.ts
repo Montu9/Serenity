@@ -6,10 +6,10 @@ import {
     createApi,
     fetchBaseQuery,
 } from "@reduxjs/toolkit/query/react";
-import { logOut, setTokens } from "@/features/auth/authSlice";
 import { RootState } from "../store";
 import { Mutex } from "async-mutex";
 import Tokens from "@/types/Tokens";
+import { logOut, setTokens } from "./features/auth/authSlice";
 
 const mutex = new Mutex();
 const baseQuery = fetchBaseQuery({
@@ -66,5 +66,6 @@ const baseQueryWithReauth: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQue
 
 export const apiSlice = createApi({
     baseQuery: baseQueryWithReauth,
+    refetchOnMountOrArgChange: 30,
     endpoints: () => ({}),
 });

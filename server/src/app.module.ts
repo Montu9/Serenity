@@ -5,6 +5,7 @@ import { APP_FILTER, APP_GUARD, HttpAdapterHost } from '@nestjs/core';
 import { AtGuard } from './common/guards';
 import { ConfigModule } from '@nestjs/config';
 import { UsersModule } from './users/users.module';
+import { SheltersModule } from './shelters/shelters.module';
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { UsersModule } from './users/users.module';
     PrismaModule.forRoot({ isGlobal: true }),
     ConfigModule.forRoot({ isGlobal: true }),
     UsersModule,
+    SheltersModule,
   ],
   providers: [
     {
