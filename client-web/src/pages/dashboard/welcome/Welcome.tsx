@@ -5,7 +5,7 @@ import CreateShelter from "@/components/createShelter/CreateShelter";
 
 const Welcome = () => {
     return (
-        <div className="h-fit w-fit flex items-center justify-center">
+        <div className="h-fit w-fit flex items-center">
             <UserShelterList />
             <Dialog>
                 <DialogTrigger asChild>

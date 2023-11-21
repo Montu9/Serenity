@@ -44,7 +44,9 @@ export const UserNav = () => {
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuGroup>
-                    <DropdownMenuItem>Profile</DropdownMenuItem>
+                    <DropdownMenuItem>
+                        <Link to="/settings">Profile Settings</Link>
+                    </DropdownMenuItem>
                     <DropdownMenuItem>
                         <Link to="/welcome">My shelters</Link>
                     </DropdownMenuItem>
