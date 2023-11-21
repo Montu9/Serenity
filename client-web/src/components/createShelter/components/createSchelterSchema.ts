@@ -9,6 +9,13 @@ const createShelterSchema = z
             })
             .trim()
             .min(4, { message: "Name is required" }),
+        description: z
+            .string({
+                required_error: "Description is required",
+                invalid_type_error: "Description must be a string",
+            })
+            .trim()
+            .min(4, { message: "Password is required" }),
     })
     .required();
 

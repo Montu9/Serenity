@@ -4,6 +4,7 @@ import Welcome from "./pages/dashboard/welcome/Welcome";
 import Layout from "./components/layout/Layout";
 import RequireAuth from "./components/layout/RequireAuth";
 import PublicLayout from "./components/layout/PublicLayout";
+import { DashboardLayout } from "./components/layout/DashboardLayout";
 
 function App() {
     return (
@@ -19,6 +20,9 @@ function App() {
                 {/* Protected routes */}
                 <Route element={<RequireAuth />}>
                     <Route path="/welcome" element={<Welcome />} />
+                    <Route path="/dashboard/:id" element={<DashboardLayout />}>
+                        {/* <Route path="" element={} /> */}
+                    </Route>
                 </Route>
             </Route>
         </Routes>

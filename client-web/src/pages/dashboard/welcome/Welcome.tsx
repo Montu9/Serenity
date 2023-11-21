@@ -1,15 +1,18 @@
+import { Button } from "@/components/ui/button";
+import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { UserShelterList } from "./components/UserShelterList";
+import CreateShelter from "@/components/createShelter/CreateShelter";
 
 const Welcome = () => {
     return (
         <div className="h-fit w-fit flex items-center justify-center">
             <UserShelterList />
-            {/* <AlertDialog>
-                <AlertDialogTrigger asChild>
-                    <Button variant="outline">Show Dialog</Button>
-                </AlertDialogTrigger>
+            <Dialog>
+                <DialogTrigger asChild>
+                    <Button variant="outline">Edit Profile</Button>
+                </DialogTrigger>
                 <CreateShelter />
-            </AlertDialog> */}
+            </Dialog>
         </div>
     );
 };

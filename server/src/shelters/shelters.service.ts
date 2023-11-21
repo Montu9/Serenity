@@ -11,9 +11,10 @@ export class SheltersService {
   async create(createShelterDto: CreateShelterDto, userUuid: string) {
     const uuid = nanoid();
 
-    await this.prisma.shelter.create({
+    return await this.prisma.shelter.create({
       data: {
         name: createShelterDto.name,
+        description: createShelterDto.description,
         uuid: uuid,
         users: {
           create: [
@@ -33,7 +34,6 @@ export class SheltersService {
         },
       },
     });
-    return 'This action adds a new shelter';
   }
 
   findAll() {

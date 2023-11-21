@@ -1,3 +1,4 @@
+import { useLazyLogoutQuery } from "@/app/api/features/auth/authApiSlice";
 import { logOut, selectCurrentUser } from "@/app/api/features/auth/authSlice";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -7,19 +8,20 @@ import {
     DropdownMenuItem,
     DropdownMenuLabel,
     DropdownMenuSeparator,
-    DropdownMenuShortcut,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
 import { DropdownMenu } from "@radix-ui/react-dropdown-menu";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 export const UserNav = () => {
     const dispatch = useDispatch();
     const user = useSelector(selectCurrentUser);
     const initials = user?.firstName?.charAt(0).toUpperCase() + user?.lastName?.charAt(0).toUpperCase();
-
-    const logOutUser = () => {
+    const [logout] = useLazyLogoutQuery();
+    const logOutUser = async () => {
+        await logout();
         dispatch(logOut());
     };
 
@@ -42,25 +44,13 @@ export const UserNav = () => {
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuGroup>
+                    <DropdownMenuItem>Profile</DropdownMenuItem>
                     <DropdownMenuItem>
-                        Profile
-                        <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
+                        <Link to="/welcome">My shelters</Link>
                     </DropdownMenuItem>
-                    <DropdownMenuItem>
-                        Billing
-                        <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem>
-                        Settings
-                        <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem>New Team</DropdownMenuItem>
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={logOutUser}>
-                    Log out
-                    <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
-                </DropdownMenuItem>
+                <DropdownMenuItem onClick={logOutUser}>Log out</DropdownMenuItem>
             </DropdownMenuContent>
         </DropdownMenu>
     );
