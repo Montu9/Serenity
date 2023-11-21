@@ -29,7 +29,24 @@ export const authApiSlice = apiSlice.injectEndpoints({
         logout: builder.query<void, void>({
             query: () => "/auth/logout",
         }),
+        getUser: builder.query<User, void>({
+            query: () => "/users",
+        }),
+        updateUser: builder.mutation<User, Partial<Register>>({
+            query: (credential) => ({
+                url: "/users",
+                method: "PATCH",
+                body: { ...credential },
+            }),
+        }),
     }),
 });
 
-export const { useLoginMutation, useRegisterMutation, useLazyLogoutQuery, useLogoutQuery } = authApiSlice;
+export const {
+    useLoginMutation,
+    useRegisterMutation,
+    useLazyLogoutQuery,
+    useLogoutQuery,
+    useGetUserQuery,
+    useUpdateUserMutation,
+} = authApiSlice;

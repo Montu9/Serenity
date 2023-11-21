@@ -1,14 +1,14 @@
-import { Controller, Get, Body, Patch, Param, Delete } from '@nestjs/common';
-import { UsersService } from './users.service';
-import { UpdateUserDto } from './dto/update-user.dto';
+import { Body, Controller, Delete, Get, Patch } from '@nestjs/common';
 import {
   ApiBearerAuth,
   ApiCreatedResponse,
   ApiOkResponse,
   ApiTags,
 } from '@nestjs/swagger';
-import { UserEntity } from './entities/user.entity';
 import { GetCurrentUserUuid } from 'src/common/decorators';
+import { UpdateUserDto } from './dto/update-user.dto';
+import { UserEntity } from './entities/user.entity';
+import { UsersService } from './users.service';
 
 @Controller('users')
 @ApiTags('users')
