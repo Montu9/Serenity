@@ -1,8 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { nanoid } from 'nanoid';
+import { PrismaService } from 'nestjs-prisma';
+import { CaretakerEntity } from 'src/common/entities/caretaker.entity';
 import { CreateShelterDto } from './dto/create-shelter.dto';
 import { UpdateShelterDto } from './dto/update-shelter.dto';
-import { PrismaService } from 'nestjs-prisma';
-import { nanoid } from 'nanoid';
 
 @Injectable()
 export class SheltersService {
@@ -44,6 +45,44 @@ export class SheltersService {
     return `This action returns a #${id} shelter`;
   }
 
+  async getAllCaretakers(id: string): Promise<CaretakerEntity[]> {
+    const caretakers = await this.prisma.usersShelters.findMany({
+      where: {
+        Shelter: {
+          uuid: id,
+        },
+      },
+      select: {
+        role: {
+          select: {
+            name: true,
+          },
+        },
+        User: {
+          select: {
+            uuid: true,
+            email: true,
+            firstName: true,
+            lastName: true,
+            gender: {
+              select: {
+                name: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    return caretakers.map(
+      (caretaker) =>
+        new CaretakerEntity({
+          ...caretaker.User,
+          role: caretaker.role,
+        }),
+    );
+  }
+
   getUserShelters(userUuid: string) {
     const shelters = this.prisma.usersShelters.findMany({
       where: {
@@ -70,6 +109,42 @@ export class SheltersService {
       },
     });
     return shelters;
+  }
+
+  async addCaretakerByEmail(id: string, addByEmail: { email: string }) {
+    const email = addByEmail.email;
+    await this.prisma.$transaction(async (prisma) => {
+      const user = await this.prisma.user.findUnique({
+        where: {
+          email: email,
+        },
+      });
+
+      if (!user) {
+        throw new NotFoundException('Email is not associated with any account');
+      }
+
+      await this.prisma.usersShelters.create({
+        data: {
+          User: {
+            connect: {
+              email: email,
+            },
+          },
+          Shelter: {
+            connect: {
+              uuid: id,
+            },
+          },
+          role: {
+            connect: {
+              name: 'CARETAKER',
+            },
+          },
+        },
+      });
+    });
+    return { status: 'success', message: 'Caretaker added successfully' };
   }
 
   update(id: number, updateShelterDto: UpdateShelterDto) {

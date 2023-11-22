@@ -8,6 +8,15 @@ import Welcome from "./pages/dashboard/welcome/Welcome";
 import { Home, Login, Register } from "./pages/public/";
 import { ProfileSettings } from "./pages/dashboard/profileSettings.tsx/ProfileSettings";
 import { UserSettings } from "./pages/dashboard/userSettings/UserSettings";
+import {
+    AddNewCaretaker,
+    AddNewDog,
+    Caretakers,
+    Dashboard,
+    Dogs,
+    Kennels,
+    Settings,
+} from "./pages/protected/dashboard/";
 
 function App() {
     return (
@@ -28,7 +37,13 @@ function App() {
                         <Route path="security" element={<SecuritySettings />} />
                     </Route>
                     <Route path="/dashboard/:id" element={<DashboardLayout />}>
-                        {/* <Route path="" element={} /> */}
+                        <Route index element={<Dashboard />} />
+                        <Route path="settings" element={<Settings />} />
+                        <Route path="kennels" element={<Kennels />} />
+                        <Route path="addNewCaretaker" element={<AddNewCaretaker />} />
+                        <Route path="caretakers" element={<Caretakers />} />
+                        <Route path="addNewDog" element={<AddNewDog />} />
+                        <Route path="dogs" element={<Dogs />} />
                     </Route>
                 </Route>
             </Route>

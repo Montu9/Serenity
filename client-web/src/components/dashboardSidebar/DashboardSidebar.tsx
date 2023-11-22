@@ -6,7 +6,7 @@ import { SidebarData } from "./sidebarData";
 import { Link, useMatch } from "react-router-dom";
 
 export const DashboardSidebar = () => {
-    const match = useMatch("/settings/:lastPart");
+    const match = useMatch("/dashboard/:id/:lastPart");
     const pathnameLastPart = match?.params.lastPart || "";
 
     const content = (
@@ -32,11 +32,12 @@ export const DashboardSidebar = () => {
             </div>
         </div>
     );
+
     return (
         <div className={cn("lg:pb-12")}>
             <div className="space-y-4 py-4">
                 <div className="lg:hidden block">
-                    <Sheet>
+                    <Sheet defaultOpen={false}>
                         <SheetTrigger>
                             <IoMenu /> Menu
                         </SheetTrigger>
