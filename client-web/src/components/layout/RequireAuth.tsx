@@ -11,7 +11,7 @@ const RequireAuth = () => {
         <>
             <DashboardNavbar />
             <Separator />
-            <div>
+            <div className="container w-full ">
                 <Outlet />
             </div>
         </>

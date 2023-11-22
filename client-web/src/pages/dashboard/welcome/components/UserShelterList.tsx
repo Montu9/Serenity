@@ -2,7 +2,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { MdAdminPanelSettings } from "react-icons/md";
 import { FaUser } from "react-icons/fa";
 import { Button } from "@/components/ui/button";
+import { MdSpaceDashboard } from "react-icons/md";
 import { useGetUserScheltersQuery } from "@/app/api/features/shelter/shelterApiSlice";
+import { Link } from "react-router-dom";
 
 export const UserShelterList = () => {
     const { data, isLoading, isSuccess, isError, error } = useGetUserScheltersQuery();
@@ -12,7 +14,7 @@ export const UserShelterList = () => {
         content = <div>Loading...</div>;
     } else if (isSuccess) {
         content = (
-            <div>
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
                 {data.map((shelter, i) => {
                     return (
                         <Card key={i}>
@@ -26,7 +28,15 @@ export const UserShelterList = () => {
                                         </h2>
                                     </div>
                                 </CardTitle>
-                                {shelter.role.name === "ADMIN" ? <Button>Go to Dashboard</Button> : <div></div>}
+                                {shelter.role.name === "ADMIN" ? (
+                                    <Link to={`/dashboard/${shelter.Shelter.uuid}`}>
+                                        <Button variant="outline">
+                                            <MdSpaceDashboard />
+                                        </Button>
+                                    </Link>
+                                ) : (
+                                    <div></div>
+                                )}
                             </CardHeader>
                             <CardContent>
                                 <div className="text-2xl font-bold">{shelter.Shelter.name}</div>
