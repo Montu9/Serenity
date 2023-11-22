@@ -20,7 +20,7 @@ import profileSchema from "./profileSchema";
 
 export const ProfileForm = () => {
     const { toast } = useToast();
-    const { data, isLoading, isSuccess, isError, error } = useGetUserQuery();
+    const { data, isLoading, isSuccess } = useGetUserQuery();
     const [updateUser, { isLoading: isLoadingUpdate }] = useUpdateUserMutation();
     const [errMsg, setErrMsg] = useState<string>("");
     const dispatch = useDispatch();
@@ -30,7 +30,6 @@ export const ProfileForm = () => {
             email: data?.email || "",
             firstName: data?.firstName || "",
             lastName: data?.lastName || "",
-            gender: data?.gender.name || "",
         },
     });
 
@@ -39,10 +38,10 @@ export const ProfileForm = () => {
             form.setValue("email", data?.email || "");
             form.setValue("firstName", data?.firstName || "");
             form.setValue("lastName", data?.lastName || "");
-            form.setValue("gender", data?.gender.name || "");
         };
+        console.log(data);
         setFormValues();
-    }, [form, data]);
+    }, [data, form, isSuccess]);
 
     const onSubmit = async (values: z.infer<typeof profileSchema>) => {
         try {
@@ -58,7 +57,7 @@ export const ProfileForm = () => {
             toast({
                 variant: "success",
                 title: "You have changed your data successfully!",
-                description: "Your data has been saved secucly!",
+                description: "Your data has been saved securly!",
             });
             setErrMsg("");
         } catch (err: unknown) {
@@ -84,8 +83,9 @@ export const ProfileForm = () => {
 
     let content;
     if (isLoading) {
-        content = <div>Loading...</div>;
+        content = "Loading...";
     } else if (isSuccess) {
+        console.log("render");
         content = (
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -138,7 +138,7 @@ export const ProfileForm = () => {
                             render={({ field }) => (
                                 <FormItem className="col-span-2">
                                     <FormLabel>Gender</FormLabel>
-                                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                    <Select onValueChange={field.onChange} defaultValue={data.gender.name}>
                                         <FormControl>
                                             <SelectTrigger>
                                                 <SelectValue placeholder="Select a gender" />
@@ -154,8 +154,8 @@ export const ProfileForm = () => {
                                 </FormItem>
                             )}
                         />
-                        <Button className="col-span-2" type="submit" disabled={isLoading}>
-                            {isLoading && <BiLoaderCircle className="animate-spin" />}Update your profile
+                        <Button className="col-span-2" type="submit" disabled={isLoadingUpdate}>
+                            {isLoadingUpdate && <BiLoaderCircle className="animate-spin" />}Update your profile
                         </Button>
                     </div>
                     {errMsg && errMsg?.length > 0 ? (

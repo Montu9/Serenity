@@ -1,14 +1,15 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { PrismaService } from 'nestjs-prisma';
 import * as argon from 'argon2';
+import { UpdatePasswordDto } from './dto/updatePasswordDto';
 
 @Injectable()
 export class UsersService {
   constructor(private prisma: PrismaService) {}
 
-  findOnePrivate(uuid: string) {
-    return this.prisma.user.findUnique({
+  async findOnePrivate(uuid: string) {
+    return await this.prisma.user.findUnique({
       where: { uuid },
       include: {
         gender: {
@@ -46,6 +47,32 @@ export class UsersService {
         },
       },
     });
+  }
+
+  async updatePassword(uuid: string, updateUserDto: UpdatePasswordDto) {
+    const user = await this.prisma.user.findUnique({
+      where: { uuid: uuid },
+    });
+    if (!user) throw new UnauthorizedException('Unauthorized');
+
+    const passwordMatches = await argon.verify(
+      user.passwdHash,
+      updateUserDto.oldPassword,
+    );
+    if (!passwordMatches) throw new UnauthorizedException('Unauthorized');
+
+    const hash = await argon.hash(updateUserDto.newPassword);
+
+    await this.prisma.user.update({
+      where: {
+        uuid: uuid,
+      },
+      data: {
+        passwdHash: hash,
+      },
+    });
+
+    return { status: 'success', message: 'Password changed successfully' };
   }
 
   async removePrivate(uuid: string) {

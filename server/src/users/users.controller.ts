@@ -7,6 +7,7 @@ import {
 } from '@nestjs/swagger';
 import { GetCurrentUserUuid } from 'src/common/decorators';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { UpdatePasswordDto } from './dto/updatePasswordDto';
 import { UserEntity } from './entities/user.entity';
 import { UsersService } from './users.service';
 
@@ -31,6 +32,14 @@ export class UsersController {
     return new UserEntity(
       await this.usersService.updatePrivate(uuid, updateUserDto),
     );
+  }
+
+  @Patch('password')
+  async updatePassword(
+    @GetCurrentUserUuid() uuid: string,
+    @Body() updatePasswordDto: UpdatePasswordDto,
+  ) {
+    return this.usersService.updatePassword(uuid, updatePasswordDto);
   }
 
   @Delete()

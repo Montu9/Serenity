@@ -46,6 +46,7 @@ const loginSchema = z
             .trim()
             .min(1, { message: "Gender is required" }),
     })
+    .required()
     .refine((data) => data.password === data.passwordConfirm, {
         message: "Passwords don't match",
         path: ["passwordConfirm"],
