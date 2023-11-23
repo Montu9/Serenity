@@ -2,6 +2,7 @@ import { apiSlice } from "@/app/api/apiSlice";
 import AddCaretakerByEmail from "@/types/AddCaretakerByEmailDto";
 import CreateShelterDto from "@/types/CreateShelterDto";
 import GetAllCaretakers from "@/types/GetAllCaretakersDto";
+import UpdateCaretakerRole from "@/types/UpdateCaretakerRoleDto";
 import UserShelterDto from "@/types/UserShelterDto";
 
 export const shelterApiSlice = apiSlice.injectEndpoints({
@@ -27,6 +28,19 @@ export const shelterApiSlice = apiSlice.injectEndpoints({
                 body: { ...credentials },
             }),
         }),
+        updateCaretakerRole: builder.mutation<void, { data: UpdateCaretakerRole; id: string }>({
+            query: ({ data, id }) => ({
+                url: `/shelters/${id}/updateCaretakerRole`,
+                method: "POST",
+                body: { ...data },
+            }),
+        }),
+        removeCaretakerByUuid: builder.mutation<void, { id: string; uuid: string }>({
+            query: ({ id, uuid }) => ({
+                url: `/shelters/${id}/removeCaretakerByEmail/${uuid}`,
+                method: "POST",
+            }),
+        }),
     }),
 });
 
@@ -35,4 +49,7 @@ export const {
     useGetUserScheltersQuery,
     useCreateShelterMutation,
     useGetAllCaretakersQuery,
+    useUpdateCaretakerRoleMutation,
+    useLazyGetAllCaretakersQuery,
+    useRemoveCaretakerByUuidMutation,
 } = shelterApiSlice;

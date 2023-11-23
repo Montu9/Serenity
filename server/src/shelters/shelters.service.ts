@@ -4,6 +4,7 @@ import { PrismaService } from 'nestjs-prisma';
 import { CaretakerEntity } from 'src/common/entities/caretaker.entity';
 import { CreateShelterDto } from './dto/create-shelter.dto';
 import { UpdateShelterDto } from './dto/update-shelter.dto';
+import UpdateCaretakerRole from './dto/update-caretaker-role.dto';
 
 @Injectable()
 export class SheltersService {
@@ -145,6 +146,59 @@ export class SheltersService {
       });
     });
     return { status: 'success', message: 'Caretaker added successfully' };
+  }
+
+  async updateCaretakerRole(id: string, caretaker: UpdateCaretakerRole) {
+    const userId = await this.prisma.user.findUnique({
+      where: {
+        uuid: caretaker.userUuid,
+      },
+    });
+    const shelterId = await this.prisma.shelter.findUnique({
+      where: {
+        uuid: id,
+      },
+    });
+
+    await this.prisma.usersShelters.update({
+      where: {
+        userId_shelterId: {
+          userId: userId.id,
+          shelterId: shelterId.id,
+        },
+      },
+      data: {
+        role: {
+          connect: {
+            name: caretaker.role, // Replace with the role name "admin"
+          },
+        },
+      },
+    });
+
+    return { status: 'success', message: 'Role changed successfully' };
+  }
+
+  async removeCaretakerByEmail(id: string, userUuid: string) {
+    const userId = await this.prisma.user.findUnique({
+      where: {
+        uuid: userUuid,
+      },
+    });
+    const shelterId = await this.prisma.shelter.findUnique({
+      where: {
+        uuid: id,
+      },
+    });
+
+    await this.prisma.usersShelters.delete({
+      where: {
+        userId_shelterId: {
+          userId: userId.id,
+          shelterId: shelterId.id,
+        },
+      },
+    });
   }
 
   update(id: number, updateShelterDto: UpdateShelterDto) {

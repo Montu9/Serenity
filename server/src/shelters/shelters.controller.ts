@@ -12,6 +12,7 @@ import { CreateShelterDto } from './dto/create-shelter.dto';
 import { UpdateShelterDto } from './dto/update-shelter.dto';
 import { GetCurrentUserUuid } from 'src/common/decorators';
 import { CaretakerEntity } from 'src/common/entities/caretaker.entity';
+import UpdateCaretakerRole from './dto/update-caretaker-role.dto';
 
 @Controller('shelters')
 export class SheltersController {
@@ -46,6 +47,22 @@ export class SheltersController {
     @Body() addByEmail: { email: string },
   ) {
     return this.sheltersService.addCaretakerByEmail(id, addByEmail);
+  }
+
+  @Post(':id/updateCaretakerRole')
+  updateCaretakerRole(
+    @Param('id') id: string,
+    @Body() caretakerRole: UpdateCaretakerRole,
+  ) {
+    return this.sheltersService.updateCaretakerRole(id, caretakerRole);
+  }
+
+  @Post(':id/removeCaretakerByEmail/:useruuid')
+  removeCaretakerByEmail(
+    @Param('id') id: string,
+    @Param('useruuid') userUuid: string,
+  ) {
+    return this.sheltersService.removeCaretakerByEmail(id, userUuid);
   }
 
   @Get(':id')

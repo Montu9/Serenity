@@ -6,6 +6,7 @@ import { AtGuard } from './common/guards';
 import { ConfigModule } from '@nestjs/config';
 import { UsersModule } from './users/users.module';
 import { SheltersModule } from './shelters/shelters.module';
+import { RoleModule } from './role/role.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { SheltersModule } from './shelters/shelters.module';
     ConfigModule.forRoot({ isGlobal: true }),
     UsersModule,
     SheltersModule,
+    RoleModule,
   ],
   providers: [
     {
