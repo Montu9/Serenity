@@ -1,24 +1,33 @@
 import {
-  Controller,
-  Get,
-  Post,
   Body,
-  Patch,
-  Param,
+  Controller,
   Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
 } from '@nestjs/common';
-import { SheltersService } from './shelters.service';
-import { CreateShelterDto } from './dto/create-shelter.dto';
-import { UpdateShelterDto } from './dto/update-shelter.dto';
+import {
+  ApiBearerAuth,
+  ApiCreatedResponse,
+  ApiOkResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { GetCurrentUserUuid } from 'src/common/decorators';
 import { CaretakerEntity } from 'src/common/entities/caretaker.entity';
-import UpdateCaretakerRole from './dto/update-caretaker-role.dto';
+import { CreateShelterDto } from './dto/create-shelter.dto';
+import { ShelterEntity } from './dto/shelter.entity';
+import { UpdateShelterDto } from './dto/update-shelter.dto';
+import { SheltersService } from './shelters.service';
 
+@ApiTags('shelters')
+@ApiBearerAuth()
 @Controller('shelters')
 export class SheltersController {
   constructor(private readonly sheltersService: SheltersService) {}
 
   @Post()
+  @ApiCreatedResponse({ type: ShelterEntity })
   create(
     @Body() createShelterDto: CreateShelterDto,
     @GetCurrentUserUuid() userUuid: string,
@@ -26,57 +35,58 @@ export class SheltersController {
     return this.sheltersService.create(createShelterDto, userUuid);
   }
 
-  @Get()
-  findAll() {
-    return this.sheltersService.findAll();
-  }
-
   @Get('getAllCaretakers/:id')
   getAllCaretakers(@Param('id') id: string): Promise<CaretakerEntity[]> {
     return this.sheltersService.getAllCaretakers(id);
   }
 
-  @Get('getUserShelters')
-  getUserShelters(@GetCurrentUserUuid() userUuid: string) {
-    return this.sheltersService.getUserShelters(userUuid);
+  // @Get('getUserShelters')
+  // getUserShelters(@GetCurrentUserUuid() userUuid: string) {
+  //   return this.sheltersService.getUserShelters(userUuid);
+  // }
+
+  // @Post('addCaretakerByEmail/:id')
+  // addCaretakerByEmail(
+  //   @Param('id') id: string,
+  //   @Body() addByEmail: { email: string },
+  // ) {
+  //   return this.sheltersService.addCaretakerByEmail(id, addByEmail);
+  // }
+
+  // @Post(':shelterId/updateCaretakerRole')
+  // updateCaretakerRole(
+  //   @Param('shelterId') shelterId: string,
+  //   @Body() caretakerRole: UpdateCaretakerRole,
+  // ) {
+  //   return this.sheltersService.updateCaretakerRole(shelterId, caretakerRole);
+  // }
+
+  // @Post(':id/removeCaretakerByEmail/:useruuid')
+  // removeCaretakerByEmail(
+  //   @Param('id') id: string,
+  //   @Param('useruuid') userUuid: string,
+  // ) {
+  //   return this.sheltersService.removeCaretakerByEmail(id, userUuid);
+  // }
+
+  @Get(':shelterUuid')
+  @ApiOkResponse({ type: ShelterEntity })
+  findOne(@Param('shelterUuid') shelterUuid: string): Promise<ShelterEntity> {
+    return this.sheltersService.findOne(shelterUuid);
   }
 
-  @Post('addCaretakerByEmail/:id')
-  addCaretakerByEmail(
-    @Param('id') id: string,
-    @Body() addByEmail: { email: string },
-  ) {
-    return this.sheltersService.addCaretakerByEmail(id, addByEmail);
+  @Patch(':shelterUuid')
+  @ApiOkResponse({ type: ShelterEntity })
+  update(
+    @Param('shelterUuid') shelterUuid: string,
+    @Body() updateShelterDto: UpdateShelterDto,
+  ): Promise<ShelterEntity> {
+    return this.sheltersService.update(shelterUuid, updateShelterDto);
   }
 
-  @Post(':id/updateCaretakerRole')
-  updateCaretakerRole(
-    @Param('id') id: string,
-    @Body() caretakerRole: UpdateCaretakerRole,
-  ) {
-    return this.sheltersService.updateCaretakerRole(id, caretakerRole);
-  }
-
-  @Post(':id/removeCaretakerByEmail/:useruuid')
-  removeCaretakerByEmail(
-    @Param('id') id: string,
-    @Param('useruuid') userUuid: string,
-  ) {
-    return this.sheltersService.removeCaretakerByEmail(id, userUuid);
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.sheltersService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateShelterDto: UpdateShelterDto) {
-    return this.sheltersService.update(+id, updateShelterDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.sheltersService.remove(+id);
+  @Delete(':shelterUuid')
+  @ApiOkResponse({ type: ShelterEntity })
+  remove(@Param('shelterUuid') shelterUuid: string): Promise<ShelterEntity> {
+    return this.sheltersService.remove(shelterUuid);
   }
 }

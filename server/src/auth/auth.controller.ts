@@ -17,7 +17,7 @@ import {
 import { RtGuard } from 'src/common/guards';
 import { Tokens } from './types';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { UserEntity } from 'src/users/entities/user.entity';
+import { UserEntity } from 'src/users/dto/user.entity';
 
 @Controller('auth')
 @ApiTags('auth')

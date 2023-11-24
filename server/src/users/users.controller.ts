@@ -7,8 +7,8 @@ import {
 } from '@nestjs/swagger';
 import { GetCurrentUserUuid } from 'src/common/decorators';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { UpdatePasswordDto } from './dto/updatePasswordDto';
-import { UserEntity } from './entities/user.entity';
+import { UpdatePasswordDto } from './dto/update-password.dto';
+import { UserEntity } from './dto/user.entity';
 import { UsersService } from './users.service';
 
 @Controller('users')
@@ -19,32 +19,37 @@ export class UsersController {
 
   @Get()
   @ApiOkResponse({ type: UserEntity })
-  async findOnePrivate(@GetCurrentUserUuid() uuid: string) {
-    return new UserEntity(await this.usersService.findOnePrivate(uuid));
+  findOnePrivate(@GetCurrentUserUuid() uuid: string): Promise<UserEntity> {
+    return this.usersService.findOnePrivate(uuid);
+  }
+
+  @Get('getUserShelters')
+  // @ApiOkResponse({ type: UserEntity })
+  getUserShelters(@GetCurrentUserUuid() userUuid: string) {
+    return this.usersService.getUserShelters(userUuid);
   }
 
   @Patch()
-  @ApiCreatedResponse({ type: UserEntity })
-  async updatePrivate(
+  @ApiOkResponse({ type: UserEntity })
+  updateOnePrivate(
     @GetCurrentUserUuid() uuid: string,
     @Body() updateUserDto: UpdateUserDto,
-  ) {
-    return new UserEntity(
-      await this.usersService.updatePrivate(uuid, updateUserDto),
-    );
+  ): Promise<UserEntity> {
+    return this.usersService.updateOnePrivate(uuid, updateUserDto);
   }
 
   @Patch('password')
+  @ApiOkResponse({ type: String })
   async updatePassword(
     @GetCurrentUserUuid() uuid: string,
     @Body() updatePasswordDto: UpdatePasswordDto,
-  ) {
+  ): Promise<string> {
     return this.usersService.updatePassword(uuid, updatePasswordDto);
   }
 
   @Delete()
   @ApiCreatedResponse({ type: UserEntity })
-  async removePrivate(@GetCurrentUserUuid() uuid: string) {
+  async removePrivate(@GetCurrentUserUuid() uuid: string): Promise<UserEntity> {
     return new UserEntity(await this.usersService.removePrivate(uuid));
   }
 }

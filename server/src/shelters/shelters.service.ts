@@ -1,10 +1,11 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { nanoid } from 'nanoid';
 import { PrismaService } from 'nestjs-prisma';
-import { CaretakerEntity } from 'src/common/entities/caretaker.entity';
 import { CreateShelterDto } from './dto/create-shelter.dto';
 import { UpdateShelterDto } from './dto/update-shelter.dto';
 import UpdateCaretakerRole from './dto/update-caretaker-role.dto';
+import { CaretakerEntity } from 'src/common/entities/caretaker.entity';
+import { ShelterEntity } from './dto/shelter.entity';
 
 @Injectable()
 export class SheltersService {
@@ -13,7 +14,7 @@ export class SheltersService {
   async create(createShelterDto: CreateShelterDto, userUuid: string) {
     const uuid = nanoid();
 
-    return await this.prisma.shelter.create({
+    const shelter = await this.prisma.shelter.create({
       data: {
         name: createShelterDto.name,
         description: createShelterDto.description,
@@ -28,7 +29,7 @@ export class SheltersService {
               },
               role: {
                 connect: {
-                  name: 'ADMIN', // Replace with the role name "admin"
+                  name: 'ADMIN',
                 },
               },
             },
@@ -36,14 +37,16 @@ export class SheltersService {
         },
       },
     });
+
+    return new ShelterEntity(shelter);
   }
 
-  findAll() {
-    return `This action returns all shelters`;
-  }
+  async findOne(shelterUuid: string) {
+    const shelter = await this.prisma.shelter.findUnique({
+      where: { uuid: shelterUuid },
+    });
 
-  findOne(id: number) {
-    return `This action returns a #${id} shelter`;
+    return new ShelterEntity(shelter);
   }
 
   async getAllCaretakers(id: string): Promise<CaretakerEntity[]> {
@@ -54,24 +57,8 @@ export class SheltersService {
         },
       },
       select: {
-        role: {
-          select: {
-            name: true,
-          },
-        },
-        User: {
-          select: {
-            uuid: true,
-            email: true,
-            firstName: true,
-            lastName: true,
-            gender: {
-              select: {
-                name: true,
-              },
-            },
-          },
-        },
+        role: true,
+        User: true,
       },
     });
 
@@ -112,100 +99,111 @@ export class SheltersService {
     return shelters;
   }
 
-  async addCaretakerByEmail(id: string, addByEmail: { email: string }) {
-    const email = addByEmail.email;
-    await this.prisma.$transaction(async (prisma) => {
-      const user = await this.prisma.user.findUnique({
-        where: {
-          email: email,
-        },
-      });
+  // async addCaretakerByEmail(id: string, addByEmail: { email: string }) {
+  //   const email = addByEmail.email;
+  //   await this.prisma.$transaction(async (prisma) => {
+  //     const user = await prisma.user.findUnique({
+  //       where: {
+  //         email: email,
+  //       },
+  //     });
 
-      if (!user) {
-        throw new NotFoundException('Email is not associated with any account');
-      }
+  //     if (!user) {
+  //       throw new NotFoundException('Email is not associated with any account');
+  //     }
 
-      await this.prisma.usersShelters.create({
-        data: {
-          User: {
-            connect: {
-              email: email,
-            },
-          },
-          Shelter: {
-            connect: {
-              uuid: id,
-            },
-          },
-          role: {
-            connect: {
-              name: 'CARETAKER',
-            },
-          },
-        },
-      });
-    });
-    return { status: 'success', message: 'Caretaker added successfully' };
-  }
+  //     await prisma.usersShelters.create({
+  //       data: {
+  //         User: {
+  //           connect: {
+  //             email: email,
+  //           },
+  //         },
+  //         Shelter: {
+  //           connect: {
+  //             uuid: id,
+  //           },
+  //         },
+  //         role: {
+  //           connect: {
+  //             name: 'CARETAKER',
+  //           },
+  //         },
+  //       },
+  //     });
+  //   });
+  //   return { status: 'success', message: 'Caretaker added successfully' };
+  // }
 
-  async updateCaretakerRole(id: string, caretaker: UpdateCaretakerRole) {
-    const userId = await this.prisma.user.findUnique({
+  // async updateCaretakerRole(id: string, caretaker: UpdateCaretakerRole) {
+  //   const userId = await this.prisma.user.findUnique({
+  //     where: {
+  //       uuid: caretaker.userUuid,
+  //     },
+  //   });
+  //   const shelterId = await this.prisma.shelter.findUnique({
+  //     where: {
+  //       uuid: id,
+  //     },
+  //   });
+
+  //   await this.prisma.usersShelters.update({
+  //     where: {
+  //       userId_shelterId: {
+  //         userId: userId.id,
+  //         shelterId: shelterId.id,
+  //       },
+  //     },
+  //     data: {
+  //       role: {
+  //         connect: {
+  //           name: caretaker.role, // Replace with the role name "admin"
+  //         },
+  //       },
+  //     },
+  //   });
+
+  //   return { status: 'success', message: 'Role changed successfully' };
+  // }
+
+  // async removeCaretakerByEmail(id: string, userUuid: string) {
+  //   const userId = await this.prisma.user.findUnique({
+  //     where: {
+  //       uuid: userUuid,
+  //     },
+  //   });
+  //   const shelterId = await this.prisma.shelter.findUnique({
+  //     where: {
+  //       uuid: id,
+  //     },
+  //   });
+
+  //   await this.prisma.usersShelters.delete({
+  //     where: {
+  //       userId_shelterId: {
+  //         userId: userId.id,
+  //         shelterId: shelterId.id,
+  //       },
+  //     },
+  //   });
+  // }
+
+  async update(shelteUuid: string, updateShelterDto: UpdateShelterDto) {
+    const shelter = await this.prisma.shelter.update({
       where: {
-        uuid: caretaker.userUuid,
-      },
-    });
-    const shelterId = await this.prisma.shelter.findUnique({
-      where: {
-        uuid: id,
-      },
-    });
-
-    await this.prisma.usersShelters.update({
-      where: {
-        userId_shelterId: {
-          userId: userId.id,
-          shelterId: shelterId.id,
-        },
+        uuid: shelteUuid,
       },
       data: {
-        role: {
-          connect: {
-            name: caretaker.role, // Replace with the role name "admin"
-          },
-        },
+        description: updateShelterDto.description || undefined,
+        name: updateShelterDto.name || undefined,
       },
     });
-
-    return { status: 'success', message: 'Role changed successfully' };
+    return new ShelterEntity(shelter);
   }
 
-  async removeCaretakerByEmail(id: string, userUuid: string) {
-    const userId = await this.prisma.user.findUnique({
-      where: {
-        uuid: userUuid,
-      },
-    });
-    const shelterId = await this.prisma.shelter.findUnique({
-      where: {
-        uuid: id,
-      },
-    });
-
-    await this.prisma.usersShelters.delete({
-      where: {
-        userId_shelterId: {
-          userId: userId.id,
-          shelterId: shelterId.id,
-        },
-      },
-    });
-  }
-
-  update(id: number, updateShelterDto: UpdateShelterDto) {
-    return `This action updates a #${id} shelter`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} shelter`;
+  async remove(shelterUuid: string) {
+    return new ShelterEntity(
+      await this.prisma.shelter.delete({ where: { uuid: shelterUuid } }),
+    );
   }
 }

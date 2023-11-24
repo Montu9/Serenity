@@ -6,7 +6,7 @@ import { nanoid } from 'nanoid';
 import { Tokens } from './types';
 import { JwtService } from '@nestjs/jwt';
 import { JwtPayload } from './types/jwtPayload.type';
-import { UserEntity } from 'src/users/entities/user.entity';
+import { UserEntity } from 'src/users/dto/user.entity';
 
 @Injectable()
 export class AuthService {
@@ -43,11 +43,7 @@ export class AuthService {
     const user = await this.prisma.user.findUnique({
       where: { email: dto.email },
       include: {
-        gender: {
-          select: {
-            name: true,
-          },
-        },
+        gender: true,
       },
     });
     if (!user) throw new UnauthorizedException('Unauthorized');

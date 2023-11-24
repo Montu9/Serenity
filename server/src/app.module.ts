@@ -7,6 +7,14 @@ import { ConfigModule } from '@nestjs/config';
 import { UsersModule } from './users/users.module';
 import { SheltersModule } from './shelters/shelters.module';
 import { RoleModule } from './role/role.module';
+import { GendersModule } from './genders/genders.module';
+import { BreedsModule } from './breeds/breeds.module';
+import { DogConditionsModule } from './dog-conditions/dog-conditions.module';
+import { DogStatusesModule } from './dog-statuses/dog-statuses.module';
+import { IntakeTypesModule } from './intake-types/intake-types.module';
+import { DogsModule } from './dogs/dogs.module';
+import { KennelsModule } from './kennels/kennels.module';
+import { CaretakersModule } from './caretakers/caretakers.module';
 
 @Module({
   imports: [
@@ -16,6 +24,15 @@ import { RoleModule } from './role/role.module';
     UsersModule,
     SheltersModule,
     RoleModule,
+    GendersModule,
+    BreedsModule,
+    DogConditionsModule,
+    DogStatusesModule,
+    DogStatusesModule,
+    IntakeTypesModule,
+    DogsModule,
+    KennelsModule,
+    CaretakersModule,
   ],
   providers: [
     {

@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
-import { GenderEntity } from './gender.entity';
-import { RoleEntity } from './role.entity';
+import { RoleEntity } from '../../role/dto/role.entity';
+import { GenderEntity } from 'src/genders/dto/gender.entity';
 
 export class CaretakerEntity {
   constructor(partial: Partial<CaretakerEntity>) {

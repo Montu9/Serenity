@@ -2,51 +2,67 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { PrismaService } from 'nestjs-prisma';
 import * as argon from 'argon2';
-import { UpdatePasswordDto } from './dto/updatePasswordDto';
+import { UpdatePasswordDto } from './dto/update-password.dto';
+import { UserEntity } from './dto/user.entity';
+import { GetUserShelters } from './dto/get-user-shelters.dto';
 
 @Injectable()
 export class UsersService {
   constructor(private prisma: PrismaService) {}
 
   async findOnePrivate(uuid: string) {
-    return await this.prisma.user.findUnique({
+    const user = await this.prisma.user.findUnique({
       where: { uuid },
       include: {
-        gender: {
-          select: {
-            name: true,
-          },
-        },
+        gender: true,
       },
     });
+    return new UserEntity(user);
   }
 
-  async updatePrivate(uuid: string, updateUserDto: UpdateUserDto) {
+  async updateOnePrivate(uuid: string, updateUserDto: UpdateUserDto) {
     if (updateUserDto.password) {
       updateUserDto.password = await argon.hash(updateUserDto.password);
     }
+    const gender = updateUserDto.gender
+      ? await this.prisma.gender.findFirst({
+          where: { name: updateUserDto.gender },
+        })
+      : undefined;
 
-    return await this.prisma.user.update({
+    const user = await this.prisma.user.update({
       where: { uuid },
       data: {
-        email: updateUserDto.email,
-        passwdHash: updateUserDto.password,
-        firstName: updateUserDto.firstName,
-        lastName: updateUserDto.lastName,
-        gender: {
-          connect: {
-            name: updateUserDto.gender,
-          },
-        },
+        email: updateUserDto.email || undefined,
+        passwdHash: updateUserDto.password || undefined,
+        firstName: updateUserDto.firstName || undefined,
+        lastName: updateUserDto.lastName || undefined,
+        genderId: gender?.id || undefined,
       },
       include: {
-        gender: {
-          select: {
-            name: true,
-          },
-        },
+        gender: true,
       },
     });
+
+    return new UserEntity(user);
+  }
+
+  async getUserShelters(userUuid: string) {
+    const shelters = await this.prisma.usersShelters.findMany({
+      where: {
+        User: {
+          uuid: userUuid,
+        },
+      },
+      select: {
+        role: true,
+        Shelter: true,
+      },
+    });
+    console.log(shelters);
+    return shelters.map(
+      (shelter) => new GetUserShelters(shelter.Shelter, shelter.role),
+    );
   }
 
   async updatePassword(uuid: string, updateUserDto: UpdatePasswordDto) {
@@ -72,10 +88,10 @@ export class UsersService {
       },
     });
 
-    return { status: 'success', message: 'Password changed successfully' };
+    return 'Password changed successfully';
   }
 
   async removePrivate(uuid: string) {
-    return await this.prisma.user.delete({ where: { uuid } });
+    return new UserEntity(await this.prisma.user.delete({ where: { uuid } }));
   }
 }
