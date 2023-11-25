@@ -23,14 +23,14 @@ export const shelterApiSlice = apiSlice.injectEndpoints({
                 url: `/caretakers/${caretakerUuid}/getByUuid/${shelterUuid}`,
             }),
         }),
-        updateCaretakerRole: builder.mutation<void, CaretakerPrep<UpdateCaretakerRole>>({
+        updateCaretakerRole: builder.mutation<string, CaretakerPrep<UpdateCaretakerRole>>({
             query: ({ caretakerUuid, shelterUuid, data }) => ({
                 url: `/caretakers/${caretakerUuid}/updateByUuid/${shelterUuid}`,
                 method: "PATCH",
                 body: { ...data },
             }),
         }),
-        removeCaretakerByUuid: builder.mutation<void, CaretakerPrep>({
+        removeCaretakerByUuid: builder.mutation<string, CaretakerPrep>({
             query: ({ caretakerUuid, shelterUuid }) => ({
                 url: `/caretakers/${caretakerUuid}/removeByUuid/${shelterUuid}`,
                 method: "DELETE",

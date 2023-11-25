@@ -20,7 +20,7 @@ export const shelterApiSlice = apiSlice.injectEndpoints({
         }),
         getAllCaretakers: builder.query<Caretaker[], ShelterPrep>({
             query: ({ shelterUuid }) => ({
-                url: `/shelters/getAllCaretaker/${shelterUuid}`,
+                url: `/shelters/getAllCaretakers/${shelterUuid}`,
             }),
         }),
         getByUuid: builder.query<Shelter, ShelterPrep>({

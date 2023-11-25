@@ -1,38 +1,52 @@
-import { useAddCaretakerByEmailMutation } from "@/app/api/features/shelter/shelterApiSlice";
+import { useAddCaretakerByEmailMutation } from "@/app/api/features/caretaker/caretakerApiSlice";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
-import { ErrorHandler } from "@/lib/ErrorHandler";
-import PrepError from "@/types/PrepError";
-import RetrivedError from "@/types/RetrivedError";
+import useFetchError from "@/hooks/useFetchError";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
+import { useEffect } from "react";
+import { useForm } from "react-hook-form";
 import { BiLoaderCircle } from "react-icons/bi";
 import { useMatch } from "react-router-dom";
 import * as z from "zod";
 import addNewCaretakerSchema from "./addNewCaretakerSchema";
-import { useForm } from "react-hook-form";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useGetAllRolesQuery } from "@/app/api/features/common/role/roleApiSlice";
 
 export const AddNewCaretakerForm = () => {
+    const { toast } = useToast();
     const match = useMatch("/dashboard/:id/:lastPart");
     const pathnameLastPart = match?.params.id || "";
-    const { toast } = useToast();
-    const [addCaretakerByEmail, { isLoading }] = useAddCaretakerByEmailMutation();
-    const [errMsg, setErrMsg] = useState<string>("");
+
+    const { data, isLoading, isSuccess } = useGetAllRolesQuery();
+    const [addCaretakerByEmail, { isLoading: isLoadingAdd, error }] = useAddCaretakerByEmailMutation();
+    const { errorMessage: errMsg, errorData } = useFetchError(error);
 
     const form = useForm<z.infer<typeof addNewCaretakerSchema>>({
         resolver: zodResolver(addNewCaretakerSchema),
         defaultValues: {
             email: "",
+            role: "",
         },
     });
+
+    useEffect(() => {
+        if (errorData) {
+            errorData.map((error) => {
+                form.setError(error.property as keyof z.infer<typeof addNewCaretakerSchema>, {
+                    type: "server",
+                    message: error.constraints.join("\n"),
+                });
+            });
+        }
+    }, [errorData, form]);
 
     const onSubmit = async (values: z.infer<typeof addNewCaretakerSchema>) => {
         try {
             await addCaretakerByEmail({
-                credentials: { email: values.email },
-                id: pathnameLastPart,
+                shelterUuid: pathnameLastPart,
+                data: { email: values.email, role: values.role },
             }).unwrap();
 
             toast({
@@ -40,20 +54,7 @@ export const AddNewCaretakerForm = () => {
                 title: "You have changed your data successfully!",
                 description: "Your data has been saved securly!",
             });
-            setErrMsg("");
         } catch (err: unknown) {
-            const error = new ErrorHandler(err as PrepError);
-            const retrivedError: RetrivedError = error.getRetrivedError();
-            if (retrivedError.message) {
-                setErrMsg(retrivedError.message);
-            } else {
-                retrivedError.data?.map((error) => {
-                    form.setError(error.property as keyof z.infer<typeof addNewCaretakerSchema>, {
-                        type: "server",
-                        message: error.constraints.join("\n"),
-                    });
-                });
-            }
             toast({
                 variant: "destructive",
                 title: "Uh oh! Something went wrong!",
@@ -80,8 +81,33 @@ export const AddNewCaretakerForm = () => {
                         )}
                     />
 
-                    <Button className="col-span-2" type="submit" disabled={isLoading}>
-                        {isLoading && <BiLoaderCircle className="animate-spin" />}Update your profile
+                    <FormField
+                        control={form.control}
+                        name="role"
+                        render={({ field }) => (
+                            <FormItem className="col-span-2">
+                                <FormLabel>Role</FormLabel>
+                                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                    <FormControl>
+                                        <SelectTrigger>
+                                            <SelectValue placeholder="Select a role" />
+                                        </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent>
+                                        {data?.map((role) => (
+                                            <SelectItem key={role.name} value={role.name}>
+                                                {role.name}
+                                            </SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+
+                    <Button className="col-span-2" type="submit" disabled={isLoadingAdd}>
+                        {isLoadingAdd && <BiLoaderCircle className="animate-spin" />}Update your profile
                     </Button>
                 </div>
                 {errMsg && errMsg?.length > 0 ? (

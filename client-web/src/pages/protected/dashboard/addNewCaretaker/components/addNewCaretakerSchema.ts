@@ -10,6 +10,13 @@ const addNewCaretakerSchema = z
             .trim()
             .min(1, { message: "Email is required" })
             .email("Email must be a valid email address"),
+        role: z
+            .string({
+                required_error: "Role is required",
+                invalid_type_error: "Role must be a string",
+            })
+            .trim()
+            .min(1, { message: "Role is required" }),
     })
     .required();
 

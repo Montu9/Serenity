@@ -43,7 +43,7 @@ export class UsersController {
   async updatePassword(
     @GetCurrentUserUuid() uuid: string,
     @Body() updatePasswordDto: UpdatePasswordDto,
-  ): Promise<string> {
+  ) {
     return this.usersService.updatePassword(uuid, updatePasswordDto);
   }
 

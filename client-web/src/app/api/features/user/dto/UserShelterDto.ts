@@ -2,7 +2,7 @@ interface UserShelterDto {
     role: {
         name: string;
     };
-    Shelter: {
+    shelter: {
         name: string;
         uuid: string;
         description: string;

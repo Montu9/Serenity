@@ -1,23 +1,20 @@
-import { useUpdatePasswordMutation } from "@/app/api/features/auth/authApiSlice";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { useToast } from "@/components/ui/use-toast";
-import * as z from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
-import securitySchema from "./securitySchema";
-import { useForm } from "react-hook-form";
-import { Input } from "@/components/ui/input";
+import { useUpdatePasswordMutation } from "@/app/api/features/user/userApiSlice";
 import { Button } from "@/components/ui/button";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { useToast } from "@/components/ui/use-toast";
+import useFetchError from "@/hooks/useFetchError";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useEffect } from "react";
+import { useForm } from "react-hook-form";
 import { BiLoaderCircle } from "react-icons/bi";
-import { ErrorHandler } from "@/lib/ErrorHandler";
-import PrepError from "@/types/PrepError";
-import RetrivedError from "@/types/RetrivedError";
-import UpdatePassword from "@/app/api/features/user/dto/UpdatePasswordDto";
+import * as z from "zod";
+import securitySchema from "./securitySchema";
 
 export const SecurityForm = () => {
     const { toast } = useToast();
-    const [updatePassword, { isLoading }] = useUpdatePasswordMutation();
-    const [errMsg, setErrMsg] = useState<string>("");
+    const [updatePassword, { isLoading, error }] = useUpdatePasswordMutation();
+    const { errorMessage: errMsg, errorData } = useFetchError(error);
 
     const form = useForm<z.infer<typeof securitySchema>>({
         resolver: zodResolver(securitySchema),
@@ -27,6 +24,17 @@ export const SecurityForm = () => {
             oldPassword: "",
         },
     });
+
+    useEffect(() => {
+        if (errorData) {
+            errorData.map((error) => {
+                form.setError(error.property as keyof z.infer<typeof securitySchema>, {
+                    type: "server",
+                    message: error.constraints.join("\n"),
+                });
+            });
+        }
+    }, [errorData, form]);
 
     const onSubmit = async (values: z.infer<typeof securitySchema>) => {
         try {
@@ -41,21 +49,7 @@ export const SecurityForm = () => {
                 title: "You have successfully changed your password",
                 description: "Your data has been saved securly!",
             });
-            setErrMsg("");
-        } catch (err) {
-            console.log(err);
-            const error = new ErrorHandler(err as PrepError);
-            const retrivedError: RetrivedError = error.getRetrivedError();
-            if (retrivedError.message) {
-                setErrMsg(retrivedError.message);
-            } else {
-                retrivedError.data?.map((error) => {
-                    form.setError(error.property as keyof UpdatePassword, {
-                        type: "server",
-                        message: error.constraints.join("\n"),
-                    });
-                });
-            }
+        } catch (error) {
             toast({
                 variant: "destructive",
                 title: "Uh oh! Something went wrong!",

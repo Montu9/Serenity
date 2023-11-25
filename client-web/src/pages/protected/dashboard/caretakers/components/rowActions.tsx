@@ -1,4 +1,3 @@
-import { useRemoveCaretakerByUuidMutation } from "@/app/api/features/shelter/shelterApiSlice";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import {
@@ -15,6 +14,7 @@ import { Row } from "@tanstack/react-table";
 import { useMatch } from "react-router-dom";
 import { Caretaker } from "./caretakerSchema";
 import { EditCarekater } from "./editCaretaker/EditCarekater";
+import { useRemoveCaretakerByUuidMutation } from "@/app/api/features/caretaker/caretakerApiSlice";
 
 interface DataTableRowActionsProps<TData> {
     row: Row<TData>;
@@ -23,23 +23,23 @@ interface DataTableRowActionsProps<TData> {
 export function DataTableRowActions<TData>({ row }: DataTableRowActionsProps<TData>) {
     const { toast } = useToast();
     const caretaker = row.original as Caretaker;
-    const match = useMatch("/dashboard/:id/:lastPart");
-    const pathnameId = match?.params.id || "";
+    const match = useMatch("/dashboard/:shelterUuid/:lastPart");
+    const shelterUuid = match?.params.shelterUuid || "";
     const [removeCaretakerByUuid] = useRemoveCaretakerByUuidMutation();
 
     const onSubmit = async () => {
         try {
-            await removeCaretakerByUuid({ id: pathnameId, uuid: caretaker.uuid }).unwrap();
+            await removeCaretakerByUuid({ caretakerUuid: caretaker.uuid, shelterUuid }).unwrap();
             toast({
                 variant: "success",
-                title: "You have changed your data successfully!",
-                description: "Your data has been saved securly!",
+                title: "You have successfully removed caretaker",
+                description: "Caretaker is no longer in your shelter system.",
             });
         } catch (err: unknown) {
             toast({
                 variant: "destructive",
                 title: "Uh oh! Something went wrong!",
-                description: "Check your credentials and try again.",
+                description: "Try again later or refresh this page",
             });
         }
     };

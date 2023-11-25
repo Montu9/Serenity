@@ -44,7 +44,7 @@ export class CaretakersService {
         },
       });
     });
-    return 'Caretaker added successfully';
+    return { status: 'success', message: 'Caretaker created successfully!' };
   }
 
   async findOneByUuid(caretakerUuid: string, shelterUuid: string) {
@@ -118,7 +118,7 @@ export class CaretakersService {
         roleId: role?.id || undefined,
       },
     });
-    return 'Caretaker updated successfully!';
+    return { status: 'success', message: 'Caretaker updated successfully!' };
   }
 
   async remove(caretakerUuid: string, shelterUuid: string) {
@@ -147,6 +147,6 @@ export class CaretakersService {
       },
     });
 
-    return 'Caretaker removed successfully!';
+    return { status: 'success', message: 'Caretaker removed successfully!' };
   }
 }

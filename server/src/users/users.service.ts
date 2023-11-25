@@ -88,7 +88,7 @@ export class UsersService {
       },
     });
 
-    return 'Password changed successfully';
+    return { status: 'success', message: 'Password updated successfully!' };
   }
 
   async removePrivate(uuid: string) {

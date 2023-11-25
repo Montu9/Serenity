@@ -1,25 +1,22 @@
-import { useForm } from "react-hook-form";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import loginSchema from "./loginSchema";
-import { Input } from "@/components/ui/input";
-import * as z from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useDispatch } from "react-redux";
-import { BiLoaderCircle } from "react-icons/bi";
-import { Button } from "@/components/ui/button";
-import { useState } from "react";
-import { useToast } from "@/components/ui/use-toast";
-import PrepError from "@/types/PrepError";
-import RetrivedError from "@/types/RetrivedError";
-import Login from "@/app/api/features/auth/dto/Login";
-import { ErrorHandler } from "@/lib/ErrorHandler";
-import { setCredentials } from "@/app/api/features/auth/authSlice";
 import { useLoginMutation } from "@/app/api/features/auth/authApiSlice";
+import { setCredentials } from "@/app/api/features/auth/authSlice";
+import { Button } from "@/components/ui/button";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { useToast } from "@/components/ui/use-toast";
+import useFetchError from "@/hooks/useFetchError";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { BiLoaderCircle } from "react-icons/bi";
+import { useDispatch } from "react-redux";
+import * as z from "zod";
+import loginSchema from "./loginSchema";
 
 const LoginForm = () => {
-    const [errMsg, setErrMsg] = useState<string>("");
     const { toast } = useToast();
-    const [login, { isLoading }] = useLoginMutation();
+    const [login, { isLoading, error }] = useLoginMutation();
+    const { errorMessage: errMsg, errorData } = useFetchError(error);
     const dispatch = useDispatch();
 
     const form = useForm<z.infer<typeof loginSchema>>({
@@ -29,6 +26,17 @@ const LoginForm = () => {
             password: "",
         },
     });
+
+    useEffect(() => {
+        if (errorData) {
+            errorData.map((error) => {
+                form.setError(error.property as keyof z.infer<typeof loginSchema>, {
+                    type: "server",
+                    message: error.constraints.join("\n"),
+                });
+            });
+        }
+    }, [errorData, form]);
 
     const onSubmit = async (values: z.infer<typeof loginSchema>) => {
         try {
@@ -41,25 +49,13 @@ const LoginForm = () => {
                     refreshToken: userData.tokens.refreshToken,
                 })
             );
+
             toast({
                 variant: "success",
                 title: `Hi ${userData.userEntity.firstName}! You have logged in successfully!`,
                 description: "We are going to load your data now.",
             });
-            setErrMsg("");
-        } catch (err: unknown) {
-            const error = new ErrorHandler(err as PrepError);
-            const retrivedError: RetrivedError = error.getRetrivedError();
-            if (retrivedError.message) {
-                setErrMsg(retrivedError.message);
-            } else {
-                retrivedError.data?.map((error) => {
-                    form.setError(error.property as keyof Login, {
-                        type: "server",
-                        message: error.constraints.join("\n"),
-                    });
-                });
-            }
+        } catch (error) {
             toast({
                 variant: "destructive",
                 title: "Uh oh! Something went wrong!",

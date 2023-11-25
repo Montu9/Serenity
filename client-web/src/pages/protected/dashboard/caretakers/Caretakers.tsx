@@ -5,9 +5,9 @@ import { DataTable } from "./components/DataTable";
 import { columns } from "./components/columns";
 
 export const Caretakers = () => {
-    const match = useMatch("/dashboard/:id/:lastPart");
-    const pathnameLastPart = match?.params.id || "";
-    const { data, isLoading, isSuccess } = useGetAllCaretakersQuery(pathnameLastPart);
+    const match = useMatch("/dashboard/:shelterUuid/:lastPart");
+    const shelterUuid = match?.params.shelterUuid || "";
+    const { data, isLoading, isSuccess } = useGetAllCaretakersQuery({ shelterUuid });
 
     let content;
     if (isLoading) {

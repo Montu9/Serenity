@@ -1,17 +1,14 @@
 import { useGetUserQuery, useUpdateUserMutation } from "@/app/api/features/auth/authApiSlice";
 import { setUser } from "@/app/api/features/auth/authSlice";
+import User from "@/app/api/features/user/entities/User";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/components/ui/use-toast";
-import { ErrorHandler } from "@/lib/ErrorHandler";
-import PrepError from "@/types/PrepError";
-import RetrivedError from "@/types/RetrivedError";
-import UpdateUser from "@/app/api/features/auth/dto/UpdateUser";
-import User from "@/app/api/features/user/entities/User";
+import useFetchError from "@/hooks/useFetchError";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { BiLoaderCircle } from "react-icons/bi";
 import { useDispatch } from "react-redux";
@@ -21,9 +18,10 @@ import profileSchema from "./profileSchema";
 export const ProfileForm = () => {
     const { toast } = useToast();
     const { data, isLoading, isSuccess } = useGetUserQuery();
-    const [updateUser, { isLoading: isLoadingUpdate }] = useUpdateUserMutation();
-    const [errMsg, setErrMsg] = useState<string>("");
+    const [updateUser, { isLoading: isLoadingUpdate, error }] = useUpdateUserMutation();
+    const { errorMessage: errMsg, errorData } = useFetchError(error);
     const dispatch = useDispatch();
+
     const form = useForm<z.infer<typeof profileSchema>>({
         resolver: zodResolver(profileSchema),
         defaultValues: {
@@ -39,9 +37,19 @@ export const ProfileForm = () => {
             form.setValue("firstName", data?.firstName || "");
             form.setValue("lastName", data?.lastName || "");
         };
-        console.log(data);
         setFormValues();
     }, [data, form, isSuccess]);
+
+    useEffect(() => {
+        if (errorData) {
+            errorData.map((error) => {
+                form.setError(error.property as keyof z.infer<typeof profileSchema>, {
+                    type: "server",
+                    message: error.constraints.join("\n"),
+                });
+            });
+        }
+    }, [errorData, form]);
 
     const onSubmit = async (values: z.infer<typeof profileSchema>) => {
         try {
@@ -59,20 +67,7 @@ export const ProfileForm = () => {
                 title: "You have changed your data successfully!",
                 description: "Your data has been saved securly!",
             });
-            setErrMsg("");
-        } catch (err: unknown) {
-            const error = new ErrorHandler(err as PrepError);
-            const retrivedError: RetrivedError = error.getRetrivedError();
-            if (retrivedError.message) {
-                setErrMsg(retrivedError.message);
-            } else {
-                retrivedError.data?.map((error) => {
-                    form.setError(error.property as keyof UpdateUser, {
-                        type: "server",
-                        message: error.constraints.join("\n"),
-                    });
-                });
-            }
+        } catch (error) {
             toast({
                 variant: "destructive",
                 title: "Uh oh! Something went wrong!",
@@ -138,7 +133,7 @@ export const ProfileForm = () => {
                             render={({ field }) => (
                                 <FormItem className="col-span-2">
                                     <FormLabel>Gender</FormLabel>
-                                    <Select onValueChange={field.onChange} defaultValue={data.gender.name}>
+                                    <Select onValueChange={field.onChange} defaultValue={data.gender}>
                                         <FormControl>
                                             <SelectTrigger>
                                                 <SelectValue placeholder="Select a gender" />

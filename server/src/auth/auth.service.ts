@@ -58,7 +58,7 @@ export class AuthService {
     return { tokens, userEntity };
   }
 
-  async logout(userUuid: string): Promise<string> {
+  async logout(userUuid: string) {
     await this.prisma.user.updateMany({
       where: {
         uuid: userUuid,
@@ -70,7 +70,7 @@ export class AuthService {
         rtHash: null,
       },
     });
-    return 'Logged out successfully';
+    return { status: 'success', message: 'Logout successfully!' };
   }
 
   async refreshToken(userUuid: string, rt: string): Promise<Tokens> {

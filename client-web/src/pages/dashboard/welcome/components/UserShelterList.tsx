@@ -3,12 +3,12 @@ import { MdAdminPanelSettings } from "react-icons/md";
 import { FaUser } from "react-icons/fa";
 import { Button } from "@/components/ui/button";
 import { MdSpaceDashboard } from "react-icons/md";
-import { useGetUserScheltersQuery } from "@/app/api/features/shelter/shelterApiSlice";
 import { Link } from "react-router-dom";
+import { useGetUserScheltersQuery } from "@/app/api/features/user/userApiSlice";
 
 export const UserShelterList = () => {
     const { data, isLoading, isSuccess, isError, error } = useGetUserScheltersQuery();
-
+    console.log(data);
     let content;
     if (isLoading) {
         content = <div>Loading...</div>;
@@ -29,7 +29,7 @@ export const UserShelterList = () => {
                                     </div>
                                 </CardTitle>
                                 {shelter.role.name === "ADMIN" ? (
-                                    <Link to={`/dashboard/${shelter.Shelter.uuid}`}>
+                                    <Link to={`/dashboard/${shelter.shelter.uuid}`}>
                                         <Button variant="outline">
                                             <MdSpaceDashboard />
                                         </Button>
@@ -39,8 +39,8 @@ export const UserShelterList = () => {
                                 )}
                             </CardHeader>
                             <CardContent>
-                                <div className="text-2xl font-bold">{shelter.Shelter.name}</div>
-                                <p className="text-xs text-muted-foreground">{shelter.Shelter.description}</p>
+                                <div className="text-2xl font-bold">{shelter.shelter.name}</div>
+                                <p className="text-xs text-muted-foreground">{shelter.shelter.description}</p>
                             </CardContent>
                         </Card>
                     );

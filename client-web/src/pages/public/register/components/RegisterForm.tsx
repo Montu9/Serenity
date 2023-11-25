@@ -1,26 +1,23 @@
+import { useRegisterMutation } from "@/app/api/features/auth/authApiSlice";
+import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import registerSchema from "./registerSchema";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Button } from "@/components/ui/button";
-import { BiLoaderCircle } from "react-icons/bi";
-import { useState } from "react";
-import { useToast } from "@/components/ui/use-toast";
 import { ToastAction } from "@/components/ui/toast";
-import PrepError from "@/types/PrepError";
-import { ErrorHandler } from "@/lib/ErrorHandler";
-import RetrivedError from "@/types/RetrivedError";
-import Register from "@/app/api/features/auth/dto/Register";
+import { useToast } from "@/components/ui/use-toast";
+import useFetchError from "@/hooks/useFetchError";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { BiLoaderCircle } from "react-icons/bi";
 import { Link } from "react-router-dom";
-import { useRegisterMutation } from "@/app/api/features/auth/authApiSlice";
+import * as z from "zod";
+import registerSchema from "./registerSchema";
 
 const RegisterForm = () => {
     const { toast } = useToast();
-    const [register, { isLoading }] = useRegisterMutation();
-    const [errMsg, setErrMsg] = useState<string>("");
+    const [register, { isLoading, error }] = useRegisterMutation();
+    const { errorMessage: errMsg, errorData } = useFetchError(error);
 
     const form = useForm<z.infer<typeof registerSchema>>({
         resolver: zodResolver(registerSchema),
@@ -32,6 +29,17 @@ const RegisterForm = () => {
             lastName: "",
         },
     });
+
+    useEffect(() => {
+        if (errorData) {
+            errorData.map((error) => {
+                form.setError(error.property as keyof z.infer<typeof registerSchema>, {
+                    type: "server",
+                    message: error.constraints.join("\n"),
+                });
+            });
+        }
+    }, [errorData, form]);
 
     const onSubmit = async (values: z.infer<typeof registerSchema>) => {
         try {
@@ -56,21 +64,7 @@ const RegisterForm = () => {
                     </Link>
                 ),
             });
-            setErrMsg("");
-        } catch (err: unknown) {
-            console.log(err);
-            const error = new ErrorHandler(err as PrepError);
-            const retrivedError: RetrivedError = error.getRetrivedError();
-            if (retrivedError.message) {
-                setErrMsg(retrivedError.message);
-            } else {
-                retrivedError.data?.map((error) => {
-                    form.setError(error.property as keyof Register, {
-                        type: "server",
-                        message: error.constraints.join("\n"),
-                    });
-                });
-            }
+        } catch (error) {
             toast({
                 variant: "destructive",
                 title: "Uh oh! Something went wrong!",

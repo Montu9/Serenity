@@ -29,7 +29,7 @@ export class CaretakersController {
   create(
     @Param('shelterUuid') shelterUuid: string,
     @Body() createCaretakerDto: CreateCaretakerByEmailDto,
-  ): Promise<string> {
+  ) {
     return this.caretakersService.create(createCaretakerDto, shelterUuid);
   }
 
@@ -48,7 +48,7 @@ export class CaretakersController {
     @Param('caretakerUuid') caretakerUuid: string,
     @Param('shelterUuid') shelterUuid: string,
     @Body() updateCaretakerDto: UpdateCaretakerDto,
-  ): Promise<string> {
+  ) {
     return this.caretakersService.update(
       caretakerUuid,
       shelterUuid,

@@ -43,7 +43,7 @@ export class AuthController {
   @Get('logout')
   @HttpCode(HttpStatus.OK)
   @ApiBearerAuth()
-  logout(@GetCurrentUserUuid() userUuid: string): Promise<string> {
+  logout(@GetCurrentUserUuid() userUuid: string) {
     return this.authService.logout(userUuid);
   }
 

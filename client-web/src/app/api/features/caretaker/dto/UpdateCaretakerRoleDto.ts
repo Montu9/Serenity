@@ -1,5 +1,4 @@
 interface UpdateCaretakerRole {
-    userUuid: string;
     role: string;
 }
 

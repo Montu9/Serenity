@@ -1,15 +1,13 @@
+import { useUpdateCaretakerRoleMutation } from "@/app/api/features/caretaker/caretakerApiSlice";
 import { useGetAllRolesQuery } from "@/app/api/features/common/role/roleApiSlice";
-import { useUpdateCaretakerRoleMutation } from "@/app/api/features/shelter/shelterApiSlice";
 import { Button } from "@/components/ui/button";
 import { DialogClose, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/components/ui/use-toast";
-import { ErrorHandler } from "@/lib/ErrorHandler";
-import PrepError from "@/types/PrepError";
-import RetrivedError from "@/types/RetrivedError";
+import useFetchError from "@/hooks/useFetchError";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { BiLoaderCircle } from "react-icons/bi";
 import { useMatch } from "react-router-dom";
@@ -25,9 +23,11 @@ export const EditCarekater = ({ caretaker }: EditCaretakerProps) => {
     const { toast } = useToast();
     const match = useMatch("/dashboard/:id/:lastPart");
     const pathnameLastPart = match?.params.id || "";
+
     const { data, isLoading, isSuccess } = useGetAllRolesQuery();
-    const [updateCaretakerRole, { isLoading: isLoadingUpdate }] = useUpdateCaretakerRoleMutation();
-    const [errMsg, setErrMsg] = useState<string>("");
+    const [updateCaretakerRole, { isLoading: isLoadingUpdate, error }] = useUpdateCaretakerRoleMutation();
+    const { errorMessage: errMsg, errorData } = useFetchError(error);
+
     const form = useForm<z.infer<typeof editCaretakerSchema>>({
         resolver: zodResolver(editCaretakerSchema),
         defaultValues: {
@@ -35,11 +35,23 @@ export const EditCarekater = ({ caretaker }: EditCaretakerProps) => {
         },
     });
 
+    useEffect(() => {
+        if (errorData) {
+            errorData.map((error) => {
+                form.setError(error.property as keyof z.infer<typeof editCaretakerSchema>, {
+                    type: "server",
+                    message: error.constraints.join("\n"),
+                });
+            });
+        }
+    }, [errorData, form]);
+
     const onSubmit = async (values: z.infer<typeof editCaretakerSchema>) => {
         try {
             await updateCaretakerRole({
-                data: { userUuid: caretaker.uuid, role: values.role },
-                id: pathnameLastPart,
+                data: { role: values.role },
+                caretakerUuid: caretaker.uuid,
+                shelterUuid: pathnameLastPart,
             }).unwrap();
 
             toast({
@@ -47,24 +59,12 @@ export const EditCarekater = ({ caretaker }: EditCaretakerProps) => {
                 title: "You have changed your data successfully!",
                 description: "Your data has been saved securly!",
             });
-            setErrMsg("");
-        } catch (err: unknown) {
-            const error = new ErrorHandler(err as PrepError);
-            const retrivedError: RetrivedError = error.getRetrivedError();
-            if (retrivedError.message) {
-                setErrMsg(retrivedError.message);
-            } else {
-                retrivedError.data?.map((error) => {
-                    form.setError(error.property as keyof z.infer<typeof editCaretakerSchema>, {
-                        type: "server",
-                        message: error.constraints.join("\n"),
-                    });
-                });
-            }
+        } catch (error) {
+            console.log(error);
             toast({
                 variant: "destructive",
                 title: "Uh oh! Something went wrong!",
-                description: "Check your credentials and try again.",
+                description: "Check your credentials and try again..",
             });
         }
     };
