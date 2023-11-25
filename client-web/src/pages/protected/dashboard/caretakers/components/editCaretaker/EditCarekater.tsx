@@ -1,4 +1,4 @@
-import { useGetAllRolesQuery } from "@/app/api/features/role/roleApiSlice";
+import { useGetAllRolesQuery } from "@/app/api/features/common/role/roleApiSlice";
 import { useUpdateCaretakerRoleMutation } from "@/app/api/features/shelter/shelterApiSlice";
 import { Button } from "@/components/ui/button";
 import { DialogClose, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";

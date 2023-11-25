@@ -4,7 +4,6 @@ import { UpdateDogDto } from './dto/update-dog.dto';
 import { PrismaService } from 'nestjs-prisma';
 import { DogEntity } from './dto/dog.entity';
 import { nanoid } from 'nanoid';
-import { IntakeTypeEntity } from 'src/intake-types/dto/intake-types.entity';
 
 @Injectable()
 export class DogsService {
@@ -111,7 +110,7 @@ export class DogsService {
       },
     });
 
-    return new IntakeTypeEntity(dog);
+    return new DogEntity(dog);
   }
 
   async remove(dogUuid: string) {

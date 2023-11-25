@@ -1,55 +1,53 @@
 import { apiSlice } from "@/app/api/apiSlice";
-import AddCaretakerByEmail from "@/types/AddCaretakerByEmailDto";
-import CreateShelterDto from "@/types/CreateShelterDto";
-import GetAllCaretakers from "@/types/GetAllCaretakersDto";
-import UpdateCaretakerRole from "@/types/UpdateCaretakerRoleDto";
-import UserShelterDto from "@/types/UserShelterDto";
+import CreateShelterDto from "@/app/api/features/shelter/dto/CreateShelterDto";
+import Shelter from "./entities/Shelter";
+import UpdateShelterDto from "./dto/UpdateShelterDto";
+import Caretaker from "../caretaker/entities/Caretaker";
+
+interface ShelterPrep<DataType = unknown> {
+    shelterUuid: string;
+    data?: DataType;
+}
 
 export const shelterApiSlice = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
-        getUserSchelters: builder.query<UserShelterDto[], void>({
-            query: () => "/shelters/getUserShelters",
-            keepUnusedDataFor: 5,
-        }),
-        createShelter: builder.mutation<CreateShelterDto, CreateShelterDto>({
-            query: (credentials) => ({
+        createShelter: builder.mutation<Shelter, CreateShelterDto>({
+            query: (data) => ({
                 url: "/shelters",
-                method: "POST",
-                body: { ...credentials },
-            }),
-        }),
-        getAllCaretakers: builder.query<GetAllCaretakers[], string>({
-            query: (uuid) => ({ url: `/shelters/getAllCaretakers/${uuid}` }),
-        }),
-        addCaretakerByEmail: builder.mutation<void, { credentials: AddCaretakerByEmail; id: string }>({
-            query: ({ credentials, id }) => ({
-                url: `/shelters/addCaretakerByEmail/${id}`,
-                method: "POST",
-                body: { ...credentials },
-            }),
-        }),
-        updateCaretakerRole: builder.mutation<void, { data: UpdateCaretakerRole; id: string }>({
-            query: ({ data, id }) => ({
-                url: `/shelters/${id}/updateCaretakerRole`,
                 method: "POST",
                 body: { ...data },
             }),
         }),
-        removeCaretakerByUuid: builder.mutation<void, { id: string; uuid: string }>({
-            query: ({ id, uuid }) => ({
-                url: `/shelters/${id}/removeCaretakerByEmail/${uuid}`,
-                method: "POST",
+        getAllCaretakers: builder.query<Caretaker[], ShelterPrep>({
+            query: ({ shelterUuid }) => ({
+                url: `/shelters/getAllCaretaker/${shelterUuid}`,
+            }),
+        }),
+        getByUuid: builder.query<Shelter, ShelterPrep>({
+            query: ({ shelterUuid }) => ({ url: `/shelters/${shelterUuid}` }),
+        }),
+        updateShelter: builder.mutation<Shelter, ShelterPrep<UpdateShelterDto>>({
+            query: ({ shelterUuid, data }) => ({
+                url: `/shelters/${shelterUuid}`,
+                method: "PATCH",
+                body: { ...data },
+            }),
+        }),
+        deleteShelter: builder.mutation<Shelter, ShelterPrep>({
+            query: ({ shelterUuid }) => ({
+                url: `/shelters/${shelterUuid}`,
+                method: "DELETE",
             }),
         }),
     }),
 });
 
 export const {
-    useAddCaretakerByEmailMutation,
-    useGetUserScheltersQuery,
     useCreateShelterMutation,
+    useDeleteShelterMutation,
     useGetAllCaretakersQuery,
-    useUpdateCaretakerRoleMutation,
+    useGetByUuidQuery,
     useLazyGetAllCaretakersQuery,
-    useRemoveCaretakerByUuidMutation,
+    useLazyGetByUuidQuery,
+    useUpdateShelterMutation,
 } = shelterApiSlice;

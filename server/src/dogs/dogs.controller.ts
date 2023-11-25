@@ -10,7 +10,12 @@ import {
 import { DogsService } from './dogs.service';
 import { CreateDogDto } from './dto/create-dog.dto';
 import { UpdateDogDto } from './dto/update-dog.dto';
-import { ApiBearerAuth, ApiCreatedResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiCreatedResponse,
+  ApiOkResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { DogEntity } from './dto/dog.entity';
 
 @ApiTags('dogs')
@@ -31,11 +36,13 @@ export class DogsController {
   }
 
   @Get(':dogUuid')
+  @ApiOkResponse({ type: DogEntity })
   findOne(@Param('dogUuid') dogUuid: string) {
     return this.dogsService.findOne(dogUuid);
   }
 
   @Patch(':dogUuid')
+  @ApiOkResponse({ type: DogEntity })
   update(
     @Param('dogUuid') dogUuid: string,
     @Body() updateDogDto: UpdateDogDto,
@@ -44,6 +51,7 @@ export class DogsController {
   }
 
   @Delete(':dogUuid')
+  @ApiOkResponse({ type: DogEntity })
   remove(@Param('dogUuid') dogUuid: string) {
     return this.dogsService.remove(dogUuid);
   }

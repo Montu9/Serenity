@@ -13,7 +13,7 @@ import { ToastAction } from "@/components/ui/toast";
 import PrepError from "@/types/PrepError";
 import { ErrorHandler } from "@/lib/ErrorHandler";
 import RetrivedError from "@/types/RetrivedError";
-import Register from "@/types/Register";
+import Register from "@/app/api/features/auth/dto/Register";
 import { Link } from "react-router-dom";
 import { useRegisterMutation } from "@/app/api/features/auth/authApiSlice";
 

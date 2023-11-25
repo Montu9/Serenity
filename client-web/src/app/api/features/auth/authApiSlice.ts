@@ -1,11 +1,10 @@
 import { apiSlice } from "@/app/api/apiSlice";
 
-import Login from "@/types/Login";
-import Register from "@/types/Register";
-import Tokens from "@/types/Tokens";
-import UpdatePassword from "@/types/UpdatePassword";
-import UpdateUser from "@/types/UpdateUser";
-import User from "@/types/User";
+import Login from "@/app/api/features/auth/dto/Login";
+import Register from "@/app/api/features/auth/dto/Register";
+import Tokens from "@/app/api/features/auth/entities/Tokens";
+import UpdateUser from "@/app/api/features/auth/dto/UpdateUser";
+import User from "@/app/api/features/user/entities/User";
 
 interface UserLoginDto {
     tokens: Tokens;
@@ -28,7 +27,7 @@ export const authApiSlice = apiSlice.injectEndpoints({
                 body: { ...credentials },
             }),
         }),
-        logout: builder.query<void, void>({
+        logout: builder.query<string, void>({
             query: () => "/auth/logout",
         }),
         getUser: builder.query<User, void>({
@@ -41,11 +40,10 @@ export const authApiSlice = apiSlice.injectEndpoints({
                 body: { ...credential },
             }),
         }),
-        updatePassword: builder.mutation<string, UpdatePassword>({
-            query: (credential) => ({
-                url: "/users/password",
-                method: "PATCH",
-                body: { ...credential },
+        deleteUser: builder.mutation<User, void>({
+            query: () => ({
+                url: "/users",
+                method: "DELETE",
             }),
         }),
     }),
@@ -58,5 +56,4 @@ export const {
     useLogoutQuery,
     useGetUserQuery,
     useUpdateUserMutation,
-    useUpdatePasswordMutation,
 } = authApiSlice;

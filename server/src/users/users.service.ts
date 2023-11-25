@@ -59,7 +59,7 @@ export class UsersService {
         Shelter: true,
       },
     });
-    console.log(shelters);
+
     return shelters.map(
       (shelter) => new GetUserShelters(shelter.Shelter, shelter.role),
     );

@@ -1,9 +1,16 @@
 import { Post, Body, Patch, Delete, Param, Get } from '@nestjs/common';
 import { Controller } from '@nestjs/common';
 import { KennelsService } from './kennels.service';
-import { ApiBearerAuth, ApiCreatedResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiCreatedResponse,
+  ApiOkResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { CreateKennelDto } from './dto/create-kennel.dto';
 import { UpdateKennelDto } from './dto/update-kennel.dto';
+import { KennelEntity } from './dto/kennel.entity';
+import { DogEntity } from 'src/dogs/dto/dog.entity';
 
 @ApiTags('kennels')
 @ApiBearerAuth()
@@ -18,6 +25,7 @@ export class KennelsController {
   }
 
   @Get(':kennelUuid')
+  @ApiOkResponse({ type: [DogEntity] })
   findAllDogs(@Param('kennelUuid') kennelUuid: string) {
     return this.kennelsService.findAllDogs(kennelUuid);
   }
@@ -28,6 +36,7 @@ export class KennelsController {
   // }
 
   @Patch(':kennelUuid')
+  @ApiOkResponse({ type: KennelEntity })
   update(
     @Param('kennelUuid') kennelUuid: string,
     @Body() updateKennelDto: UpdateKennelDto,
@@ -36,6 +45,7 @@ export class KennelsController {
   }
 
   @Delete(':kennelUuid')
+  @ApiOkResponse({ type: KennelEntity })
   remove(@Param('kennelUuid') kennelUuid: string) {
     return this.kennelsService.remove(kennelUuid);
   }

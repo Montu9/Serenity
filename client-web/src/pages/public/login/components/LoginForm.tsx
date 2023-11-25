@@ -11,7 +11,7 @@ import { useState } from "react";
 import { useToast } from "@/components/ui/use-toast";
 import PrepError from "@/types/PrepError";
 import RetrivedError from "@/types/RetrivedError";
-import Login from "@/types/Login";
+import Login from "@/app/api/features/auth/dto/Login";
 import { ErrorHandler } from "@/lib/ErrorHandler";
 import { setCredentials } from "@/app/api/features/auth/authSlice";
 import { useLoginMutation } from "@/app/api/features/auth/authApiSlice";

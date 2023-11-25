@@ -13,7 +13,7 @@ import { useCreateShelterMutation } from "@/app/api/features/shelter/shelterApiS
 import { ErrorHandler } from "@/lib/ErrorHandler";
 import PrepError from "@/types/PrepError";
 import RetrivedError from "@/types/RetrivedError";
-import CreateShelterDto from "@/types/CreateShelterDto";
+import CreateShelterDto from "@/app/api/features/shelter/dto/CreateShelterDto";
 
 const CreateShelter = () => {
     const [errMsg, setErrMsg] = useState<string>("");

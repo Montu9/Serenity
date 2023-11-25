@@ -5,11 +5,12 @@ import storage from "redux-persist/lib/storage";
 import { persistStore, persistReducer } from "redux-persist";
 import thunk from "redux-thunk";
 import { shelterApiSlice } from "./api/features/shelter/shelterApiSlice";
+import { userApiSlice } from "./api/features/user/userApiSlice";
 
 const persistConfig = {
     key: "root",
     storage,
-    blacklist: [shelterApiSlice.reducerPath],
+    blacklist: [shelterApiSlice.reducerPath, userApiSlice.reducerPath],
 };
 
 const rootReducer = combineReducers({

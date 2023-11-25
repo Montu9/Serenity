@@ -1,5 +1,5 @@
 import { type RootState } from "@/app/store";
-import User from "@/types/User";
+import User from "@/app/api/features/user/entities/User";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { createSlice } from "@reduxjs/toolkit";
 

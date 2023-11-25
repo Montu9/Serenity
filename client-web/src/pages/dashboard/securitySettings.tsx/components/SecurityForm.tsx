@@ -12,7 +12,7 @@ import { BiLoaderCircle } from "react-icons/bi";
 import { ErrorHandler } from "@/lib/ErrorHandler";
 import PrepError from "@/types/PrepError";
 import RetrivedError from "@/types/RetrivedError";
-import UpdatePassword from "@/types/UpdatePassword";
+import UpdatePassword from "@/app/api/features/user/dto/UpdatePasswordDto";
 
 export const SecurityForm = () => {
     const { toast } = useToast();

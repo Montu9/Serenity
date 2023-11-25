@@ -8,7 +8,7 @@ import {
 } from "@reduxjs/toolkit/query/react";
 import { RootState } from "../store";
 import { Mutex } from "async-mutex";
-import Tokens from "@/types/Tokens";
+import Tokens from "@/app/api/features/auth/entities/Tokens";
 import { logOut, setTokens } from "./features/auth/authSlice";
 
 const mutex = new Mutex();
