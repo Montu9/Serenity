@@ -14,11 +14,11 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { GetCurrentUserUuid } from 'src/common/decorators';
-import { CaretakerEntity } from 'src/common/entities/caretaker.entity';
 import { CreateShelterDto } from './dto/create-shelter.dto';
 import { ShelterEntity } from './dto/shelter.entity';
 import { UpdateShelterDto } from './dto/update-shelter.dto';
 import { SheltersService } from './shelters.service';
+import { CaretakerEntity } from 'src/caretakers/dto/caretaker.entity';
 
 @ApiTags('shelters')
 @ApiBearerAuth()

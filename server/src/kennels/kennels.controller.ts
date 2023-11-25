@@ -1,6 +1,9 @@
+import { Post, Body, Patch, Delete, Param, Get } from '@nestjs/common';
 import { Controller } from '@nestjs/common';
 import { KennelsService } from './kennels.service';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiCreatedResponse, ApiTags } from '@nestjs/swagger';
+import { CreateKennelDto } from './dto/create-kennel.dto';
+import { UpdateKennelDto } from './dto/update-kennel.dto';
 
 @ApiTags('kennels')
 @ApiBearerAuth()
@@ -8,28 +11,32 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 export class KennelsController {
   constructor(private readonly kennelsService: KennelsService) {}
 
-  // @Post()
-  // create(@Body() createKennelDto: CreateKennelDto) {
-  //   return this.kennelsService.create(createKennelDto);
-  // }
+  @Post()
+  @ApiCreatedResponse({ type: String })
+  create(@Body() createKennelDto: CreateKennelDto) {
+    return this.kennelsService.create(createKennelDto);
+  }
 
-  // @Get()
-  // findAll() {
-  //   return this.kennelsService.findAll();
-  // }
+  @Get(':kennelUuid')
+  findAllDogs(@Param('kennelUuid') kennelUuid: string) {
+    return this.kennelsService.findAllDogs(kennelUuid);
+  }
 
   // @Get(':id')
   // findOne(@Param('id') id: string) {
   //   return this.kennelsService.findOne(+id);
   // }
 
-  // @Patch(':id')
-  // update(@Param('id') id: string, @Body() updateKennelDto: UpdateKennelDto) {
-  //   return this.kennelsService.update(+id, updateKennelDto);
-  // }
+  @Patch(':kennelUuid')
+  update(
+    @Param('kennelUuid') kennelUuid: string,
+    @Body() updateKennelDto: UpdateKennelDto,
+  ) {
+    return this.kennelsService.update(kennelUuid, updateKennelDto);
+  }
 
-  // @Delete(':id')
-  // remove(@Param('id') id: string) {
-  //   return this.kennelsService.remove(+id);
-  // }
+  @Delete(':kennelUuid')
+  remove(@Param('kennelUuid') kennelUuid: string) {
+    return this.kennelsService.remove(kennelUuid);
+  }
 }

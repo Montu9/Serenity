@@ -1,11 +1,10 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { nanoid } from 'nanoid';
 import { PrismaService } from 'nestjs-prisma';
+import { CaretakerEntity } from 'src/caretakers/dto/caretaker.entity';
 import { CreateShelterDto } from './dto/create-shelter.dto';
-import { UpdateShelterDto } from './dto/update-shelter.dto';
-import UpdateCaretakerRole from './dto/update-caretaker-role.dto';
-import { CaretakerEntity } from 'src/common/entities/caretaker.entity';
 import { ShelterEntity } from './dto/shelter.entity';
+import { UpdateShelterDto } from './dto/update-shelter.dto';
 
 @Injectable()
 export class SheltersService {

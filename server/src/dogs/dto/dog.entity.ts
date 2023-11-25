@@ -5,6 +5,7 @@ import { BreedEntity } from 'src/breeds/dto/breed.entity';
 import { DogConditionEntity } from 'src/dog-conditions/dto/dog-condition.entity';
 import { DogStatusEntity } from 'src/dog-statuses/dto/dog-status.entity';
 import { IntakeTypeEntity } from 'src/intake-types/dto/intake-types.entity';
+import { KennelEntity } from 'src/kennels/dto/kennel.entity';
 
 export class DogEntity {
   constructor(partial: Partial<DogEntity>) {
@@ -42,7 +43,11 @@ export class DogEntity {
   @Transform(({ value }) => value.name)
   breed: BreedEntity;
 
+  @Exclude()
   kennelId: number;
+  @ApiProperty()
+  @Transform(({ value }) => value.uuid)
+  kennel: KennelEntity;
 
   @Exclude()
   dogStatusId: number;
@@ -54,5 +59,5 @@ export class DogEntity {
   intakeTypeId: number;
   @ApiProperty()
   @Transform(({ value }) => value.name)
-  intakeType: IntakeTypeEntity;
+  intake: IntakeTypeEntity;
 }

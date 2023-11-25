@@ -62,7 +62,7 @@ model Kennel {
 
   no      Int
   desc    String?
-  uuid    String
+  uuid    String  @unique
   shelter Shelter @relation(fields: [shelterId], references: [id])
 
   Dog       Dog[]
@@ -122,25 +122,25 @@ enum DogGender {
 
 model DogStatus {
   id   Int    @id @default(autoincrement())
-  name String
+  name String @unique
   Dog  Dog[]
 }
 
 model IntakeType {
   id   Int    @id @default(autoincrement())
-  name String
+  name String @unique
   Dog  Dog[]
 }
 
 model DogCondition {
   id   Int    @id @default(autoincrement())
-  name String
+  name String @unique
   Dog  Dog[]
 }
 
 model Breed {
   id    Int     @id @default(autoincrement())
-  name  String
+  name  String  @unique
   url   String?
   image String?
   pdf   String?

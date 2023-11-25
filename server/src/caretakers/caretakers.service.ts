@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateCaretakerByEmailDto } from './dto/create-caretaker.dto';
 import { UpdateCaretakerDto } from './dto/update-caretaker.dto';
 import { PrismaService } from 'nestjs-prisma';
+import { CaretakerEntity } from './dto/caretaker.entity';
 
 @Injectable()
 export class CaretakersService {
@@ -46,6 +47,37 @@ export class CaretakersService {
     return 'Caretaker added successfully';
   }
 
+  async findOneByUuid(caretakerUuid: string, shelterUuid: string) {
+    const user = caretakerUuid
+      ? await this.prisma.user.findUnique({
+          where: {
+            uuid: caretakerUuid,
+          },
+        })
+      : undefined;
+
+    const shelter = shelterUuid
+      ? await this.prisma.shelter.findUnique({
+          where: {
+            uuid: shelterUuid,
+          },
+        })
+      : undefined;
+
+    const caretaker = await this.prisma.usersShelters.findFirst({
+      where: {
+        shelterId: shelter.id,
+        userId: user.id,
+      },
+      include: {
+        User: true,
+        role: true,
+      },
+    });
+
+    return new CaretakerEntity({ ...caretaker.User, role: caretaker.role });
+  }
+
   async update(
     caretakerUuid: string,
     shelterUuid: string,
@@ -67,19 +99,23 @@ export class CaretakersService {
         })
       : undefined;
 
+    const role = updateCaretakerDto.role
+      ? await this.prisma.role.findUnique({
+          where: {
+            name: updateCaretakerDto.role,
+          },
+        })
+      : undefined;
+
     await this.prisma.usersShelters.update({
       where: {
         userId_shelterId: {
-          userId: user.id,
-          shelterId: shelter.id,
+          userId: user?.id || undefined,
+          shelterId: shelter?.id || undefined,
         },
       },
       data: {
-        role: {
-          connect: {
-            name: updateCaretakerDto.role, // Replace with the role name "admin"
-          },
-        },
+        roleId: role?.id || undefined,
       },
     });
     return 'Caretaker updated successfully!';

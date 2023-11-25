@@ -9,6 +9,6 @@ export class CreateCaretakerByEmailDto {
 
   @ApiProperty()
   @IsString({ message: 'Invalid text' })
-  @IsNotEmpty({ message: 'Firstname cannot be empty' })
+  @IsNotEmpty({ message: 'Role cannot be empty' })
   role: string;
 }

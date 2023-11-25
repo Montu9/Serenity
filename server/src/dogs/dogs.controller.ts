@@ -10,7 +10,8 @@ import {
 import { DogsService } from './dogs.service';
 import { CreateDogDto } from './dto/create-dog.dto';
 import { UpdateDogDto } from './dto/update-dog.dto';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiCreatedResponse, ApiTags } from '@nestjs/swagger';
+import { DogEntity } from './dto/dog.entity';
 
 @ApiTags('dogs')
 @ApiBearerAuth()
@@ -19,6 +20,7 @@ export class DogsController {
   constructor(private readonly dogsService: DogsService) {}
 
   @Post()
+  @ApiCreatedResponse({ type: DogEntity })
   create(@Body() createDogDto: CreateDogDto) {
     return this.dogsService.create(createDogDto);
   }
@@ -28,18 +30,21 @@ export class DogsController {
     return this.dogsService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.dogsService.findOne(+id);
+  @Get(':dogUuid')
+  findOne(@Param('dogUuid') dogUuid: string) {
+    return this.dogsService.findOne(dogUuid);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateDogDto: UpdateDogDto) {
-    return this.dogsService.update(+id, updateDogDto);
+  @Patch(':dogUuid')
+  update(
+    @Param('dogUuid') dogUuid: string,
+    @Body() updateDogDto: UpdateDogDto,
+  ) {
+    return this.dogsService.update(dogUuid, updateDogDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.dogsService.remove(+id);
+  @Delete(':dogUuid')
+  remove(@Param('dogUuid') dogUuid: string) {
+    return this.dogsService.remove(dogUuid);
   }
 }

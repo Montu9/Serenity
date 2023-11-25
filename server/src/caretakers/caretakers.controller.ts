@@ -1,4 +1,12 @@
-import { Body, Controller, Delete, Param, Patch, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+} from '@nestjs/common';
 import {
   ApiBearerAuth,
   ApiCreatedResponse,
@@ -8,6 +16,7 @@ import {
 import { CaretakersService } from './caretakers.service';
 import { CreateCaretakerByEmailDto } from './dto/create-caretaker.dto';
 import { UpdateCaretakerDto } from './dto/update-caretaker.dto';
+import { CaretakerEntity } from './dto/caretaker.entity';
 
 @ApiTags('caretakers')
 @ApiBearerAuth()
@@ -15,13 +24,22 @@ import { UpdateCaretakerDto } from './dto/update-caretaker.dto';
 export class CaretakersController {
   constructor(private readonly caretakersService: CaretakersService) {}
 
-  @Post('createByEmail/:shelterUuid')
+  @Post(':shelterUuid')
   @ApiCreatedResponse({ type: String })
-  createByEmail(
+  create(
     @Param('shelterUuid') shelterUuid: string,
     @Body() createCaretakerDto: CreateCaretakerByEmailDto,
   ): Promise<string> {
     return this.caretakersService.create(createCaretakerDto, shelterUuid);
+  }
+
+  @Get(':caretakerUuid/getByUuid/:shelterUuid')
+  @ApiCreatedResponse({ type: CaretakerEntity })
+  findOneByUuid(
+    @Param('caretakerUuid') caretakerUuid: string,
+    @Param('shelterUuid') shelterUuid: string,
+  ) {
+    return this.caretakersService.findOneByUuid(caretakerUuid, shelterUuid);
   }
 
   @Patch(':caretakerUuid/updateByUuid/:shelterUuid')
