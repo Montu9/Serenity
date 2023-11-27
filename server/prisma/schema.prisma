@@ -148,11 +148,11 @@ model Breed {
 }
 
 model Walk {
-  id     Int       @id @default(autoincrement())
-  start  DateTime
-  end    DateTime?
-  user   User      @relation(fields: [userId], references: [id])
-  dog    Dog       @relation(fields: [dogId], references: [id])
+  id   Int      @id @default(autoincrement())
+  date DateTime @db.Date
+  user User     @relation(fields: [userId], references: [id])
+  dog  Dog      @relation(fields: [dogId], references: [id])
+
   userId Int
   dogId  Int
 }

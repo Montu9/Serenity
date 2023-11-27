@@ -17,6 +17,7 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { DogEntity } from './dto/dog.entity';
+import { CleaningEntity } from 'src/cleanings/dto/cleaning.entity';
 
 @ApiTags('dogs')
 @ApiBearerAuth()
@@ -33,6 +34,11 @@ export class DogsController {
   @Get()
   findAll() {
     return this.dogsService.findAll();
+  }
+  @Get(':dogUuid/getAllCleanings')
+  @ApiOkResponse({ type: [CleaningEntity] })
+  getAllCleanings(@Param('dogUuid') dogUuid: string) {
+    return this.dogsService.getAllCleanings(dogUuid);
   }
 
   @Get(':dogUuid')

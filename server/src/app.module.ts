@@ -15,6 +15,10 @@ import { IntakeTypesModule } from './intake-types/intake-types.module';
 import { DogsModule } from './dogs/dogs.module';
 import { KennelsModule } from './kennels/kennels.module';
 import { CaretakersModule } from './caretakers/caretakers.module';
+import { WalksModule } from './walks/walks.module';
+import { FeedingsModule } from './feedings/feedings.module';
+import { MedicateModule } from './medicate/medicate.module';
+import { CleaningsModule } from './cleanings/cleanings.module';
 
 @Module({
   imports: [
@@ -33,6 +37,10 @@ import { CaretakersModule } from './caretakers/caretakers.module';
     DogsModule,
     KennelsModule,
     CaretakersModule,
+    WalksModule,
+    FeedingsModule,
+    MedicateModule,
+    CleaningsModule,
   ],
   providers: [
     {

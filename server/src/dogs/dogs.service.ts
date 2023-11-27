@@ -4,6 +4,7 @@ import { UpdateDogDto } from './dto/update-dog.dto';
 import { PrismaService } from 'nestjs-prisma';
 import { DogEntity } from './dto/dog.entity';
 import { nanoid } from 'nanoid';
+import { CleaningEntity } from 'src/cleanings/dto/cleaning.entity';
 
 @Injectable()
 export class DogsService {
@@ -47,6 +48,37 @@ export class DogsService {
       },
     });
     return new DogEntity(dog);
+  }
+
+  async getAllCleanings(dogUuid: string) {
+    const cleanings = await this.prisma.cleaning.findMany({
+      where: {
+        dog: {
+          uuid: dogUuid,
+        },
+      },
+      include: {
+        user: {
+          include: {
+            gender: true,
+          },
+        },
+        dog: {
+          include: {
+            kennel: {
+              include: {
+                shelter: true,
+              },
+            },
+            breed: true,
+            dogCondition: true,
+            dogStatus: true,
+            intake: true,
+          },
+        },
+      },
+    });
+    return cleanings.map((cleaning) => new CleaningEntity(cleaning));
   }
 
   findAll() {
