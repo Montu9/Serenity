@@ -1,7 +1,7 @@
 import { Outlet } from "react-router-dom";
 import { Toaster } from "../ui/toaster";
 
-const Layout = () => {
+export const Layout = () => {
     return (
         <>
             <Toaster />
@@ -9,5 +9,3 @@ const Layout = () => {
         </>
     );
 };
-
-export default Layout;

@@ -40,13 +40,13 @@ export class DogEntity {
   @Exclude()
   breedId: number;
   @ApiProperty()
-  @Transform(({ value }) => value.name)
+  @Transform(({ value }) => new BreedEntity(value))
   breed: BreedEntity;
 
   @Exclude()
   kennelId: number;
   @ApiProperty()
-  @Transform(({ value }) => value.uuid)
+  @Transform(({ value }) => new KennelEntity(value))
   kennel: KennelEntity;
 
   @Exclude()

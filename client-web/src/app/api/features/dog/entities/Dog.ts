@@ -1,3 +1,6 @@
+import { Breed } from "../../common/breed/breedApiSlice";
+import Kennel from "../../kennel/entities/Kennel";
+
 interface Dog {
     createdAt: Date;
     updatedAt: Date;
@@ -8,8 +11,8 @@ interface Dog {
     microchip: string;
     intakeDate: Date;
     dogCondition: string;
-    breed: string;
-    kennel: string;
+    breed: Breed;
+    kennel: Kennel;
     dogStatus: string;
     intake: string;
 }

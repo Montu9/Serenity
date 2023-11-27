@@ -18,13 +18,16 @@ import { DogEntity } from 'src/dogs/dto/dog.entity';
 export class KennelsController {
   constructor(private readonly kennelsService: KennelsService) {}
 
-  @Post()
+  @Post(':shelterUuid')
   @ApiCreatedResponse({ type: String })
-  create(@Body() createKennelDto: CreateKennelDto) {
-    return this.kennelsService.create(createKennelDto);
+  create(
+    @Param('shelterUuid') shelterUuid: string,
+    @Body() createKennelDto: CreateKennelDto,
+  ) {
+    return this.kennelsService.create(createKennelDto, shelterUuid);
   }
 
-  @Get(':kennelUuid')
+  @Get('getAllDogs/:kennelUuid')
   @ApiOkResponse({ type: [DogEntity] })
   findAllDogs(@Param('kennelUuid') kennelUuid: string) {
     return this.kennelsService.findAllDogs(kennelUuid);

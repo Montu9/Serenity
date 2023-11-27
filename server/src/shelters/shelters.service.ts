@@ -5,6 +5,8 @@ import { CaretakerEntity } from 'src/caretakers/dto/caretaker.entity';
 import { CreateShelterDto } from './dto/create-shelter.dto';
 import { ShelterEntity } from './dto/shelter.entity';
 import { UpdateShelterDto } from './dto/update-shelter.dto';
+import { KennelEntity } from 'src/kennels/dto/kennel.entity';
+import { DogEntity } from 'src/dogs/dto/dog.entity';
 
 @Injectable()
 export class SheltersService {
@@ -57,7 +59,11 @@ export class SheltersService {
       },
       select: {
         role: true,
-        User: true,
+        User: {
+          include: {
+            gender: true,
+          },
+        },
       },
     });
 
@@ -68,6 +74,46 @@ export class SheltersService {
           role: caretaker.role,
         }),
     );
+  }
+
+  async getAllKennels(shelterUuid: string): Promise<KennelEntity[]> {
+    const kennels = await this.prisma.kennel.findMany({
+      where: {
+        shelter: {
+          uuid: shelterUuid,
+        },
+      },
+      include: {
+        shelter: true,
+      },
+    });
+
+    return kennels.map((kennel) => new KennelEntity(kennel));
+  }
+
+  async getAllDogs(shelterUuid: string): Promise<DogEntity[]> {
+    const dogs = await this.prisma.dog.findMany({
+      where: {
+        kennel: {
+          shelter: {
+            uuid: shelterUuid,
+          },
+        },
+      },
+      include: {
+        intake: true,
+        dogStatus: true,
+        kennel: {
+          include: {
+            shelter: true,
+          },
+        },
+        breed: true,
+        dogCondition: true,
+      },
+    });
+
+    return dogs.map((dog) => new DogEntity(dog));
   }
 
   getUserShelters(userUuid: string) {

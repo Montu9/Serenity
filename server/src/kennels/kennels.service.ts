@@ -10,7 +10,7 @@ import { DogEntity } from 'src/dogs/dto/dog.entity';
 export class KennelsService {
   constructor(private prisma: PrismaService) {}
 
-  async create(createKennelDto: CreateKennelDto) {
+  async create(createKennelDto: CreateKennelDto, shelterUuid: string) {
     const uuid = nanoid();
     const kennel = await this.prisma.kennel.create({
       data: {
@@ -19,7 +19,7 @@ export class KennelsService {
         uuid: uuid,
         shelter: {
           connect: {
-            uuid: createKennelDto.shelter,
+            uuid: shelterUuid,
           },
         },
       },
@@ -53,18 +53,11 @@ export class KennelsService {
   //   return `This action returns a #${id} kennel`;
   // }
   async update(kennelUuid: string, updateKennelDto: UpdateKennelDto) {
-    const shelter = updateKennelDto.shelter
-      ? await this.prisma.shelter.findFirst({
-          where: { uuid: updateKennelDto.shelter },
-        })
-      : undefined;
-
     const kennel = await this.prisma.kennel.update({
       where: { uuid: kennelUuid },
       data: {
         no: updateKennelDto.no || undefined,
         desc: updateKennelDto.desc || undefined,
-        shelterId: shelter?.id || undefined,
       },
     });
 

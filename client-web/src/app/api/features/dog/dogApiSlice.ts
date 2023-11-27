@@ -6,6 +6,7 @@ import Dog from "./entities/Dog";
 interface DogPrep<DataType = unknown> {
     dogUuid: string;
     data?: DataType;
+    shelterUuid?: string;
 }
 
 export const dogApiSlice = apiSlice.injectEndpoints({
@@ -16,6 +17,7 @@ export const dogApiSlice = apiSlice.injectEndpoints({
                 method: "POST",
                 body: { ...data },
             }),
+            invalidatesTags: ["Dog"],
         }),
         // getDog: builder.query<Dog, KennelPrep>({
         //     query: ({ kennelUuid }) => ({ url: `kennels/${kennelUuid}` }),
@@ -26,12 +28,14 @@ export const dogApiSlice = apiSlice.injectEndpoints({
                 method: "PATCH",
                 body: { ...data },
             }),
+            invalidatesTags: ["Dog"],
         }),
         deleteDog: builder.mutation<Dog, DogPrep>({
             query: ({ dogUuid }) => ({
                 url: `dogs/${dogUuid}`,
                 method: "DELETE",
             }),
+            invalidatesTags: ["Dog"],
         }),
     }),
 });

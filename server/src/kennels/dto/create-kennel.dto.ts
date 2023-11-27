@@ -11,9 +11,4 @@ export class CreateKennelDto {
   @IsNotEmpty({ message: 'Description should not be empty' })
   @IsString({ message: 'Description should be a string' })
   desc: string;
-
-  @ApiProperty()
-  @IsNotEmpty({ message: 'Shelter name should not be empty' })
-  @IsString({ message: 'Shelter name should be a string' })
-  shelter: string;
 }

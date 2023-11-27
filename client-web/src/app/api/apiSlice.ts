@@ -11,9 +11,11 @@ import { Mutex } from "async-mutex";
 import Tokens from "@/app/api/features/auth/entities/Tokens";
 import { logOut, setTokens } from "./features/auth/authSlice";
 
+const BASE_URL = "http://192.168.0.66:3001";
+
 const mutex = new Mutex();
 const baseQuery = fetchBaseQuery({
-    baseUrl: "http://localhost:3001",
+    baseUrl: BASE_URL,
     prepareHeaders: (headers, { getState }) => {
         const accessToken: string = (getState() as RootState).auth.accessToken;
         if (accessToken) {
@@ -24,7 +26,7 @@ const baseQuery = fetchBaseQuery({
 });
 
 const refreshBaseQuery = fetchBaseQuery({
-    baseUrl: "http://localhost:3001",
+    baseUrl: BASE_URL,
     prepareHeaders: (headers, { getState }) => {
         const refreshToken: string = (getState() as RootState).auth.refreshToken;
         if (refreshToken) {
@@ -66,6 +68,7 @@ const baseQueryWithReauth: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQue
 
 export const apiSlice = createApi({
     baseQuery: baseQueryWithReauth,
+    tagTypes: ["Dog", "Kennel", "Shelter", "Caretaker"],
     refetchOnMountOrArgChange: 30,
     endpoints: () => ({}),
 });

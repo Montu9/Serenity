@@ -3,6 +3,8 @@ import CreateShelterDto from "@/app/api/features/shelter/dto/CreateShelterDto";
 import Shelter from "./entities/Shelter";
 import UpdateShelterDto from "./dto/UpdateShelterDto";
 import Caretaker from "../caretaker/entities/Caretaker";
+import Kennel from "../kennel/entities/Kennel";
+import Dog from "../dog/entities/Dog";
 
 interface ShelterPrep<DataType = unknown> {
     shelterUuid: string;
@@ -18,10 +20,23 @@ export const shelterApiSlice = apiSlice.injectEndpoints({
                 body: { ...data },
             }),
         }),
+        getAllKennels: builder.query<Kennel[], ShelterPrep>({
+            query: ({ shelterUuid }) => ({
+                url: `/shelters/getAllKennels/${shelterUuid}`,
+            }),
+            providesTags: ["Kennel"],
+        }),
         getAllCaretakers: builder.query<Caretaker[], ShelterPrep>({
             query: ({ shelterUuid }) => ({
                 url: `/shelters/getAllCaretakers/${shelterUuid}`,
             }),
+            providesTags: ["Caretaker"],
+        }),
+        getAllDogs: builder.query<Dog[], ShelterPrep>({
+            query: ({ shelterUuid }) => ({
+                url: `/shelters/getAllDogs/${shelterUuid}`,
+            }),
+            providesTags: ["Dog"],
         }),
         getByUuid: builder.query<Shelter, ShelterPrep>({
             query: ({ shelterUuid }) => ({ url: `/shelters/${shelterUuid}` }),
@@ -50,4 +65,8 @@ export const {
     useLazyGetAllCaretakersQuery,
     useLazyGetByUuidQuery,
     useUpdateShelterMutation,
+    useGetAllKennelsQuery,
+    useLazyGetAllKennelsQuery,
+    useGetAllDogsQuery,
+    useLazyGetAllDogsQuery,
 } = shelterApiSlice;

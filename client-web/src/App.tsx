@@ -1,22 +1,18 @@
 import { Route, Routes } from "react-router-dom";
-import { DashboardLayout } from "./components/layout/DashboardLayout";
-import Layout from "./components/layout/Layout";
-import PublicLayout from "./components/layout/PublicLayout";
-import RequireAuth from "./components/layout/RequireAuth";
-import { SecuritySettings } from "./pages/dashboard/securitySettings.tsx/SecuritySettings";
-import Welcome from "./pages/dashboard/welcome/Welcome";
 import { Home, Login, Register } from "./pages/public/";
-import { ProfileSettings } from "./pages/dashboard/profileSettings.tsx/ProfileSettings";
-import { UserSettings } from "./pages/dashboard/userSettings/UserSettings";
+
 import {
     AddNewCaretaker,
     AddNewDog,
+    AddNewKennel,
     Caretakers,
     Dashboard,
     Dogs,
     Kennels,
     Settings,
-} from "./pages/protected/dashboard/";
+} from "./pages/protected/adminDashboard/";
+import { ProfileSettings, SecuritySettings, UserSettings, Welcome } from "./pages/protected/user";
+import { DashboardLayout, Layout, PublicLayout, RequireAuth } from "./components/layout";
 
 function App() {
     return (
@@ -39,6 +35,7 @@ function App() {
                     <Route path="/dashboard/:id" element={<DashboardLayout />}>
                         <Route index element={<Dashboard />} />
                         <Route path="settings" element={<Settings />} />
+                        <Route path="addNewKennel" element={<AddNewKennel />} />
                         <Route path="kennels" element={<Kennels />} />
                         <Route path="addNewCaretaker" element={<AddNewCaretaker />} />
                         <Route path="caretakers" element={<Caretakers />} />

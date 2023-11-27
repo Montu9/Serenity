@@ -6,7 +6,11 @@ import customValidationPipe from './utils/customValidationPipe';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.enableCors();
+  app.enableCors({
+    origin: ['http://localhost:5173', 'http://192.168.0.66:5173'],
+    methods: ['GET', 'POST', 'PATCH', 'DELETE'],
+    credentials: true,
+  });
   app.useGlobalPipes(customValidationPipe);
   app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
 

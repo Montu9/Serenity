@@ -6,11 +6,18 @@ import { persistStore, persistReducer } from "redux-persist";
 import thunk from "redux-thunk";
 import { shelterApiSlice } from "./api/features/shelter/shelterApiSlice";
 import { userApiSlice } from "./api/features/user/userApiSlice";
+import { dogApiSlice } from "./api/features/dog/dogApiSlice";
+import { caretakerApiSlice } from "./api/features/caretaker/caretakerApiSlice";
 
 const persistConfig = {
     key: "root",
     storage,
-    blacklist: [shelterApiSlice.reducerPath, userApiSlice.reducerPath],
+    blacklist: [
+        shelterApiSlice.reducerPath,
+        userApiSlice.reducerPath,
+        dogApiSlice.reducerPath,
+        caretakerApiSlice.reducerPath,
+    ],
 };
 
 const rootReducer = combineReducers({

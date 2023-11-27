@@ -28,9 +28,19 @@ export const SidebarData: SidebarSection[] = [
                 icon: <IoSettingsSharp />,
                 href: "settings",
             },
+        ],
+    },
+    {
+        title: "Kennels",
+        content: [
             {
-                subTitle: "Kennels",
+                subTitle: "Add new kennel",
                 icon: <GiDogHouse />,
+                href: "addNewKennel",
+            },
+            {
+                subTitle: "Kennels list",
+                icon: <FaListOl />,
                 href: "kennels",
             },
         ],

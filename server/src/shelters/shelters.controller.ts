@@ -19,6 +19,8 @@ import { ShelterEntity } from './dto/shelter.entity';
 import { UpdateShelterDto } from './dto/update-shelter.dto';
 import { SheltersService } from './shelters.service';
 import { CaretakerEntity } from 'src/caretakers/dto/caretaker.entity';
+import { KennelEntity } from 'src/kennels/dto/kennel.entity';
+import { DogEntity } from 'src/dogs/dto/dog.entity';
 
 @ApiTags('shelters')
 @ApiBearerAuth()
@@ -35,11 +37,25 @@ export class SheltersController {
     return this.sheltersService.create(createShelterDto, userUuid);
   }
 
-  @Get('getAllCaretakers/:id')
-  getAllCaretakers(@Param('id') id: string): Promise<CaretakerEntity[]> {
-    return this.sheltersService.getAllCaretakers(id);
+  @Get('getAllCaretakers/:shelterUuid')
+  getAllCaretakers(
+    @Param('shelterUuid') shelterUuid: string,
+  ): Promise<CaretakerEntity[]> {
+    return this.sheltersService.getAllCaretakers(shelterUuid);
   }
 
+  @Get('getAllKennels/:shelterUuid')
+  getAllKennels(
+    @Param('shelterUuid') shelterUuid: string,
+  ): Promise<KennelEntity[]> {
+    return this.sheltersService.getAllKennels(shelterUuid);
+  }
+
+  @Get('getAllDogs/:shelterUuid')
+  @ApiOkResponse({ type: [DogEntity] })
+  getAllDogs(@Param('shelterUuid') shelterUuid: string): Promise<DogEntity[]> {
+    return this.sheltersService.getAllDogs(shelterUuid);
+  }
   // @Get('getUserShelters')
   // getUserShelters(@GetCurrentUserUuid() userUuid: string) {
   //   return this.sheltersService.getUserShelters(userUuid);

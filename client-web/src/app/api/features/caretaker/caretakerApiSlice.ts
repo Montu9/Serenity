@@ -9,7 +9,7 @@ interface CaretakerPrep<DataType = unknown> {
     data?: DataType;
 }
 
-export const shelterApiSlice = apiSlice.injectEndpoints({
+export const caretakerApiSlice = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
         addCaretakerByEmail: builder.mutation<void, CaretakerPrep<AddCaretakerByEmail>>({
             query: ({ shelterUuid, data }) => ({
@@ -17,6 +17,7 @@ export const shelterApiSlice = apiSlice.injectEndpoints({
                 method: "POST",
                 body: { ...data },
             }),
+            invalidatesTags: ["Caretaker"],
         }),
         getByUuid: builder.query<Caretaker[], CaretakerPrep>({
             query: ({ shelterUuid, caretakerUuid }) => ({
@@ -29,12 +30,14 @@ export const shelterApiSlice = apiSlice.injectEndpoints({
                 method: "PATCH",
                 body: { ...data },
             }),
+            invalidatesTags: ["Caretaker"],
         }),
         removeCaretakerByUuid: builder.mutation<string, CaretakerPrep>({
             query: ({ caretakerUuid, shelterUuid }) => ({
                 url: `/caretakers/${caretakerUuid}/removeByUuid/${shelterUuid}`,
                 method: "DELETE",
             }),
+            invalidatesTags: ["Caretaker"],
         }),
     }),
 });
@@ -45,4 +48,4 @@ export const {
     useLazyGetByUuidQuery,
     useRemoveCaretakerByUuidMutation,
     useUpdateCaretakerRoleMutation,
-} = shelterApiSlice;
+} = caretakerApiSlice;
