@@ -1,9 +1,7 @@
 import { FaListOl } from "react-icons/fa6";
-import { IoPeopleSharp } from "react-icons/io5";
-import { FaDog } from "react-icons/fa";
-import { IoSettingsSharp } from "react-icons/io5";
-import { GiDogHouse } from "react-icons/gi";
+import { IoSettingsOutline } from "react-icons/io5";
 import { MdOutlineSpaceDashboard } from "react-icons/md";
+import { TbDog, TbHomePlus, TbUsersPlus } from "react-icons/tb";
 
 interface SidebarSection {
     title: string;
@@ -25,7 +23,7 @@ export const SidebarData: SidebarSection[] = [
             },
             {
                 subTitle: "Shelter settings",
-                icon: <IoSettingsSharp />,
+                icon: <IoSettingsOutline />,
                 href: "settings",
             },
         ],
@@ -35,7 +33,7 @@ export const SidebarData: SidebarSection[] = [
         content: [
             {
                 subTitle: "Add new kennel",
-                icon: <GiDogHouse />,
+                icon: <TbHomePlus />,
                 href: "addNewKennel",
             },
             {
@@ -50,7 +48,7 @@ export const SidebarData: SidebarSection[] = [
         content: [
             {
                 subTitle: "Add new caretaker",
-                icon: <IoPeopleSharp />,
+                icon: <TbUsersPlus />,
                 href: "addNewCaretaker",
             },
             {
@@ -65,7 +63,7 @@ export const SidebarData: SidebarSection[] = [
         content: [
             {
                 subTitle: "Add new dog",
-                icon: <FaDog />,
+                icon: <TbDog />,
                 href: "addNewDog",
             },
             {

@@ -8,7 +8,6 @@ import { useGetUserScheltersQuery } from "@/app/api/features/user/userApiSlice";
 
 export const UserShelterList = () => {
     const { data, isLoading, isSuccess, isError, error } = useGetUserScheltersQuery();
-    console.log(data);
     let content;
     if (isLoading) {
         content = <div>Loading...</div>;

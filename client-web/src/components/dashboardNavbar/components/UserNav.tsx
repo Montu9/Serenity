@@ -44,11 +44,15 @@ export const UserNav = () => {
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuGroup>
-                    <DropdownMenuItem>
-                        <Link to="/settings">Profile Settings</Link>
+                    <DropdownMenuItem asChild>
+                        <Link to="/settings" className="w-full justify-start gap-2 font-normal">
+                            Profile Settings
+                        </Link>
                     </DropdownMenuItem>
-                    <DropdownMenuItem>
-                        <Link to="/welcome">My shelters</Link>
+                    <DropdownMenuItem asChild>
+                        <Link to="/welcome" className="w-full justify-start gap-2 font-normal">
+                            My shelters
+                        </Link>
                     </DropdownMenuItem>
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />

@@ -15,7 +15,6 @@ export const Kennels = () => {
         useLazyGetAllDogsInKennelQuery();
     //const {} = useGetKennelQuery({ kennelUuid });
     const onSubmit = async (kennel: Kennel) => {
-        console.log(kennel);
         try {
             await getAllDogs({ kennelUuid: kennel.uuid }).unwrap();
         } catch (error) {}

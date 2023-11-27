@@ -3,6 +3,7 @@ import ReactDOM from "react-dom/client";
 import App from "./App.tsx";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./index.css";
+import "@fontsource/poppins";
 import { ThemeProvider } from "./context/theme/theme-provider.tsx";
 import { Provider } from "react-redux";
 import { persistor, store } from "./app/store";

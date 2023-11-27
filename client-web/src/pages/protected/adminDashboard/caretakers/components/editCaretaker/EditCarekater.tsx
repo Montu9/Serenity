@@ -60,7 +60,6 @@ export const EditCarekater = ({ caretaker }: EditCaretakerProps) => {
                 description: "Your data has been saved securly!",
             });
         } catch (error) {
-            console.log(error);
             toast({
                 variant: "destructive",
                 title: "Uh oh! Something went wrong!",

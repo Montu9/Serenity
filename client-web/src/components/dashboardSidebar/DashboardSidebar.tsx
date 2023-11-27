@@ -4,33 +4,34 @@ import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTr
 import { IoMenu } from "react-icons/io5";
 import { SidebarData } from "./sidebarData";
 import { Link, useMatch } from "react-router-dom";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 export const DashboardSidebar = () => {
     const match = useMatch("/dashboard/:id/:lastPart");
     const pathnameLastPart = match?.params.lastPart || "";
 
     const content = (
-        <div>
-            <div className="px-3 py-2">
-                {SidebarData.map((sidebarSection) => (
-                    <div key={sidebarSection.title}>
-                        <h2 className="mb-2 px-4 text-lg font-semibold tracking-tight">{sidebarSection.title}</h2>
-                        <div className="space-y-1">
-                            {sidebarSection.content.map((content) => (
-                                <Link key={content.subTitle} to={content.href}>
-                                    <Button
-                                        variant={pathnameLastPart === content.href ? "secondary" : "ghost"}
-                                        className="w-full justify-start gap-2 font-normal">
-                                        {content.icon}
-                                        {content.subTitle}
-                                    </Button>
+        <ScrollArea className="h-full box-border self-stretch">
+            {SidebarData.map((sidebarSection) => (
+                <div key={sidebarSection.title} className="px-3 py-2">
+                    <h2 className="mb-2 px-4 text-lg font-semibold tracking-tight">{sidebarSection.title}</h2>
+                    <div className="space-y-1">
+                        {sidebarSection.content.map((content) => (
+                            <Button
+                                key={content.subTitle}
+                                variant={pathnameLastPart === content.href ? "secondary" : "ghost"}
+                                className="w-full justify-start gap-2 font-normal"
+                                asChild>
+                                <Link to={content.href}>
+                                    {content.icon}
+                                    {content.subTitle}
                                 </Link>
-                            ))}
-                        </div>
+                            </Button>
+                        ))}
                     </div>
-                ))}
-            </div>
-        </div>
+                </div>
+            ))}
+        </ScrollArea>
     );
 
     return (
@@ -41,7 +42,7 @@ export const DashboardSidebar = () => {
                         <SheetTrigger>
                             <IoMenu /> Menu
                         </SheetTrigger>
-                        <SheetContent side="left">
+                        <SheetContent side="left" className="flex flex-col">
                             <SheetHeader>
                                 <SheetTitle>Menu</SheetTitle>
                                 <SheetDescription>
@@ -53,7 +54,7 @@ export const DashboardSidebar = () => {
                         </SheetContent>
                     </Sheet>
                 </div>
-                <div className="hidden lg:block">{content}</div>
+                <div className="hidden lg:block flex flex-col">{content}</div>
             </div>
         </div>
     );
