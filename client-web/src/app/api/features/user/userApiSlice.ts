@@ -1,6 +1,6 @@
 import UserShelterDto from "@/app/api/features/user/dto/UserShelterDto";
-import { apiSlice } from "../../apiSlice";
 import UpdatePasswordDto from "@/app/api/features/user/dto/UpdatePasswordDto";
+import { apiSlice } from "../../apiSlice";
 
 export const userApiSlice = apiSlice.injectEndpoints({
     endpoints: (builder) => ({

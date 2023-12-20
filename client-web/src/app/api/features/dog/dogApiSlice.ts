@@ -19,9 +19,9 @@ export const dogApiSlice = apiSlice.injectEndpoints({
             }),
             invalidatesTags: ["Dog"],
         }),
-        // getDog: builder.query<Dog, KennelPrep>({
-        //     query: ({ kennelUuid }) => ({ url: `kennels/${kennelUuid}` }),
-        // }),
+        getDog: builder.query<Dog, DogPrep>({
+            query: ({ dogUuid }) => ({ url: `dogs/${dogUuid}` }),
+        }),
         updateDog: builder.mutation<Dog, DogPrep<UpdateDogDto>>({
             query: ({ dogUuid, data }) => ({
                 url: `dogs/${dogUuid}`,
@@ -40,4 +40,5 @@ export const dogApiSlice = apiSlice.injectEndpoints({
     }),
 });
 
-export const { useCreateDogMutation, useDeleteDogMutation, useUpdateDogMutation } = dogApiSlice;
+export const { useGetDogQuery, useLazyGetDogQuery, useCreateDogMutation, useDeleteDogMutation, useUpdateDogMutation } =
+    dogApiSlice;

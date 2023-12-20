@@ -5,6 +5,9 @@ import { PrismaService } from 'nestjs-prisma';
 import { DogEntity } from './dto/dog.entity';
 import { nanoid } from 'nanoid';
 import { CleaningEntity } from 'src/cleanings/dto/cleaning.entity';
+import { FeedingEntity } from 'src/feedings/dto/feeding.entity';
+import { WalkEntity } from 'src/walks/dto/walk.entity';
+import { MedicateEntity } from 'src/medicate/dto/medicate.entity';
 
 @Injectable()
 export class DogsService {
@@ -81,6 +84,99 @@ export class DogsService {
     return cleanings.map((cleaning) => new CleaningEntity(cleaning));
   }
 
+  async getAllFeedings(dogUuid: string) {
+    const cleanings = await this.prisma.feeding.findMany({
+      where: {
+        dog: {
+          uuid: dogUuid,
+        },
+      },
+      include: {
+        user: {
+          include: {
+            gender: true,
+          },
+        },
+        dog: {
+          include: {
+            kennel: {
+              include: {
+                shelter: true,
+              },
+            },
+            breed: true,
+            dogCondition: true,
+            dogStatus: true,
+            intake: true,
+          },
+        },
+      },
+    });
+    return cleanings.map((cleaning) => new FeedingEntity(cleaning));
+  }
+
+  async getAllWalks(dogUuid: string) {
+    const cleanings = await this.prisma.walk.findMany({
+      where: {
+        dog: {
+          uuid: dogUuid,
+        },
+      },
+      include: {
+        user: {
+          include: {
+            gender: true,
+          },
+        },
+        dog: {
+          include: {
+            kennel: {
+              include: {
+                shelter: true,
+              },
+            },
+            breed: true,
+            dogCondition: true,
+            dogStatus: true,
+            intake: true,
+          },
+        },
+      },
+    });
+    return cleanings.map((cleaning) => new WalkEntity(cleaning));
+  }
+
+  async getAllMedicate(dogUuid: string) {
+    const cleanings = await this.prisma.medicate.findMany({
+      where: {
+        dog: {
+          uuid: dogUuid,
+        },
+      },
+      include: {
+        user: {
+          include: {
+            gender: true,
+          },
+        },
+        dog: {
+          include: {
+            kennel: {
+              include: {
+                shelter: true,
+              },
+            },
+            breed: true,
+            dogCondition: true,
+            dogStatus: true,
+            intake: true,
+          },
+        },
+      },
+    });
+    return cleanings.map((cleaning) => new MedicateEntity(cleaning));
+  }
+
   findAll() {
     return `This action returns all dogs`;
   }
@@ -88,6 +184,17 @@ export class DogsService {
   async findOne(dogUuid: string) {
     const dog = await this.prisma.dog.findUnique({
       where: { uuid: dogUuid },
+      include: {
+        kennel: {
+          include: {
+            shelter: true,
+          },
+        },
+        breed: true,
+        dogCondition: true,
+        dogStatus: true,
+        intake: true,
+      },
     });
 
     return new DogEntity(dog);

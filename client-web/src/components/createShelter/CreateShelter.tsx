@@ -99,7 +99,7 @@ const CreateShelter = () => {
                         )}
                     />
                     <DialogFooter className="sm:justify-start">
-                        <DialogClose>
+                        <DialogClose asChild>
                             <Button type="button" variant="secondary">
                                 Close
                             </Button>

@@ -39,8 +39,10 @@ export const DashboardSidebar = () => {
             <div className="space-y-4 py-4">
                 <div className="lg:hidden block">
                     <Sheet defaultOpen={false}>
-                        <SheetTrigger>
-                            <IoMenu /> Menu
+                        <SheetTrigger asChild>
+                            <Button variant="outline">
+                                <IoMenu /> Menu
+                            </Button>
                         </SheetTrigger>
                         <SheetContent side="left" className="flex flex-col">
                             <SheetHeader>

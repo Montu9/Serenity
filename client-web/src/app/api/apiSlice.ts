@@ -11,7 +11,7 @@ import { Mutex } from "async-mutex";
 import Tokens from "@/app/api/features/auth/entities/Tokens";
 import { logOut, setTokens } from "./features/auth/authSlice";
 
-const BASE_URL = "http://192.168.0.66:3001";
+const BASE_URL = "http://localhost:3001";
 
 const mutex = new Mutex();
 const baseQuery = fetchBaseQuery({
@@ -68,7 +68,7 @@ const baseQueryWithReauth: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQue
 
 export const apiSlice = createApi({
     baseQuery: baseQueryWithReauth,
-    tagTypes: ["Dog", "Kennel", "Shelter", "Caretaker"],
+    tagTypes: ["Dog", "Kennel", "Shelter", "Caretaker", "Walk", "Cleaning", "Medicate", "Feeding"],
     refetchOnMountOrArgChange: 30,
     endpoints: () => ({}),
 });

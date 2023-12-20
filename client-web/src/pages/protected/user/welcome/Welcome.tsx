@@ -16,13 +16,15 @@ export const Welcome = () => {
                     in one place, simplifying your shelter-related responsibilities.
                 </p>
             </div>
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+                <Dialog>
+                    <Button asChild>
+                        <DialogTrigger>Create new Shelter MS</DialogTrigger>
+                    </Button>
+                    <CreateShelter />
+                </Dialog>
+            </div>
             <UserShelterList />
-            <Dialog>
-                <DialogTrigger asChild>
-                    <Button>Create new Shelter MS</Button>
-                </DialogTrigger>
-                <CreateShelter />
-            </Dialog>
         </div>
     );
 };

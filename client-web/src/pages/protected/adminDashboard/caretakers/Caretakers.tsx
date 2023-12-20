@@ -17,7 +17,7 @@ export const Caretakers = () => {
     }
 
     return (
-        <>
+        <div>
             <div className="flex items-center justify-between">
                 <div className="space-y-1">
                     <h2 className="text-2xl font-semibold tracking-tight">Caretakers list</h2>
@@ -29,7 +29,7 @@ export const Caretakers = () => {
                 </div>
             </div>
             <Separator className="my-4" />
-            <div className="relative">{content}</div>
-        </>
+            <div>{content}</div>
+        </div>
     );
 };

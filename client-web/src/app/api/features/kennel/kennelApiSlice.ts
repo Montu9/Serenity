@@ -14,7 +14,7 @@ export const kennelApiSlice = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
         createKennel: builder.mutation<Kennel, KennelPrep<CreateKennelDto>>({
             query: ({ shelterUuid, data }) => ({
-                url: `/kennels/${shelterUuid}`,
+                url: `kennels/${shelterUuid}`,
                 method: "POST",
                 body: { ...data },
             }),

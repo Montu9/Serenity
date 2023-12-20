@@ -14,6 +14,7 @@ import {
 import { ProfileSettings, SecuritySettings, UserSettings, Welcome } from "./pages/protected/user";
 import { DashboardLayout, Layout, PublicLayout, RequireAuth } from "./components/layout";
 import { cn } from "./lib/utils";
+import { AllDogsPanel, DogPanel, KennelPanel, UserDashboardLayout } from "./pages/protected/userDashboard";
 
 function App() {
     return (
@@ -30,10 +31,12 @@ function App() {
                     {/* Protected routes */}
                     <Route element={<RequireAuth />}>
                         <Route path="/welcome" element={<Welcome />} />
+                        {/* Profile Settings */}
                         <Route path="/settings" element={<UserSettings />}>
                             <Route index element={<ProfileSettings />} />
                             <Route path="security" element={<SecuritySettings />} />
                         </Route>
+                        {/* Admin Dashboard */}
                         <Route path="/dashboard/:id" element={<DashboardLayout />}>
                             <Route index element={<Dashboard />} />
                             <Route path="settings" element={<Settings />} />
@@ -43,6 +46,14 @@ function App() {
                             <Route path="caretakers" element={<Caretakers />} />
                             <Route path="addNewDog" element={<AddNewDog />} />
                             <Route path="dogs" element={<Dogs />} />
+                        </Route>
+                        {/* User Dashboard */}
+                        <Route path="/panel/:shelterUuid" element={<UserDashboardLayout />}>
+                            <Route index element={<KennelPanel />} />
+                            <Route path="dogs" element={<AllDogsPanel />} />
+                            <Route path="dog/:dogUuid">
+                                <Route index element={<DogPanel />} />
+                            </Route>
                         </Route>
                     </Route>
                 </Route>
