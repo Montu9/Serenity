@@ -6,6 +6,7 @@ import {
   Param,
   Patch,
   Post,
+  UseGuards,
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
@@ -17,6 +18,7 @@ import { CaretakersService } from './caretakers.service';
 import { CreateCaretakerByEmailDto } from './dto/create-caretaker.dto';
 import { UpdateCaretakerDto } from './dto/update-caretaker.dto';
 import { CaretakerEntity } from './dto/caretaker.entity';
+import { ShelterRoleGuard } from 'src/common/guards';
 
 @ApiTags('caretakers')
 @ApiBearerAuth()
@@ -24,6 +26,7 @@ import { CaretakerEntity } from './dto/caretaker.entity';
 export class CaretakersController {
   constructor(private readonly caretakersService: CaretakersService) {}
 
+  @UseGuards(ShelterRoleGuard('ADMIN'))
   @Post(':shelterUuid')
   @ApiCreatedResponse({ type: String })
   create(
@@ -33,7 +36,8 @@ export class CaretakersController {
     return this.caretakersService.create(createCaretakerDto, shelterUuid);
   }
 
-  @Get(':caretakerUuid/getByUuid/:shelterUuid')
+  @UseGuards(ShelterRoleGuard('CARETAKER'))
+  @Get('uuid/:caretakerUuid/:shelterUuid')
   @ApiCreatedResponse({ type: CaretakerEntity })
   findOneByUuid(
     @Param('caretakerUuid') caretakerUuid: string,
@@ -42,7 +46,8 @@ export class CaretakersController {
     return this.caretakersService.findOneByUuid(caretakerUuid, shelterUuid);
   }
 
-  @Patch(':caretakerUuid/updateByUuid/:shelterUuid')
+  @UseGuards(ShelterRoleGuard('ADMIN'))
+  @Patch('uuid/:caretakerUuid/:shelterUuid')
   @ApiOkResponse({ type: String })
   update(
     @Param('caretakerUuid') caretakerUuid: string,
@@ -56,7 +61,8 @@ export class CaretakersController {
     );
   }
 
-  @Delete(':caretakerUuid/removeByUuid/:shelterUuid')
+  @UseGuards(ShelterRoleGuard('ADMIN'))
+  @Delete('uuid/:caretakerUuid/:shelterUuid')
   @ApiOkResponse({ type: String })
   remove(
     @Param('caretakerUuid') caretakerUuid: string,

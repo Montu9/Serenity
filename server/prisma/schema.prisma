@@ -17,6 +17,7 @@ model User {
 
   uuid       String  @unique
   email      String  @unique
+  isActive   Boolean @default(false)
   passwdHash String
   rtHash     String?
 

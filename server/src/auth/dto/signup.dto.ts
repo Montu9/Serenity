@@ -24,12 +24,12 @@ export class Signup {
 
   @ApiProperty()
   @IsString({ message: 'Invalid text' })
-  @IsNotEmpty({ message: 'Firstname cannot be empty' })
+  @IsNotEmpty({ message: 'First name cannot be empty' })
   firstName: string;
 
   @ApiProperty()
   @IsString({ message: 'Invalid text' })
-  @IsNotEmpty({ message: 'Lastname cannot be empty' })
+  @IsNotEmpty({ message: 'Last name cannot be empty' })
   lastName: string;
 
   @ApiProperty()

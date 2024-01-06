@@ -1,61 +1,72 @@
 import {
   Body,
   Controller,
-  HttpCode,
-  HttpStatus,
   Post,
   Get,
   UseGuards,
+  Res,
+  Param,
+  Redirect,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { Signin, Signup } from './dto';
-import {
-  GetCurrentUser,
-  GetCurrentUserUuid,
-  Public,
-} from 'src/common/decorators';
+import { GetCurrentUserUuid, Public } from 'src/common/decorators';
 import { RtGuard } from 'src/common/guards';
-import { Tokens } from './types';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { UserEntity } from 'src/users/dto/user.entity';
+import { ApiTags } from '@nestjs/swagger';
+import { Response } from 'express';
+import { ResetPasswordEmail } from './dto/resetPasswordEmail.dto';
+import { ResetPassword } from './dto/resetPassword.dto';
 
+@Public()
 @Controller('auth')
 @ApiTags('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
 
-  @Public()
   @Post('signup')
-  @HttpCode(HttpStatus.CREATED)
   signup(@Body() dto: Signup) {
     return this.authService.signup(dto);
   }
 
-  @Public()
   @Post('signin')
-  @HttpCode(HttpStatus.OK)
-  signin(
-    @Body() dto: Signin,
-  ): Promise<{ tokens: Tokens; userEntity: UserEntity }> {
-    return this.authService.signin(dto);
+  signin(@Body() dto: Signin, @Res({ passthrough: true }) res: Response) {
+    return this.authService.signin(dto, res);
   }
 
   @Get('logout')
-  @HttpCode(HttpStatus.OK)
-  @ApiBearerAuth()
-  logout(@GetCurrentUserUuid() userUuid: string) {
-    return this.authService.logout(userUuid);
+  logout(@Res({ passthrough: true }) res: Response) {
+    return this.authService.logout(res);
   }
 
-  @Public()
-  @ApiBearerAuth()
   @UseGuards(RtGuard)
   @Get('refresh')
-  @HttpCode(HttpStatus.OK)
   refreshToken(
     @GetCurrentUserUuid() userUuid: string,
-    @GetCurrentUser('refreshToken') refreshToken: string,
-  ): Promise<Tokens> {
-    return this.authService.refreshToken(userUuid, refreshToken);
+    @Res({ passthrough: true }) res: Response,
+  ) {
+    return this.authService.refreshToken(userUuid, res);
+  }
+
+  @Redirect('http://192.168.0.66:5173')
+  @Get('confirmation/:confirmationToken/:email')
+  emailConfirmation(
+    @Param('confirmationToken') confirmationToken: string,
+    @Param('email') email: string,
+  ) {
+    return this.authService.emailConfirmation(confirmationToken, email);
+  }
+
+  @Post('password-reset')
+  passwordResetEmail(@Body() dto: ResetPasswordEmail) {
+    return this.authService.passwordResetEmail(dto);
+  }
+
+  @Post('password-reset/:confirmationToken/:email')
+  passwordReset(
+    @Param('confirmationToken') confirmationToken: string,
+    @Param('email') email: string,
+    @Body() dto: ResetPassword,
+  ) {
+    this.authService.passwordReset(confirmationToken, email, dto);
   }
 }

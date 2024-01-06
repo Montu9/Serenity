@@ -19,6 +19,7 @@ import { WalksModule } from './walks/walks.module';
 import { FeedingsModule } from './feedings/feedings.module';
 import { MedicateModule } from './medicate/medicate.module';
 import { CleaningsModule } from './cleanings/cleanings.module';
+import { MailingModule } from './mailing/mailing.module';
 
 @Module({
   imports: [
@@ -41,6 +42,7 @@ import { CleaningsModule } from './cleanings/cleanings.module';
     FeedingsModule,
     MedicateModule,
     CleaningsModule,
+    MailingModule,
   ],
   providers: [
     {

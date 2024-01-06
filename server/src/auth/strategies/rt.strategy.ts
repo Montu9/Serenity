@@ -6,21 +6,28 @@ import { ForbiddenException, Injectable } from '@nestjs/common';
 @Injectable()
 export class RtStrategy extends PassportStrategy(Strategy, 'jwt-refresh') {
   constructor() {
+    console.log('first');
     super({
-      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+      jwtFromRequest: ExtractJwt.fromExtractors([
+        RtStrategy.extractJWTFromCookie,
+      ]),
       secretOrKey: process.env.REFRESH_TOKEN,
       passReqToCallback: true,
     });
   }
 
   validate(req: Request, payload: any) {
-    const refreshToken = req.get('Authorization').replace('Bearer', '').trim();
-
-    if (!refreshToken) throw new ForbiddenException('Forbidden');
-
     return {
       ...payload,
-      refreshToken,
+      refreshToken: req,
     };
+  }
+
+  private static extractJWTFromCookie(req: Request): string | null {
+    if (req.cookies && req.cookies.jwt) {
+      console.log(req.cookies.jwt);
+      return req.cookies.jwt;
+    }
+    return null;
   }
 }

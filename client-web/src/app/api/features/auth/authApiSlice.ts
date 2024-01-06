@@ -2,12 +2,11 @@ import { apiSlice } from "@/app/api/apiSlice";
 
 import Login from "@/app/api/features/auth/dto/Login";
 import Register from "@/app/api/features/auth/dto/Register";
-import Tokens from "@/app/api/features/auth/entities/Tokens";
 import UpdateUser from "@/app/api/features/auth/dto/UpdateUser";
 import User from "@/app/api/features/user/entities/User";
 
 interface UserLoginDto {
-    tokens: Tokens;
+    accessToken: string;
     userEntity: User;
 }
 

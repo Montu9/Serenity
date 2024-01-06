@@ -6,12 +6,15 @@ import {
   Patch,
   Param,
   Delete,
+  UseGuards,
 } from '@nestjs/common';
 import { CleaningsService } from './cleanings.service';
 import { CreateCleaningDto } from './dto/create-cleaning.dto';
 import { UpdateCleaningDto } from './dto/update-cleaning.dto';
 import { ApiBearerAuth, ApiCreatedResponse, ApiTags } from '@nestjs/swagger';
 import { CleaningEntity } from './dto/cleaning.entity';
+import { ActionRoleGuard } from 'src/common/guards/actionRole.guard';
+import { CleaningSubGuard } from 'src/common/guards';
 
 @ApiTags('cleanings')
 @ApiBearerAuth()
@@ -19,27 +22,31 @@ import { CleaningEntity } from './dto/cleaning.entity';
 export class CleaningsController {
   constructor(private readonly cleaningsService: CleaningsService) {}
 
+  @UseGuards(ActionRoleGuard('CARETAKER'))
   @Post()
   @ApiCreatedResponse({ type: CleaningEntity })
   async create(@Body() createCleaningDto: CreateCleaningDto) {
     return this.cleaningsService.create(createCleaningDto);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.cleaningsService.findOne(+id);
+  @UseGuards(CleaningSubGuard())
+  @Get(':actionId')
+  findOne(@Param('actionId') actionId: string) {
+    return this.cleaningsService.findOne(+actionId);
   }
 
-  @Patch(':id')
+  @UseGuards(CleaningSubGuard())
+  @Patch(':actionId')
   update(
-    @Param('id') id: string,
+    @Param('actionId') actionId: string,
     @Body() updateCleaningDto: UpdateCleaningDto,
   ) {
-    return this.cleaningsService.update(+id, updateCleaningDto);
+    return this.cleaningsService.update(+actionId, updateCleaningDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.cleaningsService.remove(+id);
+  @UseGuards(CleaningSubGuard())
+  @Delete(':actionId')
+  remove(@Param('actionId') actionId: string) {
+    return this.cleaningsService.remove(+actionId);
   }
 }

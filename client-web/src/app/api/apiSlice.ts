@@ -8,7 +8,7 @@ import {
 } from "@reduxjs/toolkit/query/react";
 import { RootState } from "../store";
 import { Mutex } from "async-mutex";
-import Tokens from "@/app/api/features/auth/entities/Tokens";
+import AccessToken from "@/app/api/features/auth/entities/AccessToken";
 import { logOut, setTokens } from "./features/auth/authSlice";
 
 const BASE_URL = "http://localhost:3001";
@@ -16,6 +16,7 @@ const BASE_URL = "http://localhost:3001";
 const mutex = new Mutex();
 const baseQuery = fetchBaseQuery({
     baseUrl: BASE_URL,
+    credentials: "include",
     prepareHeaders: (headers, { getState }) => {
         const accessToken: string = (getState() as RootState).auth.accessToken;
         if (accessToken) {
@@ -27,13 +28,7 @@ const baseQuery = fetchBaseQuery({
 
 const refreshBaseQuery = fetchBaseQuery({
     baseUrl: BASE_URL,
-    prepareHeaders: (headers, { getState }) => {
-        const refreshToken: string = (getState() as RootState).auth.refreshToken;
-        if (refreshToken) {
-            headers.set("Authorization", `Bearer ${refreshToken}`);
-        }
-        return headers;
-    },
+    credentials: "include",
 });
 
 const baseQueryWithReauth: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError> = async (
@@ -49,8 +44,9 @@ const baseQueryWithReauth: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQue
             const release = await mutex.acquire();
             try {
                 const refreshResult = await refreshBaseQuery("/auth/refresh", api, extraOptions);
+                console.log(refreshResult);
                 if (refreshResult.data) {
-                    api.dispatch(setTokens(refreshResult.data as Tokens));
+                    api.dispatch(setTokens(refreshResult.data as AccessToken));
                     result = await baseQuery(args, api, extraOptions);
                 } else {
                     api.dispatch(logOut());

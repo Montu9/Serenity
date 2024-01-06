@@ -23,8 +23,7 @@ export class UsersController {
     return this.usersService.findOnePrivate(uuid);
   }
 
-  @Get('getUserShelters')
-  // @ApiOkResponse({ type: UserEntity })
+  @Get('shelters')
   getUserShelters(@GetCurrentUserUuid() userUuid: string) {
     return this.usersService.getUserShelters(userUuid);
   }

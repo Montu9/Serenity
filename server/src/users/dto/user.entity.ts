@@ -30,6 +30,9 @@ export class UserEntity implements User {
   rtHash: string;
 
   @ApiProperty()
+  isActive: boolean;
+
+  @ApiProperty()
   firstName: string;
 
   @ApiProperty()

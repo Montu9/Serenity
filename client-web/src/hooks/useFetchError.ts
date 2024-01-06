@@ -27,6 +27,7 @@ const useFetchError = (error: FetchBaseQueryError | SerializedError | undefined)
         // Check for FetchBaseQueryError
         if (error && "data" in error && error.data) {
             const retrivedError = error.data as RetrivedError;
+            console.log(retrivedError);
             // Class validator error handler
             if (retrivedError?.status && retrivedError.status === "fail") {
                 if (retrivedError?.data) {
@@ -37,14 +38,13 @@ const useFetchError = (error: FetchBaseQueryError | SerializedError | undefined)
             }
 
             // NestJs Error message handler
-            if (retrivedError?.error && retrivedError?.message) {
+            if (retrivedError?.message) {
                 setErrorMessage(retrivedError.message);
+            } else if (retrivedError?.statusCode) {
+                setErrorMessage(getErrorFromHTTP(retrivedError.statusCode));
             }
 
             // Prisma and others
-            if (retrivedError?.statusCode) {
-                setErrorMessage(getErrorFromHTTP(retrivedError.statusCode));
-            }
         } else if (error && "status" in error && error.status) {
             setErrorMessage(getErrorFromHTTP(error.status));
         } else if (error && error !== null && error !== undefined) {

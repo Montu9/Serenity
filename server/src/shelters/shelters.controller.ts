@@ -6,6 +6,7 @@ import {
   Param,
   Patch,
   Post,
+  UseGuards,
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
@@ -13,14 +14,15 @@ import {
   ApiOkResponse,
   ApiTags,
 } from '@nestjs/swagger';
+import { CaretakerEntity } from 'src/caretakers/dto/caretaker.entity';
 import { GetCurrentUserUuid } from 'src/common/decorators';
+import { ShelterRoleGuard } from 'src/common/guards/shelterRole.guard';
+import { DogEntity } from 'src/dogs/dto/dog.entity';
+import { KennelEntity } from 'src/kennels/dto/kennel.entity';
 import { CreateShelterDto } from './dto/create-shelter.dto';
 import { ShelterEntity } from './dto/shelter.entity';
 import { UpdateShelterDto } from './dto/update-shelter.dto';
 import { SheltersService } from './shelters.service';
-import { CaretakerEntity } from 'src/caretakers/dto/caretaker.entity';
-import { KennelEntity } from 'src/kennels/dto/kennel.entity';
-import { DogEntity } from 'src/dogs/dto/dog.entity';
 
 @ApiTags('shelters')
 @ApiBearerAuth()
@@ -37,21 +39,24 @@ export class SheltersController {
     return this.sheltersService.create(createShelterDto, userUuid);
   }
 
-  @Get('getAllCaretakers/:shelterUuid')
+  @UseGuards(ShelterRoleGuard('ADMIN'))
+  @Get(':shelterUuid/caretakers')
   getAllCaretakers(
     @Param('shelterUuid') shelterUuid: string,
   ): Promise<CaretakerEntity[]> {
     return this.sheltersService.getAllCaretakers(shelterUuid);
   }
 
-  @Get('getAllKennels/:shelterUuid')
+  @UseGuards(ShelterRoleGuard('CARETAKER'))
+  @Get(':shelterUuid/kennels')
   getAllKennels(
     @Param('shelterUuid') shelterUuid: string,
   ): Promise<KennelEntity[]> {
     return this.sheltersService.getAllKennels(shelterUuid);
   }
 
-  @Get('getAllDogs/:shelterUuid')
+  @UseGuards(ShelterRoleGuard('CARETAKER'))
+  @Get(':shelterUuid/dogs')
   @ApiOkResponse({ type: [DogEntity] })
   getAllDogs(@Param('shelterUuid') shelterUuid: string): Promise<DogEntity[]> {
     return this.sheltersService.getAllDogs(shelterUuid);
@@ -85,12 +90,14 @@ export class SheltersController {
   //   return this.sheltersService.removeCaretakerByEmail(id, userUuid);
   // }
 
+  @UseGuards(ShelterRoleGuard('CARETAKER'))
   @Get(':shelterUuid')
   @ApiOkResponse({ type: ShelterEntity })
   findOne(@Param('shelterUuid') shelterUuid: string): Promise<ShelterEntity> {
     return this.sheltersService.findOne(shelterUuid);
   }
 
+  @UseGuards(ShelterRoleGuard('ADMIN'))
   @Patch(':shelterUuid')
   @ApiOkResponse({ type: ShelterEntity })
   update(
@@ -100,6 +107,7 @@ export class SheltersController {
     return this.sheltersService.update(shelterUuid, updateShelterDto);
   }
 
+  @UseGuards(ShelterRoleGuard('ADMIN'))
   @Delete(':shelterUuid')
   @ApiOkResponse({ type: ShelterEntity })
   remove(@Param('shelterUuid') shelterUuid: string): Promise<ShelterEntity> {

@@ -45,8 +45,7 @@ const LoginForm = () => {
             dispatch(
                 setCredentials({
                     user: userData.userEntity,
-                    accessToken: userData.tokens.accessToken,
-                    refreshToken: userData.tokens.refreshToken,
+                    accessToken: userData.accessToken,
                 })
             );
 
@@ -56,6 +55,7 @@ const LoginForm = () => {
                 description: "We are going to load your data now.",
             });
         } catch (error) {
+            console.log(error);
             toast({
                 variant: "destructive",
                 title: "Uh oh! Something went wrong!",
