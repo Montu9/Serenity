@@ -1,5 +1,14 @@
 import { Route, Routes } from "react-router-dom";
-import { Home, Login, Register } from "./pages/public/";
+import {
+    ForgotPassword,
+    Home,
+    Login,
+    Missing,
+    PrivacyPolicy,
+    Register,
+    RequestResetPassword,
+    TermsOfService,
+} from "./pages/public/";
 
 import {
     AddNewCaretaker,
@@ -26,6 +35,10 @@ function App() {
                         <Route index element={<Home />} />
                         <Route path="login" element={<Login />} />
                         <Route path="register" element={<Register />} />
+                        <Route path="privacy-policy" element={<PrivacyPolicy />} />
+                        <Route path="terms-of-service" element={<TermsOfService />} />
+                        <Route path="forgot-password/:confirmationToken/:email" element={<ForgotPassword />} />
+                        <Route path="forgot-password" element={<RequestResetPassword />} />
                     </Route>
 
                     {/* Protected routes */}
@@ -56,6 +69,8 @@ function App() {
                             </Route>
                         </Route>
                     </Route>
+
+                    <Route path="*" element={<Missing />} />
                 </Route>
             </Routes>
         </div>

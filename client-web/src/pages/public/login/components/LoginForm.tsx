@@ -12,6 +12,7 @@ import { BiLoaderCircle } from "react-icons/bi";
 import { useDispatch } from "react-redux";
 import * as z from "zod";
 import loginSchema from "./loginSchema";
+import { Link } from "react-router-dom";
 
 const LoginForm = () => {
     const { toast } = useToast();
@@ -96,6 +97,9 @@ const LoginForm = () => {
                         )}
                     />
 
+                    <Link className="font-medium text-sm px-1 pt-1 pb-2" to="/forgot-password">
+                        Forgot Password
+                    </Link>
                     <Button type="submit" disabled={isLoading}>
                         {isLoading && <BiLoaderCircle className="animate-spin" />}Sign In with Email
                     </Button>

@@ -4,13 +4,11 @@ import registerImg from "@/assets/images/register.png";
 import logo from "@/assets/svg/logo.svg";
 import { Card } from "@/components/ui/card";
 import RegisterForm from "./components/RegisterForm";
-import { Toaster } from "@/components/ui/toaster";
 
 export const Register = () => {
     return (
-        <div className="h-screen w-screen flex items-center justify-center">
-            <Toaster />
-            <Card className="container relative lg:h-fit lg:min-h-[700px] flex-col items-center justify-center grid h-screen lg:w-10/12 lg:grid-cols-2 lg:px-0">
+        <div className="h-full w-full min-h-screen min-w-screen flex items-center justify-center">
+            <Card className="container relative lg:h-fit lg:min-h-[700px] flex-col items-center justify-center grid h-full min-h-screen lg:w-10/12 lg:grid-cols-2 lg:px-0 py-4 lg:py-0">
                 <div className="lg:p-8">
                     <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
                         <div className="flex flex-col space-y-2 text-center items-center">
@@ -19,7 +17,8 @@ export const Register = () => {
                             </Link>
                             <h1 className="text-2xl font-semibold tracking-tight">Sign up</h1>
                             <p className="text-sm text-muted-foreground">
-                                Provide all necessary information to create your account
+                                To create an account, please provide the required information. Fill in the necessary
+                                fields to complete the registration process and gain access to your account.
                             </p>
                         </div>
                         <div className="grid gap-6">
@@ -42,11 +41,11 @@ export const Register = () => {
                         </div>
                         <p className="px-8 text-center text-sm text-muted-foreground">
                             By clicking continue, you agree to our{" "}
-                            <Link to="/terms" className="underline underline-offset-4 hover:text-primary">
+                            <Link to="/terms-of-service" className="underline underline-offset-4 hover:text-primary">
                                 Terms of Service
                             </Link>{" "}
                             and{" "}
-                            <Link to="/privacy" className="underline underline-offset-4 hover:text-primary">
+                            <Link to="/privacy-policy" className="underline underline-offset-4 hover:text-primary">
                                 Privacy Policy
                             </Link>
                             .

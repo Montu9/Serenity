@@ -7,6 +7,7 @@ import {
   Res,
   Param,
   Redirect,
+  Patch,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { Signin, Signup } from './dto';
@@ -61,7 +62,7 @@ export class AuthController {
     return this.authService.passwordResetEmail(dto);
   }
 
-  @Post('password-reset/:confirmationToken/:email')
+  @Patch('password-reset/:confirmationToken/:email')
   passwordReset(
     @Param('confirmationToken') confirmationToken: string,
     @Param('email') email: string,

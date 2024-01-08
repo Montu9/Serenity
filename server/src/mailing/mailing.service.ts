@@ -79,7 +79,7 @@ export class MailingService {
     await this.setTransport();
 
     const confirmationUrl =
-      'http://192.168.0.66:3001/auth/reset-password/' +
+      'http://192.168.0.66:5173/forgot-password/' +
       confirmationToken +
       '/' +
       user.email;

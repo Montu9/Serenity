@@ -55,7 +55,8 @@ const RegisterForm = () => {
             toast({
                 variant: "success",
                 title: "You have sign up successfully!",
-                description: "Now you can log in and set up your account.",
+                description:
+                    "Thank you for signing up! Please verify your email before logging in. Check your inbox for a verification link. Once verified, you can log in to access your account.",
                 action: (
                     <Link to="/login">
                         <ToastAction altText="Sign in" className="w-full">

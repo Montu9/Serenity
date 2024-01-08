@@ -32,7 +32,8 @@ export const Login = () => {
                             </Link>
                             <h1 className="text-2xl font-semibold tracking-tight">Sign in</h1>
                             <p className="text-sm text-muted-foreground">
-                                Enter your email and password to log in to your account
+                                To sign in, please enter your registered email and password. Ensure the information
+                                provided is accurate to access your account securely.
                             </p>
                         </div>
                         <div className="grid gap-6">
@@ -55,11 +56,11 @@ export const Login = () => {
                         </div>
                         <p className="px-8 text-center text-sm text-muted-foreground">
                             By clicking continue, you agree to our{" "}
-                            <Link to="/terms" className="underline underline-offset-4 hover:text-primary">
+                            <Link to="/terms-of-service" className="underline underline-offset-4 hover:text-primary">
                                 Terms of Service
                             </Link>{" "}
                             and{" "}
-                            <Link to="/privacy" className="underline underline-offset-4 hover:text-primary">
+                            <Link to="/privacy-policy" className="underline underline-offset-4 hover:text-primary">
                                 Privacy Policy
                             </Link>
                             .
