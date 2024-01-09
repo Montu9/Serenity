@@ -54,9 +54,9 @@ export function DataTableRowActions<TData>({ row }: DataTableRowActionsProps<TDa
                     <DropdownMenuItem onClick={() => navigator.clipboard.writeText(dog.uuid)}>
                         Copy Email
                     </DropdownMenuItem>
-                    <DropdownMenuItem>
-                        <DialogTrigger>Edit</DialogTrigger>
-                    </DropdownMenuItem>
+                    <DialogTrigger>
+                        <DropdownMenuItem>Edit</DropdownMenuItem>
+                    </DialogTrigger>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem onClick={onSubmit}>
                         Delete
@@ -64,7 +64,7 @@ export function DataTableRowActions<TData>({ row }: DataTableRowActionsProps<TDa
                     </DropdownMenuItem>
                 </DropdownMenuContent>
             </DropdownMenu>
-            <DialogContent className="sm:max-w-md">
+            <DialogContent className="container max-w-4xl block">
                 <EditDog dog={dog as Dog} />
             </DialogContent>
         </Dialog>

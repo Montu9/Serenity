@@ -5,7 +5,7 @@ import { apiSlice } from "../../apiSlice";
 export const userApiSlice = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
         getUserSchelters: builder.query<UserShelterDto[], void>({
-            query: () => "/users/getUserShelters",
+            query: () => "/users/shelters",
             keepUnusedDataFor: 5,
         }),
         updatePassword: builder.mutation<string, UpdatePasswordDto>({

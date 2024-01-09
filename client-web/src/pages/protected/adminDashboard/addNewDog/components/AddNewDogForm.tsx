@@ -90,13 +90,13 @@ export const AddNewDogForm = () => {
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-                <div className="grid grid-cols-2 gap-2 items-center">
+                <div className="flex flex-col gap-4">
                     {/* name */}
                     <FormField
                         control={form.control}
                         name="name"
                         render={({ field }) => (
-                            <FormItem className="col-span-2">
+                            <FormItem>
                                 <FormLabel>Dog name</FormLabel>
                                 <FormControl>
                                     <Input type="text" placeholder="Bob" {...field} />
@@ -146,7 +146,7 @@ export const AddNewDogForm = () => {
                         control={form.control}
                         name="gender"
                         render={({ field }) => (
-                            <FormItem className="col-span-2">
+                            <FormItem>
                                 <FormLabel>Gender</FormLabel>
                                 <Select onValueChange={field.onChange}>
                                     <FormControl>
@@ -168,7 +168,7 @@ export const AddNewDogForm = () => {
                         control={form.control}
                         name="microchip"
                         render={({ field }) => (
-                            <FormItem className="col-span-2">
+                            <FormItem>
                                 <FormLabel>Microchip</FormLabel>
                                 <FormControl>
                                     <Input type="text" placeholder="E0239AS02311" {...field} />
@@ -224,7 +224,7 @@ export const AddNewDogForm = () => {
                     {/* intakeType */}
                     <DogIntakeTypeSelect />
 
-                    <Button className="col-span-2" type="submit" disabled={isLoading}>
+                    <Button type="submit" disabled={isLoading}>
                         {isLoading && <BiLoaderCircle className="animate-spin" />}Create dog
                     </Button>
                 </div>

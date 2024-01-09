@@ -7,7 +7,8 @@ export const ProfileSettings = () => {
             <div>
                 <h3 className="text-lg font-medium">Profile</h3>
                 <p className="text-sm text-muted-foreground">
-                    Update your account settings. Set your basic information.
+                    In the profile settings, you have the ability to adjust and refine your account's information. This
+                    includes personal details such as your name, email address, and gender information.
                 </p>
             </div>
             <Separator />

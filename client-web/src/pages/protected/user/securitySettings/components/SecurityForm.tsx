@@ -93,7 +93,7 @@ export const SecurityForm = () => {
                         control={form.control}
                         name="oldPassword"
                         render={({ field }) => (
-                            <FormItem>
+                            <FormItem className="col-span-2">
                                 <FormLabel>Old Password</FormLabel>
                                 <FormControl>
                                     <Input type="password" placeholder="********" {...field} />

@@ -35,7 +35,8 @@ export const KennelRoleGuard = (requiredRole: string) => {
           },
         },
       });
-      const shelterUuid = kennel.shelter.uuid;
+      if (!kennel) return false;
+      const shelterUuid = kennel?.shelter.uuid;
 
       // Get userUuid
       const userUuid = request.user.sub;

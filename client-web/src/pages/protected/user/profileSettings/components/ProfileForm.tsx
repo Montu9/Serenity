@@ -14,10 +14,11 @@ import { BiLoaderCircle } from "react-icons/bi";
 import { useDispatch } from "react-redux";
 import * as z from "zod";
 import profileSchema from "./profileSchema";
+import { InputSkeleton, LoadingError } from "@/components";
 
 export const ProfileForm = () => {
     const { toast } = useToast();
-    const { data, isLoading, isSuccess } = useGetUserQuery();
+    const { data, isLoading, isSuccess, isError } = useGetUserQuery();
     const [updateUser, { isLoading: isLoadingUpdate, error }] = useUpdateUserMutation();
     const { errorMessage: errMsg, errorData } = useFetchError(error);
     const dispatch = useDispatch();
@@ -28,6 +29,7 @@ export const ProfileForm = () => {
             email: data?.email || "",
             firstName: data?.firstName || "",
             lastName: data?.lastName || "",
+            gender: data?.gender || "MALE",
         },
     });
 
@@ -36,6 +38,7 @@ export const ProfileForm = () => {
             form.setValue("email", data?.email || "");
             form.setValue("firstName", data?.firstName || "");
             form.setValue("lastName", data?.lastName || "");
+            form.setValue("gender", data?.gender || "MALE");
         };
         setFormValues();
     }, [data, form, isSuccess]);
@@ -78,7 +81,13 @@ export const ProfileForm = () => {
 
     let content;
     if (isLoading) {
-        content = "Loading...";
+        content = (
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+                {[...Array(4)].map((_, index) => (
+                    <InputSkeleton key={index} />
+                ))}
+            </div>
+        );
     } else if (isSuccess) {
         content = (
             <Form {...form}>
@@ -160,6 +169,8 @@ export const ProfileForm = () => {
                 </form>
             </Form>
         );
+    } else if (isError) {
+        content = <LoadingError />;
     }
 
     return content;

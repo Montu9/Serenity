@@ -15,9 +15,9 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useGetAllRolesQuery } from "@/app/api/features/common/role/roleApiSlice";
 
 export const AddNewCaretakerForm = () => {
-    const { toast } = useToast();
     const match = useMatch("/dashboard/:id/:lastPart");
     const pathnameLastPart = match?.params.id || "";
+    const { toast } = useToast();
 
     const { data } = useGetAllRolesQuery();
     const [addCaretakerByEmail, { isLoading: isLoadingAdd, error }] = useAddCaretakerByEmailMutation();
@@ -51,7 +51,7 @@ export const AddNewCaretakerForm = () => {
 
             toast({
                 variant: "success",
-                title: "You have changed your data successfully!",
+                title: "You have added caretaker successfully!",
                 description: "Your data has been saved securly!",
             });
         } catch (err: unknown) {
@@ -107,7 +107,7 @@ export const AddNewCaretakerForm = () => {
                     />
 
                     <Button className="col-span-2" type="submit" disabled={isLoadingAdd}>
-                        {isLoadingAdd && <BiLoaderCircle className="animate-spin" />}Update your profile
+                        {isLoadingAdd && <BiLoaderCircle className="animate-spin" />}Add caretaker
                     </Button>
                 </div>
                 {errMsg && errMsg?.length > 0 ? (

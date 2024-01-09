@@ -1,21 +1,21 @@
 import { useCreateKennelMutation } from "@/app/api/features/kennel/kennelApiSlice";
+import { Button } from "@/components/ui/button";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
 import useFetchError from "@/hooks/useFetchError";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { useMatch } from "react-router-dom";
-import addNewKennelSchema from "./addNewKennelSchema";
 import { useEffect } from "react";
-import * as z from "zod";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+import { useForm } from "react-hook-form";
 import { BiLoaderCircle } from "react-icons/bi";
+import { useMatch } from "react-router-dom";
+import * as z from "zod";
+import addNewKennelSchema from "./addNewKennelSchema";
 
 export const AddNewKennelForm = () => {
-    const { toast } = useToast();
     const match = useMatch("/dashboard/:id/:lastPart");
     const pathnameLastPart = match?.params.id || "";
+    const { toast } = useToast();
 
     const [createKennel, { isLoading, error }] = useCreateKennelMutation();
     const { errorMessage: errMsg, errorData } = useFetchError(error);
@@ -69,7 +69,7 @@ export const AddNewKennelForm = () => {
                         name="no"
                         render={({ field }) => (
                             <FormItem className="col-span-2">
-                                <FormLabel>Number of kennel</FormLabel>
+                                <FormLabel>Numeric label for kennel</FormLabel>
                                 <FormControl>
                                     <Input type="number" placeholder="423" {...field} />
                                 </FormControl>

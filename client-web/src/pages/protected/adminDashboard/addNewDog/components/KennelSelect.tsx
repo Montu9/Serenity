@@ -1,13 +1,15 @@
 import { useGetAllKennelsQuery } from "@/app/api/features/shelter/shelterApiSlice";
+import { InputSkeleton } from "@/components";
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useFormContext } from "react-hook-form";
 
 interface KennelSelectPrep {
+    className?: string;
     shelterUuid: string;
 }
 
-export const KennelSelect = ({ shelterUuid }: KennelSelectPrep) => {
+export const KennelSelect = ({ className, shelterUuid }: KennelSelectPrep) => {
     const { control } = useFormContext();
 
     const {
@@ -17,16 +19,22 @@ export const KennelSelect = ({ shelterUuid }: KennelSelectPrep) => {
     } = useGetAllKennelsQuery({ shelterUuid: shelterUuid });
 
     return (
-        <>
-            {isLoadingKennels && <div>Loading ...</div>}
+        <div className={className}>
+            {isLoadingKennels && (
+                <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+                    {[...Array(4)].map((_, index) => (
+                        <InputSkeleton key={index} />
+                    ))}
+                </div>
+            )}
             {isSuccessKennels && (
                 <FormField
                     control={control}
                     name="kennel"
                     render={({ field }) => (
-                        <FormItem className="col-span-2">
+                        <FormItem>
                             <FormLabel>Kennel</FormLabel>
-                            <Select onValueChange={field.onChange} defaultValue={field.value}>
+                            <Select value={field.value} onValueChange={field.onChange} defaultValue={field.value}>
                                 <FormControl>
                                     <SelectTrigger>
                                         <SelectValue placeholder="Select a dog kennel" />
@@ -45,6 +53,6 @@ export const KennelSelect = ({ shelterUuid }: KennelSelectPrep) => {
                     )}
                 />
             )}
-        </>
+        </div>
     );
 };

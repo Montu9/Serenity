@@ -1,9 +1,14 @@
 import { useGetAlldogConditionsQuery } from "@/app/api/features/common/dogCondition/dogConditionApiSlice";
+import { InputSkeleton } from "@/components";
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useFormContext } from "react-hook-form";
 
-export const DogConditionSelect = () => {
+interface ChildProps {
+    className?: string; // Optional className prop
+}
+
+export const DogConditionSelect: React.FC<ChildProps> = ({ className }) => {
     const { control } = useFormContext();
     const {
         data: dogConditions,
@@ -12,16 +17,22 @@ export const DogConditionSelect = () => {
     } = useGetAlldogConditionsQuery();
 
     return (
-        <>
-            {isLoadingDogConditions && <div>Loading ...</div>}
+        <div className={className}>
+            {isLoadingDogConditions && (
+                <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+                    {[...Array(4)].map((_, index) => (
+                        <InputSkeleton key={index} />
+                    ))}
+                </div>
+            )}
             {isSuccessDogConditions && (
                 <FormField
                     control={control}
                     name="dogCondition"
                     render={({ field }) => (
-                        <FormItem className="col-span-2">
+                        <FormItem>
                             <FormLabel>Dog condition</FormLabel>
-                            <Select onValueChange={field.onChange} defaultValue={field.value}>
+                            <Select value={field.value} onValueChange={field.onChange} defaultValue={field.value}>
                                 <FormControl>
                                     <SelectTrigger>
                                         <SelectValue placeholder="Select a dog condition" />
@@ -40,6 +51,6 @@ export const DogConditionSelect = () => {
                     )}
                 />
             )}
-        </>
+        </div>
     );
 };

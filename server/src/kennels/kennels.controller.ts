@@ -44,10 +44,11 @@ export class KennelsController {
     return this.kennelsService.findAllDogs(kennelUuid);
   }
 
-  // @Get(':id')
-  // findOne(@Param('id') id: string) {
-  //   return this.kennelsService.findOne(+id);
-  // }
+  @UseGuards(KennelRoleGuard('CARETAKER'))
+  @Get(':kennelUuid')
+  findOne(@Param('kennelUuid') kennelUuid: string) {
+    return this.kennelsService.findOne(kennelUuid);
+  }
 
   @UseGuards(KennelRoleGuard('ADMIN'))
   @Patch(':kennelUuid')

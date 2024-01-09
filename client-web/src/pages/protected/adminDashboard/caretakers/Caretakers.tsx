@@ -3,17 +3,20 @@ import { Separator } from "@/components/ui/separator";
 import { useMatch } from "react-router-dom";
 import { DataTable } from "./components/DataTable";
 import { columns } from "./components/columns";
+import { InputSkeleton, LoadingError, NothingHere } from "@/components";
 
 export const Caretakers = () => {
     const match = useMatch("/dashboard/:shelterUuid/:lastPart");
     const shelterUuid = match?.params.shelterUuid || "";
-    const { data, isLoading, isSuccess } = useGetAllCaretakersQuery({ shelterUuid });
+    const { data, isLoading, isSuccess, isError } = useGetAllCaretakersQuery({ shelterUuid });
 
-    let content;
+    let content = <InputSkeleton />;
     if (isLoading) {
-        content = "Loading";
+        content = <InputSkeleton />;
     } else if (isSuccess) {
-        content = <DataTable data={data} columns={columns} />;
+        content = data ? <DataTable data={data} columns={columns} /> : <NothingHere />;
+    } else if (isError) {
+        content = <LoadingError />;
     }
 
     return (

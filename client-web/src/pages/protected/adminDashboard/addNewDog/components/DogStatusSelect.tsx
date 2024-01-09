@@ -1,9 +1,14 @@
 import { useGetAlldogStatusesQuery } from "@/app/api/features/common/dogStatus/dogStatusApiSlice";
+import { InputSkeleton } from "@/components";
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useFormContext } from "react-hook-form";
 
-export const DogStatusSelect = () => {
+interface ChildProps {
+    className?: string; // Optional className prop
+}
+
+export const DogStatusSelect: React.FC<ChildProps> = ({ className }) => {
     const { control } = useFormContext();
 
     const {
@@ -13,16 +18,22 @@ export const DogStatusSelect = () => {
     } = useGetAlldogStatusesQuery();
 
     return (
-        <>
-            {isLoadingDogStatuses && <div>Loading ...</div>}
+        <div className={className}>
+            {isLoadingDogStatuses && (
+                <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+                    {[...Array(4)].map((_, index) => (
+                        <InputSkeleton key={index} />
+                    ))}
+                </div>
+            )}
             {isSuccessDogStatuses && (
                 <FormField
                     control={control}
                     name="dogStatus"
                     render={({ field }) => (
-                        <FormItem className="col-span-2">
+                        <FormItem>
                             <FormLabel>Dog Status</FormLabel>
-                            <Select onValueChange={field.onChange} defaultValue={field.value}>
+                            <Select value={field.value} onValueChange={field.onChange} defaultValue={field.value}>
                                 <FormControl>
                                     <SelectTrigger>
                                         <SelectValue placeholder="Select a dog status" />
@@ -41,6 +52,6 @@ export const DogStatusSelect = () => {
                     )}
                 />
             )}
-        </>
+        </div>
     );
 };

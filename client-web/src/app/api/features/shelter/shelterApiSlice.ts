@@ -22,19 +22,19 @@ export const shelterApiSlice = apiSlice.injectEndpoints({
         }),
         getAllKennels: builder.query<Kennel[], ShelterPrep>({
             query: ({ shelterUuid }) => ({
-                url: `/shelters/getAllKennels/${shelterUuid}`,
+                url: `/shelters/${shelterUuid}/kennels`,
             }),
             providesTags: ["Kennel"],
         }),
         getAllCaretakers: builder.query<Caretaker[], ShelterPrep>({
             query: ({ shelterUuid }) => ({
-                url: `/shelters/getAllCaretakers/${shelterUuid}`,
+                url: `/shelters/${shelterUuid}/caretakers`,
             }),
             providesTags: ["Caretaker"],
         }),
         getAllDogs: builder.query<Dog[], ShelterPrep>({
             query: ({ shelterUuid }) => ({
-                url: `/shelters/getAllDogs/${shelterUuid}`,
+                url: `/shelters/${shelterUuid}/dogs`,
             }),
             providesTags: ["Dog"],
         }),

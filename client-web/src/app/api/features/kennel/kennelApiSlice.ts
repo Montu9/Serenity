@@ -18,12 +18,14 @@ export const kennelApiSlice = apiSlice.injectEndpoints({
                 method: "POST",
                 body: { ...data },
             }),
+            invalidatesTags: ["Kennel"],
         }),
         getKennel: builder.query<Kennel, KennelPrep>({
             query: ({ kennelUuid }) => ({ url: `kennels/${kennelUuid}` }),
+            providesTags: ["Kennel"],
         }),
         getAllDogsInKennel: builder.query<Dog[], KennelPrep>({
-            query: ({ kennelUuid }) => ({ url: `kennels/getAllDogs/${kennelUuid}` }),
+            query: ({ kennelUuid }) => ({ url: `kennels/${kennelUuid}/dogs` }),
             providesTags: ["Dog"],
         }),
         updateKennel: builder.mutation<Kennel, KennelPrep<UpdateKennelDto>>({
@@ -32,12 +34,14 @@ export const kennelApiSlice = apiSlice.injectEndpoints({
                 method: "PATCH",
                 body: { ...data },
             }),
+            invalidatesTags: ["Kennel"],
         }),
         deleteKennel: builder.mutation<Kennel, KennelPrep>({
             query: ({ kennelUuid }) => ({
                 url: `kennels/${kennelUuid}`,
                 method: "DELETE",
             }),
+            invalidatesTags: ["Kennel"],
         }),
     }),
 });

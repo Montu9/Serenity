@@ -21,12 +21,12 @@ export const caretakerApiSlice = apiSlice.injectEndpoints({
         }),
         getByUuid: builder.query<Caretaker[], CaretakerPrep>({
             query: ({ shelterUuid, caretakerUuid }) => ({
-                url: `/caretakers/${caretakerUuid}/getByUuid/${shelterUuid}`,
+                url: `/caretakers/uuid/${caretakerUuid}/${shelterUuid}`,
             }),
         }),
         updateCaretakerRole: builder.mutation<string, CaretakerPrep<UpdateCaretakerRole>>({
             query: ({ caretakerUuid, shelterUuid, data }) => ({
-                url: `/caretakers/${caretakerUuid}/updateByUuid/${shelterUuid}`,
+                url: `/caretakers/uuid/${caretakerUuid}/${shelterUuid}`,
                 method: "PATCH",
                 body: { ...data },
             }),
@@ -34,7 +34,7 @@ export const caretakerApiSlice = apiSlice.injectEndpoints({
         }),
         removeCaretakerByUuid: builder.mutation<string, CaretakerPrep>({
             query: ({ caretakerUuid, shelterUuid }) => ({
-                url: `/caretakers/${caretakerUuid}/removeByUuid/${shelterUuid}`,
+                url: `/caretakers/uuid/${caretakerUuid}/${shelterUuid}`,
                 method: "DELETE",
             }),
             invalidatesTags: ["Caretaker"],

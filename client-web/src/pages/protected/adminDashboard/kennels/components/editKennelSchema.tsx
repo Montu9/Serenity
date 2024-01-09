@@ -1,6 +1,6 @@
 import * as z from "zod";
 
-const addNewKennelSchema = z
+const editKennelSchema = z
     .object({
         no: z.coerce
             .number({
@@ -19,4 +19,4 @@ const addNewKennelSchema = z
     })
     .required();
 
-export default addNewKennelSchema;
+export default editKennelSchema;

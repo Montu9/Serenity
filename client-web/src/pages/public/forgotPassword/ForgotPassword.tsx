@@ -14,13 +14,13 @@ import { Link, useParams } from "react-router-dom";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowLeftIcon } from "@radix-ui/react-icons";
 
-interface RouteParams {
+type RouteParams = {
     confirmationToken: string;
     email: string;
-}
+};
 
-export const ForgotPassword: React.FC<RouteParams> = () => {
-    const { confirmationToken, email } = useParams<{ confirmationToken: string; email: string }>();
+export const ForgotPassword = () => {
+    const { confirmationToken, email } = useParams<RouteParams>();
     const { toast } = useToast();
     const [resetPassword, { isLoading, error }] = usePasswordResetMutation();
     const { errorMessage: errMsg, errorData } = useFetchError(error);
@@ -57,14 +57,16 @@ export const ForgotPassword: React.FC<RouteParams> = () => {
 
             toast({
                 variant: "success",
-                title: "You have successfully change your password",
-                description: "Your data has been saved securly!",
+                title: "You have successfully changed your password",
+                description:
+                    "Password Reset Successful! Your password has been updated. You can now log in using your new credentials. If you need any further assistance, feel free to reach out to us. Thank you!",
             });
         } catch (error) {
             toast({
                 variant: "destructive",
                 title: "Uh oh! Something went wrong!",
-                description: "Check your data and try again.",
+                description:
+                    "Please try again later or contact our support team for assistance. We apologize for any inconvenience caused. Check your data and try again.",
             });
         }
     };
@@ -75,9 +77,8 @@ export const ForgotPassword: React.FC<RouteParams> = () => {
                 <CardHeader>
                     <CardTitle className="py-2 text-2xl">Request password reset</CardTitle>
                     <CardDescription className="text-justify">
-                        To reset your password, please enter the email address associated with your account below. We'll
-                        send you a link to reset your password. If you don't receive an email within a few minutes,
-                        please check your spam folder.
+                        To change your password, please fill in both the 'New Password' and 'Confirm Password' fields.
+                        Both fields are required to ensure the security of your account.
                     </CardDescription>
                 </CardHeader>
                 <CardContent className="w-full">

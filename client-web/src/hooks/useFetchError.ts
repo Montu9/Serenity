@@ -27,7 +27,6 @@ const useFetchError = (error: FetchBaseQueryError | SerializedError | undefined)
         // Check for FetchBaseQueryError
         if (error && "data" in error && error.data) {
             const retrivedError = error.data as RetrivedError;
-            console.log(retrivedError);
             // Class validator error handler
             if (retrivedError?.status && retrivedError.status === "fail") {
                 if (retrivedError?.data) {

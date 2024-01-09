@@ -60,7 +60,8 @@ export const RequestResetPassword = () => {
             toast({
                 variant: "destructive",
                 title: "Uh oh! Something went wrong!",
-                description: "Check your data and try again.",
+                description:
+                    "Please try again later or contact our support team for assistance. We apologize for any inconvenience caused.",
             });
         }
     };

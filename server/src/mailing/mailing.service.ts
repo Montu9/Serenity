@@ -55,24 +55,17 @@ export class MailingService {
       '/' +
       user.email;
 
-    this.mailerService
-      .sendMail({
-        transporterName: 'gmail',
-        to: user.email, // list of receivers
-        from: 'noreply.serenityms@gmail.com', // sender address
-        subject: 'Serenity - verficiaction link', // Subject line
-        template: './confirmation',
-        context: {
-          confirmationUrl: confirmationUrl,
-          firstName: user.firstName,
-        },
-      })
-      .then((success) => {
-        console.log(success);
-      })
-      .catch((err) => {
-        console.log('aha', err);
-      });
+    this.mailerService.sendMail({
+      transporterName: 'gmail',
+      to: user.email, // list of receivers
+      from: 'noreply.serenityms@gmail.com', // sender address
+      subject: 'Serenity - verficiaction link', // Subject line
+      template: './confirmation',
+      context: {
+        confirmationUrl: confirmationUrl,
+        firstName: user.firstName,
+      },
+    });
   }
 
   public async sendEmailPasswordReset(user: User, confirmationToken: string) {
@@ -84,23 +77,16 @@ export class MailingService {
       '/' +
       user.email;
 
-    this.mailerService
-      .sendMail({
-        transporterName: 'gmail',
-        to: user.email, // list of receivers
-        from: 'noreply.serenityms@gmail.com', // sender address
-        subject: 'Serenity - reset password', // Subject line
-        template: './resetPassword',
-        context: {
-          confirmationUrl: confirmationUrl,
-          firstName: user.firstName,
-        },
-      })
-      .then((success) => {
-        console.log(success);
-      })
-      .catch((err) => {
-        console.log('aha', err);
-      });
+    this.mailerService.sendMail({
+      transporterName: 'gmail',
+      to: user.email, // list of receivers
+      from: 'noreply.serenityms@gmail.com', // sender address
+      subject: 'Serenity - reset password', // Subject line
+      template: './resetPassword',
+      context: {
+        confirmationUrl: confirmationUrl,
+        firstName: user.firstName,
+      },
+    });
   }
 }

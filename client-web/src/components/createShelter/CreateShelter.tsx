@@ -1,24 +1,21 @@
+import { useCreateShelterMutation } from "@/app/api/features/shelter/shelterApiSlice";
+import useFetchError from "@/hooks/useFetchError";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { BiLoaderCircle } from "react-icons/bi";
+import * as z from "zod";
 import { Button } from "../ui/button";
 import { DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "../ui/dialog";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
 import { Input } from "../ui/input";
 import { useToast } from "../ui/use-toast";
 import createShelterSchema from "./components/createSchelterSchema";
-import * as z from "zod";
-import { useCreateShelterMutation } from "@/app/api/features/shelter/shelterApiSlice";
-import { ErrorHandler } from "@/lib/ErrorHandler";
-import PrepError from "@/types/PrepError";
-import RetrivedError from "@/types/RetrivedError";
-import CreateShelterDto from "@/app/api/features/shelter/dto/CreateShelterDto";
 
 const CreateShelter = () => {
-    const [errMsg, setErrMsg] = useState<string>("");
-    const [createShelter, { isLoading }] = useCreateShelterMutation();
     const { toast } = useToast();
+    const [createShelter, { isLoading, error }] = useCreateShelterMutation();
+    const { errorMessage: errMsg, errorData } = useFetchError(error);
 
     const form = useForm<z.infer<typeof createShelterSchema>>({
         resolver: zodResolver(createShelterSchema),
@@ -28,34 +25,31 @@ const CreateShelter = () => {
         },
     });
 
+    useEffect(() => {
+        if (errorData) {
+            errorData.map((error) => {
+                form.setError(error.property as keyof z.infer<typeof createShelterSchema>, {
+                    type: "server",
+                    message: error.constraints.join("\n"),
+                });
+            });
+        }
+    }, [errorData, form]);
+
     const onSubmit = async (values: z.infer<typeof createShelterSchema>) => {
         try {
-            await createShelter({ name: values.name, description: values.description });
+            await createShelter({ name: values.name, description: values.description }).unwrap();
 
             toast({
                 variant: "success",
                 title: `Success!`,
                 description: "You have successfully created a new shelter management system!",
             });
-            setErrMsg("");
-        } catch (err: unknown) {
-            const error = new ErrorHandler(err as PrepError);
-            const retrivedError: RetrivedError = error.getRetrivedError();
-            if (retrivedError.message) {
-                setErrMsg(retrivedError.message);
-            } else {
-                retrivedError.data?.map((error) => {
-                    form.setError(error.property as keyof CreateShelterDto, {
-                        type: "server",
-                        message: error.constraints.join("\n"),
-                    });
-                });
-            }
-
+        } catch (error) {
             toast({
                 variant: "destructive",
                 title: "Uh oh! Something went wrong!",
-                description: "Dog shelter management system creation failed.",
+                description: "Check your data and try again.",
             });
         }
     };
@@ -64,9 +58,10 @@ const CreateShelter = () => {
         <DialogContent className="sm:max-w-md">
             <DialogHeader>
                 <DialogTitle>Create space for your dog shelter</DialogTitle>
-                <DialogDescription>
-                    Provide name for your dog shelter organization. Remember, you can only have 3 active dashboards for
-                    your shelters.
+                <DialogDescription className="text-justify">
+                    Welcome to the new shelter management system space creation! To get started, please provide the
+                    following information. Once completed, you'll be all set to create and manage your shelter
+                    effectively. Thank you for joining us in this journey to care for furry friends!
                 </DialogDescription>
             </DialogHeader>
             <Form {...form}>

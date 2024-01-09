@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, MethodNotAllowedException } from '@nestjs/common';
 import { nanoid } from 'nanoid';
 import { PrismaService } from 'nestjs-prisma';
 import { CreateKennelDto } from './dto/create-kennel.dto';
@@ -49,9 +49,14 @@ export class KennelsService {
     });
     return dogs.map((dog) => new DogEntity(dog));
   }
-  // findOne(id: number) {
-  //   return `This action returns a #${id} kennel`;
-  // }
+
+  async findOne(kennelUuid: string) {
+    const kennel = await this.prisma.kennel.findFirst({
+      where: { uuid: kennelUuid },
+    });
+    return new KennelEntity(kennel);
+  }
+
   async update(kennelUuid: string, updateKennelDto: UpdateKennelDto) {
     const kennel = await this.prisma.kennel.update({
       where: { uuid: kennelUuid },
@@ -65,6 +70,18 @@ export class KennelsService {
   }
 
   async remove(kennelUuid: string) {
+    const dogs = await this.prisma.dog.findMany({
+      where: {
+        kennel: {
+          uuid: kennelUuid,
+        },
+      },
+    });
+
+    if (dogs.length > 0)
+      throw new MethodNotAllowedException(
+        'Move all dogs from this kennel to be able to delete it.',
+      );
     return new KennelEntity(
       await this.prisma.kennel.delete({ where: { uuid: kennelUuid } }),
     );

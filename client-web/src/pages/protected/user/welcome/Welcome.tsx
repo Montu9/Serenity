@@ -12,8 +12,11 @@ export const Welcome = () => {
             <div className="space-y-0.5">
                 <h2 className="text-2xl font-bold tracking-tight">{`Welcome ${user.firstName}!`}</h2>
                 <p className="text-muted-foreground">
-                    Explore your shelters effortlessly with our intuitive list view. Manage tasks and stay informed, all
-                    in one place, simplifying your shelter-related responsibilities.
+                    Good to see you! Our Dog Shelter Management System – the comprehensive solution tailored to
+                    streamline the care and well-being of our four-legged friends! Our system is designed to simplify
+                    shelter operations, offering a centralized platform for medical records, daily activities, and more.
+                    From intake to adoption, every step of a dog's journey is tracked efficiently, ensuring their safety
+                    and happiness.
                 </p>
             </div>
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">

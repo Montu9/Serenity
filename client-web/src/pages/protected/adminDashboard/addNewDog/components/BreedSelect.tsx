@@ -1,4 +1,5 @@
 import { useGetAllbreedsQuery } from "@/app/api/features/common/breed/breedApiSlice";
+import { InputSkeleton } from "@/components";
 import { Button } from "@/components/ui/button";
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from "@/components/ui/command";
 import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
@@ -8,14 +9,24 @@ import { cn } from "@/lib/utils";
 import { CaretSortIcon, CheckIcon } from "@radix-ui/react-icons";
 import { useFormContext } from "react-hook-form";
 
-export const BreedSelect = () => {
+interface ChildProps {
+    className?: string; // Optional className prop
+}
+
+export const BreedSelect: React.FC<ChildProps> = ({ className }) => {
     const { control, setValue } = useFormContext();
 
     const { data: breeds, isLoading: isLoadingBreeds, isSuccess: isSuccessBreeds } = useGetAllbreedsQuery();
 
     return (
-        <>
-            {isLoadingBreeds && <div>Loading ...</div>}
+        <div className={className}>
+            {isLoadingBreeds && (
+                <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+                    {[...Array(4)].map((_, index) => (
+                        <InputSkeleton key={index} />
+                    ))}
+                </div>
+            )}
             {isSuccessBreeds && (
                 <>
                     <FormField
@@ -79,6 +90,6 @@ export const BreedSelect = () => {
                     />
                 </>
             )}
-        </>
+        </div>
     );
 };
