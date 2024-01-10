@@ -22,7 +22,7 @@ export const cleaningApiSlice = apiSlice.injectEndpoints({
             query: ({ actionId }) => ({ url: `/cleanings/${actionId}` }),
         }),
         getAllCleanings: builder.query<Cleaning[], CleaningPrep>({
-            query: ({ dogId }) => ({ url: `/dogs/${dogId}/getAllCleanings` }),
+            query: ({ dogId }) => ({ url: `/dogs/${dogId}/cleanings` }),
         }),
         updateCleaning: builder.mutation<Cleaning, CleaningPrep<UpdateCleaningDto>>({
             query: ({ actionId, data }) => ({

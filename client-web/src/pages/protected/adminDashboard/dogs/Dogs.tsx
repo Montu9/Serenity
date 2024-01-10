@@ -20,11 +20,12 @@ export const Dogs = () => {
         <>
             <div className="flex items-center justify-between">
                 <div className="space-y-1">
-                    <h2 className="text-2xl font-semibold tracking-tight">Caretakers list</h2>
+                    <h2 className="text-2xl font-semibold tracking-tight">Dog list</h2>
                     <p className="text-sm text-muted-foreground">
-                        Praesent ut tincidunt justo. Proin ut purus diam. Sed fringilla odio nec gravida finibus.
-                        Aliquam blandit, augue vulputate aliquam scelerisque, est lorem volutpat nisi, a facilisis quam
-                        nisi et lectus. Donec in felis sed nisl congue ultrices eget at augue.
+                        Explore the "Dog List" to view all dogs currently in the shelter. As an admin, you can
+                        efficiently manage canine details. Remove dogs, update specific information, or copy unique
+                        identifiers for seamless record-keeping. Your commitment ensures a well-maintained and caring
+                        environment for our furry companions!
                     </p>
                 </div>
             </div>

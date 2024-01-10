@@ -1,15 +1,9 @@
-import { Controller, Get } from '@nestjs/common';
-import { MailingService } from './mailing.service';
+import { Controller } from '@nestjs/common';
 import { Public } from 'src/common/decorators';
+import { MailingService } from './mailing.service';
 
 @Controller('mailing')
 @Public()
 export class MailingController {
   constructor(readonly mailingService: MailingService) {}
-
-  // @Get('send-mail')
-  // public sendMail() {
-  //   console.log('test');
-  //   this.mailingService.sendEmailConfirmation();
-  // }
 }

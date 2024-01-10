@@ -21,7 +21,6 @@ export const ActionRoleGuard = (requiredRole: string) => {
       const body = request.body;
       const dogUuid = body?.dogUuid;
       const caretakerUuid = body?.caretakerUuid;
-      console.log(dogUuid, caretakerUuid);
       if (!dogUuid || !caretakerUuid) return false;
 
       // Get shelter uuid where dog is

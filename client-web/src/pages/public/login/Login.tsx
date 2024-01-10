@@ -1,8 +1,8 @@
-import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
 import loginImg from "@/assets/images/login.png";
 import logo from "@/assets/svg/logo.svg";
+import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { Link } from "react-router-dom";
 import LoginForm from "./components/LoginForm";
 
 export const Login = () => {

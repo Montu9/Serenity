@@ -29,26 +29,28 @@ export const DogConditionSelect: React.FC<ChildProps> = ({ className }) => {
                 <FormField
                     control={control}
                     name="dogCondition"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>Dog condition</FormLabel>
-                            <Select value={field.value} onValueChange={field.onChange} defaultValue={field.value}>
-                                <FormControl>
-                                    <SelectTrigger>
-                                        <SelectValue placeholder="Select a dog condition" />
-                                    </SelectTrigger>
-                                </FormControl>
-                                <SelectContent>
-                                    {dogConditions?.map((dogCondition) => (
-                                        <SelectItem key={dogCondition.name} value={dogCondition.name}>
-                                            {dogCondition.name}
-                                        </SelectItem>
-                                    ))}
-                                </SelectContent>
-                            </Select>
-                            <FormMessage />
-                        </FormItem>
-                    )}
+                    render={({ field }) => {
+                        return (
+                            <FormItem>
+                                <FormLabel>Dog condition</FormLabel>
+                                <Select value={field.value} onValueChange={field.onChange} defaultValue={field.value}>
+                                    <FormControl>
+                                        <SelectTrigger>
+                                            <SelectValue placeholder="Select a dog condition" />
+                                        </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent>
+                                        {dogConditions?.map((dogCondition) => (
+                                            <SelectItem key={dogCondition.name} value={dogCondition.name}>
+                                                {dogCondition.name}
+                                            </SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
+                                <FormMessage />
+                            </FormItem>
+                        );
+                    }}
                 />
             )}
         </div>

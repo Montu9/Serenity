@@ -1,7 +1,9 @@
 import { useAddCaretakerByEmailMutation } from "@/app/api/features/caretaker/caretakerApiSlice";
+import { useGetAllRolesQuery } from "@/app/api/features/common/role/roleApiSlice";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/components/ui/use-toast";
 import useFetchError from "@/hooks/useFetchError";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -11,8 +13,6 @@ import { BiLoaderCircle } from "react-icons/bi";
 import { useMatch } from "react-router-dom";
 import * as z from "zod";
 import addNewCaretakerSchema from "./addNewCaretakerSchema";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { useGetAllRolesQuery } from "@/app/api/features/common/role/roleApiSlice";
 
 export const AddNewCaretakerForm = () => {
     const match = useMatch("/dashboard/:id/:lastPart");
@@ -51,14 +51,15 @@ export const AddNewCaretakerForm = () => {
 
             toast({
                 variant: "success",
-                title: "You have added caretaker successfully!",
-                description: "Your data has been saved securly!",
+                title: "Caretaker Added Successfully!",
+                description: "The new caretaker has been successfully added to your shelter management system.",
             });
         } catch (err: unknown) {
             toast({
                 variant: "destructive",
                 title: "Uh oh! Something went wrong!",
-                description: "Check your credentials and try again.",
+                description:
+                    "There was an error while adding the caretaker to the shelter. Please check your information and try again.",
             });
         }
     };

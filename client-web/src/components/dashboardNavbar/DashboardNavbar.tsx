@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { ModeToggle } from "./components/ModeToggle";
 import { UserNav } from "./components/UserNav";
 import logo from "@/assets/svg/logo.svg";
+import { QrCodeToggle } from "./components/QrCodeToggle";
 
 export const DashboardNavbar = () => {
     return (
@@ -13,6 +14,7 @@ export const DashboardNavbar = () => {
                 </Link>
                 <div className="ml-auto flex items-center space-x-4">
                     <UserNav />
+                    <QrCodeToggle />
                     <ModeToggle />
                 </div>
             </div>

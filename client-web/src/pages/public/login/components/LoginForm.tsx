@@ -56,7 +56,6 @@ const LoginForm = () => {
                 description: "We are going to load your data now.",
             });
         } catch (error) {
-            console.log(error);
             toast({
                 variant: "destructive",
                 title: "Uh oh! Something went wrong!",

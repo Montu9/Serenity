@@ -13,7 +13,7 @@ export const dogApiSlice = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
         createDog: builder.mutation<Dog, CreateDogDto>({
             query: (data) => ({
-                url: "/dogs",
+                url: `/dogs/${data.kennel}`,
                 method: "POST",
                 body: { ...data },
             }),

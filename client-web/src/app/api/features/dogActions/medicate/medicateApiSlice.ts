@@ -22,7 +22,7 @@ export const medicateApiSlice = apiSlice.injectEndpoints({
             query: ({ actionId }) => ({ url: `/medicate/${actionId}` }),
         }),
         getAllMedicate: builder.query<Medicate[], MedicatePrep>({
-            query: ({ dogId }) => ({ url: `/dogs/${dogId}/getAllMedicate` }),
+            query: ({ dogId }) => ({ url: `/dogs/${dogId}/medicate` }),
         }),
         updateMedicate: builder.mutation<Medicate, MedicatePrep<UpdateMedicateDto>>({
             query: ({ actionId, data }) => ({

@@ -2,7 +2,6 @@ import { ColumnDef } from "@tanstack/react-table";
 import { DataTableColumnHeader } from "./columnHeader";
 import { Dog } from "./dogSchema";
 import { Breed } from "@/app/api/features/common/breed/breedApiSlice";
-import Kennel from "@/app/api/features/kennel/entities/Kennel";
 import { formatDistanceToNowStrict } from "date-fns/esm";
 import { DataTableRowActions } from "./rowActions";
 
@@ -75,17 +74,6 @@ export const columns: ColumnDef<Dog>[] = [
             return (
                 <div className="flex space-x-2">
                     <span className="max-w-[500px] truncate font-medium">{(row.getValue("breed") as Breed).name}</span>
-                </div>
-            );
-        },
-    },
-    {
-        accessorKey: "kennel",
-        header: ({ column }) => <DataTableColumnHeader column={column} title="Kennel" />,
-        cell: ({ row }) => {
-            return (
-                <div className="flex space-x-2">
-                    <span className="max-w-[500px] truncate font-medium">{(row.getValue("kennel") as Kennel).no}</span>
                 </div>
             );
         },

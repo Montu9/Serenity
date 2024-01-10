@@ -55,7 +55,7 @@ export const AddNewKennelForm = () => {
             toast({
                 variant: "destructive",
                 title: "Uh oh! Something went wrong!",
-                description: "Check your credentials and try again.",
+                description: "Check your information and try again.",
             });
         }
     };

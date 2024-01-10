@@ -71,10 +71,10 @@ export const EditCarekater = ({ caretaker }: EditCaretakerProps) => {
     return (
         <>
             <DialogHeader>
-                <DialogTitle>{`Change role for ${caretaker.firstName} ${caretaker.lastName}`}</DialogTitle>
+                <DialogTitle>{`Change role of ${caretaker.firstName} ${caretaker.lastName}`}</DialogTitle>
                 <DialogDescription>
-                    Provide name for your dog shelter organization. Remember, you can only have 3 active dashboards for
-                    your shelters.
+                    In this tab, effortlessly modify caretaker roles for effective management. Simply pick the new role
+                    to assign for caretaker profile you have selected.
                 </DialogDescription>
             </DialogHeader>
             <Form {...form}>
@@ -111,7 +111,7 @@ export const EditCarekater = ({ caretaker }: EditCaretakerProps) => {
                             </Button>
                         </DialogClose>
                         <Button type="submit" disabled={isLoadingUpdate}>
-                            {isLoadingUpdate && <BiLoaderCircle className="animate-spin" />}Create
+                            {isLoadingUpdate && <BiLoaderCircle className="animate-spin" />}Update Role
                         </Button>
                         {errMsg && errMsg?.length > 0 ? (
                             <small className="text-sm font-medium leading-none text-destructive">{errMsg}</small>

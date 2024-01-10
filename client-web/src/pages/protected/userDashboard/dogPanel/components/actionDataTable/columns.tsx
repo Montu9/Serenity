@@ -4,8 +4,16 @@ import { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
 import { DogAction } from "./actionSchema";
 import { DataTableColumnHeader } from "./columnHeader";
+import { DataTableRowActions } from "./rowActions";
+import { useSelector } from "react-redux";
+import { selectCurrentUser } from "@/app/api/features/auth/authSlice";
+import { Custom } from "./Custom";
 
 export const columns: ColumnDef<DogAction>[] = [
+    {
+        id: "actions",
+        cell: ({ row }) => <Custom row={row} />,
+    },
     {
         accessorKey: "user",
         header: ({ column }) => <DataTableColumnHeader column={column} title="First Name" />,

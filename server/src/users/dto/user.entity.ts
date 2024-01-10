@@ -26,9 +26,6 @@ export class UserEntity implements User {
   @Exclude()
   passwdHash: string;
 
-  @Exclude()
-  rtHash: string;
-
   @ApiProperty()
   isActive: boolean;
 

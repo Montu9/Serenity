@@ -8,8 +8,10 @@ export const AddNewCaretaker = () => {
                 <div className="space-y-1">
                     <h2 className="text-2xl font-semibold tracking-tight">Add Caretaker</h2>
                     <p className="text-sm text-muted-foreground">
-                        To add a new caretaker, simply input their email address and designate their role. This will
-                        provide them with access and responsibilities within the system.{" "}
+                        Here, you can easily integrate new caretakers into your shelter management system. Simply
+                        provide the caretaker's email and specify their role. This will provide them with access and
+                        responsibilities within the system. Thank you for your contribution to your furry friends'
+                        well-being!{" "}
                     </p>
                 </div>
             </div>

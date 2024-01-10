@@ -4,3 +4,4 @@ export * from './dogStatus';
 export * from './gender';
 export * from './intakeType';
 export * from './role';
+export * from './caretaker';

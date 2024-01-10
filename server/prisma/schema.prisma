@@ -19,7 +19,6 @@ model User {
   email      String  @unique
   isActive   Boolean @default(false)
   passwdHash String
-  rtHash     String?
 
   firstName String?
   lastName  String?

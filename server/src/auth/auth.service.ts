@@ -146,7 +146,6 @@ export class AuthService {
         isActive: true,
       },
     });
-    console.log('test');
     return { status: 'success', message: 'Account created successfully' };
   }
 

@@ -22,7 +22,7 @@ export const feedingApiSlice = apiSlice.injectEndpoints({
             query: ({ actionId }) => ({ url: `/feedings/${actionId}` }),
         }),
         getAllFeedings: builder.query<Feeding[], FeedingPrep>({
-            query: ({ dogId }) => ({ url: `/gods/${dogId}/getALlFeedings` }),
+            query: ({ dogId }) => ({ url: `/dogs/${dogId}/feedings` }),
         }),
         updateFeeding: builder.mutation<Feeding, FeedingPrep<UpdateFeedingDto>>({
             query: ({ actionId, data }) => ({

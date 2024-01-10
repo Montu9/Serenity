@@ -44,7 +44,6 @@ const baseQueryWithReauth: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQue
             const release = await mutex.acquire();
             try {
                 const refreshResult = await refreshBaseQuery("/auth/refresh", api, extraOptions);
-                console.log(refreshResult);
                 if (refreshResult.data) {
                     api.dispatch(setTokens(refreshResult.data as AccessToken));
                     result = await baseQuery(args, api, extraOptions);

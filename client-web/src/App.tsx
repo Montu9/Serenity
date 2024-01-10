@@ -50,7 +50,7 @@ function App() {
                             <Route path="security" element={<SecuritySettings />} />
                         </Route>
                         {/* Admin Dashboard */}
-                        <Route path="/dashboard/:id" element={<DashboardLayout />}>
+                        <Route path="/dashboard/:shelterUuid" element={<DashboardLayout />}>
                             <Route index element={<Dashboard />} />
                             <Route path="settings" element={<Settings />} />
                             <Route path="addNewKennel" element={<AddNewKennel />} />

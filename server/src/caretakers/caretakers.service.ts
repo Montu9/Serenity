@@ -1,8 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { CreateCaretakerByEmailDto } from './dto/create-caretaker.dto';
-import { UpdateCaretakerDto } from './dto/update-caretaker.dto';
 import { PrismaService } from 'nestjs-prisma';
 import { CaretakerEntity } from './dto/caretaker.entity';
+import { CreateCaretakerByEmailDto } from './dto/create-caretaker.dto';
+import { UpdateCaretakerDto } from './dto/update-caretaker.dto';
 
 @Injectable()
 export class CaretakersService {
@@ -14,6 +14,11 @@ export class CaretakersService {
   ) {
     const email = createCaretakerDto.email;
     await this.prisma.$transaction(async (prisma) => {
+      const role = await this.prisma.role.findUnique({
+        where: { name: createCaretakerDto.role },
+      });
+
+      if (!role) throw new NotFoundException('Role not found');
       const user = await prisma.user.findUnique({
         where: {
           email: email,
@@ -38,7 +43,7 @@ export class CaretakersService {
           },
           role: {
             connect: {
-              name: 'CARETAKER',
+              name: createCaretakerDto.role,
             },
           },
         },

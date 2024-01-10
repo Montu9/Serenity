@@ -214,13 +214,13 @@ export class DogsService {
       : undefined;
 
     const kennel = updateDogDto.kennel
-      ? await this.prisma.breed.findFirst({
-          where: { name: updateDogDto.kennel },
+      ? await this.prisma.kennel.findFirst({
+          where: { uuid: updateDogDto.kennel },
         })
       : undefined;
 
     const dogStatus = updateDogDto.dogStatus
-      ? await this.prisma.breed.findFirst({
+      ? await this.prisma.dogStatus.findFirst({
           where: { name: updateDogDto.dogStatus },
         })
       : undefined;

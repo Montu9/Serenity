@@ -1,12 +1,11 @@
+import { Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
-import { Strategy, ExtractJwt } from 'passport-jwt';
 import { Request } from 'express';
-import { ForbiddenException, Injectable } from '@nestjs/common';
+import { ExtractJwt, Strategy } from 'passport-jwt';
 
 @Injectable()
 export class RtStrategy extends PassportStrategy(Strategy, 'jwt-refresh') {
   constructor() {
-    console.log('first');
     super({
       jwtFromRequest: ExtractJwt.fromExtractors([
         RtStrategy.extractJWTFromCookie,
@@ -25,7 +24,6 @@ export class RtStrategy extends PassportStrategy(Strategy, 'jwt-refresh') {
 
   private static extractJWTFromCookie(req: Request): string | null {
     if (req.cookies && req.cookies.jwt) {
-      console.log(req.cookies.jwt);
       return req.cookies.jwt;
     }
     return null;

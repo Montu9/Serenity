@@ -108,7 +108,7 @@ export const Kennels = () => {
                                         <DialogContent className="container max-w-6xl block">
                                             <DialogHeader>
                                                 <DialogTitle className="text-xl flex items-center font-bold">
-                                                    Kennel: {kennel.no} <DotFilledIcon />{" "}
+                                                    Kennel: #{kennel.no} <DotFilledIcon />{" "}
                                                     <span className="text-xs font-light">{kennel.uuid}</span>
                                                 </DialogTitle>
                                             </DialogHeader>
@@ -137,7 +137,7 @@ export const Kennels = () => {
         <>
             <div className="flex items-center justify-between">
                 <div className="space-y-1">
-                    <h2 className="text-2xl font-semibold tracking-tight">Kennels list</h2>
+                    <h2 className="text-2xl font-semibold tracking-tight">Kennel list</h2>
                     <p className="text-sm text-muted-foreground">
                         In the kennels section, you'll find a comprehensive list of available spaces for our furry
                         friends. Explore the various kennels to view details and manage their occupancy, ensuring a
@@ -147,7 +147,6 @@ export const Kennels = () => {
             </div>
             <Separator className="my-4" />
             <div className="relative">{content}</div>
-            {/* <div>{dogData ? <DogDataTable data={dogData} columns={columns} /> : ""} </div> */}
         </>
     );
 };

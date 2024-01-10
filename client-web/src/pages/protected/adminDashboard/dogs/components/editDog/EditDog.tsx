@@ -34,7 +34,7 @@ export const EditDog = ({ dog }: EditDogProps) => {
     const match = useMatch("/dashboard/:id/:lastPart");
     const shelterUuid = match?.params.id || "";
 
-    const { data, isLoadingDog, isSuccess, isError } = useGetDogQuery({ dogUuid: dog.uuid });
+    const { data, isSuccess } = useGetDogQuery({ dogUuid: dog.uuid });
 
     const [updateDog, { isLoading, error }] = useUpdateDogMutation();
     const { errorMessage: errMsg, errorData } = useFetchError(error);
@@ -121,8 +121,10 @@ export const EditDog = ({ dog }: EditDogProps) => {
                     Dog: {dog.name} <DotFilledIcon /> <span className="text-xs font-light">{dog.uuid}</span>
                 </DialogTitle>
                 <DialogDescription>
-                    Provide name for your dog shelter organization. Remember, you can only have 3 active dashboards for
-                    your shelters.
+                    Within the "Dog Editing" tab, you can customize and refine details for each dog in our shelter. This
+                    includes updating specific information, assigning conditions or statuses, and saving changes to
+                    ensure accurate and up-to-date profiles. Your attention to these details plays a crucial role in
+                    enhancing the care and well-being of your canine residents. Thank you for your dedication!
                 </DialogDescription>
             </DialogHeader>
             <Form {...form}>
@@ -178,7 +180,9 @@ export const EditDog = ({ dog }: EditDogProps) => {
                                             />
                                         </PopoverContent>
                                     </Popover>
-                                    <FormDescription>Your date of birth is used to calculate your age.</FormDescription>
+                                    <FormDescription>
+                                        Approximate date of dog birth used to calculate his age.
+                                    </FormDescription>
                                     <FormMessage />
                                 </FormItem>
                             )}
@@ -254,7 +258,7 @@ export const EditDog = ({ dog }: EditDogProps) => {
                                             />
                                         </PopoverContent>
                                     </Popover>
-                                    <FormDescription>Your date of birth is used to calculate your age.</FormDescription>
+                                    <FormDescription>The date when the dog came to the shelter</FormDescription>
                                     <FormMessage />
                                 </FormItem>
                             )}
@@ -271,7 +275,7 @@ export const EditDog = ({ dog }: EditDogProps) => {
                         <DogIntakeTypeSelect className="col-span-2" />
 
                         <Button className="col-span-2" type="submit" disabled={isLoading}>
-                            {isLoading && <BiLoaderCircle className="animate-spin" />}Create dog
+                            {isLoading && <BiLoaderCircle className="animate-spin" />}Update dog details
                         </Button>
                     </div>
                     {errMsg && errMsg?.length > 0 ? (

@@ -5,7 +5,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useFormContext } from "react-hook-form";
 
 interface ChildProps {
-    className?: string; // Optional className prop
+    className?: string;
 }
 
 export const DogStatusSelect: React.FC<ChildProps> = ({ className }) => {

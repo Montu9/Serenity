@@ -210,7 +210,7 @@ export const EditKennelForm: React.FC<ChildProps> = ({ kennelUuid }) => {
                                 <AlertDialogHeader>
                                     <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
                                     <AlertDialogDescription>
-                                        This action cannot be undone. This will permanently delete your account and
+                                        This action cannot be undone. This will permanently delete this kennel and
                                         remove your data from our servers.
                                     </AlertDialogDescription>
                                 </AlertDialogHeader>

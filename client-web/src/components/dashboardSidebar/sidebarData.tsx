@@ -37,7 +37,7 @@ export const SidebarData: SidebarSection[] = [
                 href: "addNewKennel",
             },
             {
-                subTitle: "Kennels list",
+                subTitle: "Kennel list",
                 icon: <FaListOl />,
                 href: "kennels",
             },
@@ -52,7 +52,7 @@ export const SidebarData: SidebarSection[] = [
                 href: "addNewCaretaker",
             },
             {
-                subTitle: "Caretakers list",
+                subTitle: "Caretaker list",
                 icon: <FaListOl />,
                 href: "caretakers",
             },
@@ -67,7 +67,7 @@ export const SidebarData: SidebarSection[] = [
                 href: "addNewDog",
             },
             {
-                subTitle: "Dogs list",
+                subTitle: "Dog list",
                 icon: <FaListOl />,
                 href: "dogs",
             },

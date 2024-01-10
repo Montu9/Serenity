@@ -10,7 +10,7 @@ import { CaretSortIcon, CheckIcon } from "@radix-ui/react-icons";
 import { useFormContext } from "react-hook-form";
 
 interface ChildProps {
-    className?: string; // Optional className prop
+    className?: string;
 }
 
 export const BreedSelect: React.FC<ChildProps> = ({ className }) => {
@@ -42,7 +42,7 @@ export const BreedSelect: React.FC<ChildProps> = ({ className }) => {
                                                 variant="outline"
                                                 role="combobox"
                                                 className={cn(
-                                                    "w-[200px] justify-between",
+                                                    "w-full justify-between",
                                                     !field.value && "text-muted-foreground"
                                                 )}>
                                                 {field.value
@@ -54,8 +54,8 @@ export const BreedSelect: React.FC<ChildProps> = ({ className }) => {
                                     </PopoverTrigger>
                                     <PopoverContent className="w-[200px] p-0">
                                         <Command>
-                                            <CommandInput placeholder="Search language..." />
-                                            <CommandEmpty>No language found.</CommandEmpty>
+                                            <CommandInput placeholder="Search breed..." />
+                                            <CommandEmpty>No breed found.</CommandEmpty>
                                             <CommandGroup>
                                                 <ScrollArea className="h-72 w-48 rounded-md border">
                                                     {breeds.map((breed) => (
@@ -82,7 +82,7 @@ export const BreedSelect: React.FC<ChildProps> = ({ className }) => {
                                     </PopoverContent>
                                 </Popover>
                                 <FormDescription>
-                                    This is the language that will be used in the dashboard.
+                                    Select the breed from the list that most closely matches your dog.
                                 </FormDescription>
                                 <FormMessage />
                             </FormItem>

@@ -136,7 +136,9 @@ export const AddNewDogForm = () => {
                                         />
                                     </PopoverContent>
                                 </Popover>
-                                <FormDescription>Your date of birth is used to calculate your age.</FormDescription>
+                                <FormDescription>
+                                    Approximate date of dog birth used to calculate his age.
+                                </FormDescription>
                                 <FormMessage />
                             </FormItem>
                         )}
@@ -208,7 +210,7 @@ export const AddNewDogForm = () => {
                                         />
                                     </PopoverContent>
                                 </Popover>
-                                <FormDescription>Your date of birth is used to calculate your age.</FormDescription>
+                                <FormDescription>The date when the dog came to the shelter</FormDescription>
                                 <FormMessage />
                             </FormItem>
                         )}

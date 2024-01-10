@@ -3,8 +3,8 @@ import { DogInfo } from "./components/DogInfo";
 import { CleaningPanel } from "./components/cleaningPanel/CleaningPanel";
 import { FeedingPanel } from "./components/feedingPanel/FeedingPanel";
 import { MedicatePanel } from "./components/medicatePanel/MedicatePanel";
-import { WalkPanel } from "./components/walkPanel/WalkPanel";
 import { WalkDialog } from "./components/walkPanel/WalkDialog";
+import { WalkPanel } from "./components/walkPanel/WalkPanel";
 
 export const DogPanel = () => {
     return (

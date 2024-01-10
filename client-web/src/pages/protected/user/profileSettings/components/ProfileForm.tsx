@@ -141,16 +141,19 @@ export const ProfileForm = () => {
                             render={({ field }) => (
                                 <FormItem className="col-span-2">
                                     <FormLabel>Gender</FormLabel>
-                                    <Select onValueChange={field.onChange} defaultValue={data.gender}>
+                                    <Select
+                                        value={field.value}
+                                        onValueChange={field.onChange}
+                                        defaultValue={data.gender}>
                                         <FormControl>
                                             <SelectTrigger>
                                                 <SelectValue placeholder="Select a gender" />
                                             </SelectTrigger>
                                         </FormControl>
                                         <SelectContent>
-                                            <SelectItem value="MALE">Male</SelectItem>
-                                            <SelectItem value="FEMALE">Female</SelectItem>
-                                            <SelectItem value="OTHER">Other</SelectItem>
+                                            <SelectItem value="Male">Male</SelectItem>
+                                            <SelectItem value="Female">Female</SelectItem>
+                                            <SelectItem value="Other">Other</SelectItem>
                                         </SelectContent>
                                     </Select>
                                     <FormMessage />

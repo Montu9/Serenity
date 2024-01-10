@@ -24,7 +24,7 @@ export const walkApiSlice = apiSlice.injectEndpoints({
             providesTags: ["Walk"],
         }),
         getAllWalks: builder.query<Walk[], WalkPrep>({
-            query: ({ dogId }) => ({ url: `/dogs/${dogId}/getAllWalks` }),
+            query: ({ dogId }) => ({ url: `/dogs/${dogId}/walks` }),
             providesTags: ["Walk"],
         }),
         updateWalk: builder.mutation<Walk, WalkPrep<UpdateWalkDto>>({
