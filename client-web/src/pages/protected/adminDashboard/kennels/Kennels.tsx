@@ -8,6 +8,7 @@ import {
     Dialog,
     DialogClose,
     DialogContent,
+    DialogDescription,
     DialogFooter,
     DialogHeader,
     DialogTitle,
@@ -16,6 +17,8 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { useToast } from "@/components/ui/use-toast";
 import { DotFilledIcon } from "@radix-ui/react-icons";
+import QRCode from "qrcode.react";
+import { FaQrcode } from "react-icons/fa";
 import { useMatch } from "react-router-dom";
 import { DogDataTable } from "../dogs/components/DogDataTable";
 import { columns } from "../dogs/components/columns";
@@ -42,7 +45,15 @@ export const Kennels = () => {
             });
         }
     };
-
+    const downloadQr = (kennelNo: string) => {
+        const link = document.createElement("a");
+        link.download = `qr-${kennelNo}.png`;
+        const canvas = document.getElementById("canvas") as HTMLCanvasElement;
+        if (canvas) {
+            link.href = canvas.toDataURL();
+            link.click();
+        }
+    };
     let dogContent = <InputSkeleton />;
     if (isLoadingDogData) {
         dogContent = <InputSkeleton />;
@@ -69,7 +80,10 @@ export const Kennels = () => {
                 ) : (
                     data.map((kennel) => {
                         return (
-                            <Card key={kennel.uuid} onClick={() => onSubmit(kennel)} className="cursor-pointer">
+                            <Card
+                                key={kennel.uuid}
+                                onClick={() => onSubmit(kennel)}
+                                className="cursor-pointer flex flex-col justify-between">
                                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                                     <CardTitle className="text-sm font-medium">
                                         <div className="flex flex-row items-center justify-between space-x-1">
@@ -81,7 +95,43 @@ export const Kennels = () => {
                                     <div className="text-3xl font-bold">#{kennel.no}</div>
                                     <p className="text-xs text-muted-foreground">{kennel.desc}</p>
                                 </CardContent>
-                                <CardFooter className="flex justify-end gap-2">
+                                <CardFooter className="flex justify-between gap-2">
+                                    {/* Create QRCode */}
+                                    <Dialog>
+                                        <DialogTrigger asChild>
+                                            <Button variant="outline">
+                                                <FaQrcode />
+                                            </Button>
+                                        </DialogTrigger>
+                                        <DialogContent className="sm:max-w-md">
+                                            <DialogHeader>
+                                                <DialogTitle className="text-2xl flex items-center font-bold">
+                                                    QRCode
+                                                </DialogTitle>
+                                                <DialogDescription>Kennel #{kennel.no}</DialogDescription>
+                                            </DialogHeader>
+                                            <div className="flex justify-center items-center">
+                                                <QRCode
+                                                    id="canvas"
+                                                    size={320}
+                                                    value={`http://localhost:5173/panel/${shelterUuid}/${kennel.uuid}`}
+                                                    level={"H"}
+                                                    includeMargin={true}
+                                                />
+                                            </div>
+                                            <DialogFooter className="sm:justify-end">
+                                                <DialogClose asChild>
+                                                    <Button type="button" variant="secondary">
+                                                        Close
+                                                    </Button>
+                                                </DialogClose>
+                                                <Button type="button" onClick={() => downloadQr(kennel.no.toString())}>
+                                                    Download image
+                                                </Button>
+                                            </DialogFooter>
+                                        </DialogContent>
+                                    </Dialog>
+
                                     {/* Edit Kennel */}
                                     <Dialog>
                                         <DialogTrigger asChild>
@@ -103,7 +153,7 @@ export const Kennels = () => {
                                     {/* Show dog list */}
                                     <Dialog>
                                         <DialogTrigger asChild>
-                                            <Button>Show dogs</Button>
+                                            <Button>Dogs</Button>
                                         </DialogTrigger>
                                         <DialogContent className="container max-w-6xl block">
                                             <DialogHeader>

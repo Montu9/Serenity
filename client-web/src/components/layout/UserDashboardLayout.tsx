@@ -1,6 +1,6 @@
 import { Separator } from "@/components/ui/separator";
 import { Outlet } from "react-router-dom";
-import { SidebarNavPanel } from "./components/SidebarNavPanel";
+import { SidebarNavPanel } from "../panelSidebar/PanelSidebar";
 
 export const UserDashboardLayout = () => {
     const sidebarNavItems = [
@@ -15,7 +15,7 @@ export const UserDashboardLayout = () => {
     ];
 
     return (
-        <div className="space-y-6 p-10 pb-16">
+        <div className="space-y-6 pt-10 md:p-10 md:pb-16">
             <div className="space-y-0.5">
                 <h2 className="text-2xl font-bold tracking-tight">Caretaker Panel</h2>
                 <p className="text-muted-foreground hidden lg:block">
@@ -27,10 +27,10 @@ export const UserDashboardLayout = () => {
             </div>
             <Separator className="my-6 hidden lg:block" />
             <div className="flex flex-col space-y-8 lg:flex-row lg:space-x-12 lg:space-y-0">
-                <aside className="-mx-4 lg:w-1/5">
+                <aside className=" lg:w-1/5">
                     <SidebarNavPanel items={sidebarNavItems} />
                 </aside>
-                <div className="w-full h-full px-4 py-6 lg:px-8">
+                <div className="w-full h-full">
                     <Outlet />
                 </div>
             </div>

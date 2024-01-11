@@ -20,10 +20,16 @@ import {
     Kennels,
     Settings,
 } from "./pages/protected/adminDashboard/";
-import { ProfileSettings, SecuritySettings, UserSettings, Welcome } from "./pages/protected/user";
+import { ProfileSettings, SecuritySettings, UserSettings, Welcome } from "./pages/protected/userDashboard";
 import { DashboardLayout, Layout, PublicLayout, RequireAuth } from "./components/layout";
 import { cn } from "./lib/utils";
-import { AllDogsPanel, DogPanel, KennelPanel, UserDashboardLayout } from "./pages/protected/userDashboard";
+import {
+    AllDogsPanel,
+    DogPanel,
+    DogsInKennel,
+    KennelPanel,
+    UserDashboardLayout,
+} from "./pages/protected/caretakerDashboard";
 
 function App() {
     return (
@@ -64,9 +70,8 @@ function App() {
                         <Route path="/panel/:shelterUuid" element={<UserDashboardLayout />}>
                             <Route index element={<KennelPanel />} />
                             <Route path="dogs" element={<AllDogsPanel />} />
-                            <Route path="dog/:dogUuid">
-                                <Route index element={<DogPanel />} />
-                            </Route>
+                            <Route path="dog/:dogUuid" element={<DogPanel />} />
+                            <Route path=":kennelUuid" element={<DogsInKennel />} />
                         </Route>
                     </Route>
 

@@ -20,7 +20,6 @@ export const Dashboard = () => {
                     <CaretakerCards />
                 </div>
             </div>
-            {/* <div>{dogData ? <DogDataTable data={dogData} columns={columns} /> : ""} </div> */}
         </>
     );
 };
