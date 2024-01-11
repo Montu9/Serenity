@@ -88,10 +88,10 @@ export const EditDog = ({ dog }: EditDogProps) => {
                 dogUuid: dog.uuid,
                 data: {
                     name: values.name,
-                    dateOfBirth: values.dateOfBirth,
+                    dateOfBirth: new Date(format(values.dateOfBirth!, "yyyy-MM-dd")),
                     gender: values.gender, // select
                     microchip: values.microchip,
-                    intakeDate: values.intakeDate,
+                    intakeDate: new Date(format(values.intakeDate!, "yyyy-MM-dd")),
                     dogCondition: values.dogCondition, //select
                     breed: values.breed, //select
                     kennel: values.kennel, // select
@@ -120,7 +120,7 @@ export const EditDog = ({ dog }: EditDogProps) => {
                 <DialogTitle className="text-xl flex items-center font-bold">
                     Dog: {dog.name} <DotFilledIcon /> <span className="text-xs font-light">{dog.uuid}</span>
                 </DialogTitle>
-                <DialogDescription>
+                <DialogDescription className="text-justify">
                     Within the "Dog Editing" tab, you can customize and refine details for each dog in our shelter. This
                     includes updating specific information, assigning conditions or statuses, and saving changes to
                     ensure accurate and up-to-date profiles. Your attention to these details plays a crucial role in
@@ -128,8 +128,8 @@ export const EditDog = ({ dog }: EditDogProps) => {
                 </DialogDescription>
             </DialogHeader>
             <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-                    <div className="grid grid-cols-4 gap-2 items-start py-8">
+                <form onSubmit={form.handleSubmit(onSubmit)} className="overflow-auto max-h-full">
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-2 items-start md:py-8">
                         {/* name */}
                         <FormField
                             control={form.control}

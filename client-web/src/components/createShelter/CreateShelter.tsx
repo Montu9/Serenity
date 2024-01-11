@@ -93,14 +93,14 @@ const CreateShelter = () => {
                             </FormItem>
                         )}
                     />
-                    <DialogFooter className="sm:justify-start">
+                    <DialogFooter className="sm:justify-end gap-2">
                         <DialogClose asChild>
                             <Button type="button" variant="secondary">
                                 Close
                             </Button>
                         </DialogClose>
                         <Button type="submit" disabled={isLoading}>
-                            {isLoading && <BiLoaderCircle className="animate-spin" />}Create
+                            {isLoading && <BiLoaderCircle className="animate-spin" />}Create space
                         </Button>
                         {errMsg && errMsg?.length > 0 ? (
                             <small className="text-sm font-medium leading-none text-destructive">{errMsg}</small>

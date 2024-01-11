@@ -23,13 +23,8 @@ import {
 import { ProfileSettings, SecuritySettings, UserSettings, Welcome } from "./pages/protected/userDashboard";
 import { DashboardLayout, Layout, PublicLayout, RequireAuth } from "./components/layout";
 import { cn } from "./lib/utils";
-import {
-    AllDogsPanel,
-    DogPanel,
-    DogsInKennel,
-    KennelPanel,
-    UserDashboardLayout,
-} from "./pages/protected/caretakerDashboard";
+import { AllDogsPanel, DogPanel, DogsInKennel, KennelPanel } from "./pages/protected/caretakerDashboard";
+import { UserDashboardLayout } from "./components/layout/UserDashboardLayout";
 
 function App() {
     return (

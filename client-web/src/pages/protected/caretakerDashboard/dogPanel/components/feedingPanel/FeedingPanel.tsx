@@ -3,7 +3,7 @@ import { GiDogBowl } from "react-icons/gi";
 
 export const FeedingPanel = () => {
     return (
-        <Card>
+        <Card className="w-full">
             <CardHeader className="flex items-center justify-center">
                 <CardTitle className="text-2xl">
                     <GiDogBowl />

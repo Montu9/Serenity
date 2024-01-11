@@ -1,5 +1,5 @@
-export default interface UpdateFeedingDto {
-    date?: Date;
+export default interface UpactionDateFeedingDto {
+    actionDate?: Date;
     dogUuid?: string;
     caretakerUuid?: string;
 }

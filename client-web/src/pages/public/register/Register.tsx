@@ -16,7 +16,7 @@ export const Register = () => {
                                 <img src={logo} alt="logo" className="h-20 w-20 rounded-full lg:hidden" />
                             </Link>
                             <h1 className="text-3xl font-semibold tracking-tight">Sign up</h1>
-                            <p className="text-sm text-muted-foreground">
+                            <p className="text-sm text-muted-foreground text-justify">
                                 To create an account, please provide the required information. Fill in the necessary
                                 fields to complete the registration process and gain access to your account.
                             </p>

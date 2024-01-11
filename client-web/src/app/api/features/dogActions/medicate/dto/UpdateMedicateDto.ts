@@ -1,5 +1,5 @@
-export default interface UpdateMedicateDto {
-    date?: Date;
+export default interface UpactionDateMedicateDto {
+    actionDate?: Date;
     dogUuid?: string;
     caretakerUuid?: string;
 }

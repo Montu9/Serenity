@@ -38,7 +38,7 @@ export const shelterApiSlice = apiSlice.injectEndpoints({
             }),
             providesTags: ["Dog"],
         }),
-        getByUuid: builder.query<Shelter, ShelterPrep>({
+        getShelterByUuid: builder.query<Shelter, ShelterPrep>({
             query: ({ shelterUuid }) => ({ url: `/shelters/${shelterUuid}` }),
         }),
         updateShelter: builder.mutation<Shelter, ShelterPrep<UpdateShelterDto>>({
@@ -61,12 +61,12 @@ export const {
     useCreateShelterMutation,
     useDeleteShelterMutation,
     useGetAllCaretakersQuery,
-    useGetByUuidQuery,
     useLazyGetAllCaretakersQuery,
-    useLazyGetByUuidQuery,
     useUpdateShelterMutation,
     useGetAllKennelsQuery,
     useLazyGetAllKennelsQuery,
     useGetAllDogsQuery,
     useLazyGetAllDogsQuery,
+    useGetShelterByUuidQuery,
+    useLazyGetShelterByUuidQuery,
 } = shelterApiSlice;

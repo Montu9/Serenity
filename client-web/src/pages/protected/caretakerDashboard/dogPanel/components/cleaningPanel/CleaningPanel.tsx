@@ -3,7 +3,7 @@ import { FaHandsWash } from "react-icons/fa";
 
 export const CleaningPanel = () => {
     return (
-        <Card>
+        <Card className="w-full">
             <CardHeader className="flex items-center justify-center">
                 <CardTitle className="text-2xl">
                     <FaHandsWash />

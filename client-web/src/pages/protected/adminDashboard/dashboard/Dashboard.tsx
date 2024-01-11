@@ -1,5 +1,6 @@
 import { Separator } from "@/components/ui/separator";
 import { CaretakerCards } from "./components/CaretakerCards";
+import { DogCards } from "./components/DogCards";
 
 export const Dashboard = () => {
     return (
@@ -7,10 +8,11 @@ export const Dashboard = () => {
             <div className="flex items-center justify-between">
                 <div className="space-y-1">
                     <h2 className="text-2xl font-semibold tracking-tight">Dashboard</h2>
-                    <p className="text-sm text-muted-foreground">
-                        In the kennels section, you'll find a comprehensive list of available spaces for our furry
-                        friends. Explore the various kennels to view details and manage their occupancy, ensuring a
-                        comfortable and organized environment for the dogs in our care.
+                    <p className="text-sm text-muted-foreground text-justify">
+                        Welcome to the Dashboard – your central hub for all things related to our shelter management
+                        system. Here, you'll find a snapshot of critical information, including kennel occupancy, recent
+                        activities, and important alerts. Navigate with ease, stay informed, and manage tasks
+                        efficiently, all from the convenience of the Dashboard.
                     </p>
                 </div>
             </div>
@@ -18,6 +20,7 @@ export const Dashboard = () => {
             <div className="relative">
                 <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
                     <CaretakerCards />
+                    <DogCards />
                 </div>
             </div>
         </>

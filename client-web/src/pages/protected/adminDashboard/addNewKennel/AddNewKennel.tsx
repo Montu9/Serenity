@@ -7,7 +7,7 @@ export const AddNewKennel = () => {
             <div className="flex items-center justify-between">
                 <div className="space-y-1">
                     <h2 className="text-2xl font-semibold tracking-tight">Add Kennel</h2>
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-sm text-muted-foreground text-justify">
                         Welcome to Kennel Creation! To get started, please provide the necessary details to set up your
                         new kennel. Once completed, you'll be all set to manage and organize your kennel space
                         efficiently. Thank you for joining us in providing comfort and care for furry friends!

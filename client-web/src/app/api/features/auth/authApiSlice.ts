@@ -79,4 +79,6 @@ export const {
     useUpdateUserMutation,
     usePasswordResetMutation,
     useRequestPasswordResetMutation,
+    useDeleteUserMutation,
+    useLazyGetUserQuery,
 } = authApiSlice;

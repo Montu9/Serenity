@@ -28,7 +28,7 @@ export const AllDogsPanel = () => {
             <div className="space-y-6">
                 <div>
                     <h2 className="text-lg font-medium">List of all dogs</h2>
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-sm text-muted-foreground text-justify">
                         Within the "Dog List" section, caretakers can present a table containing information about all
                         dogs in the shelter. This functionality provides a comprehensive view, facilitating efficient
                         management and care coordination. Your meticulous attention to this dog list significantly

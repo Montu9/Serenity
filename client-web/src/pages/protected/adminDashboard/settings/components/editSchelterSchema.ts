@@ -1,6 +1,6 @@
 import * as z from "zod";
 
-const createShelterSchema = z
+const editShelterSchema = z
     .object({
         name: z
             .string({
@@ -19,4 +19,4 @@ const createShelterSchema = z
     })
     .required();
 
-export default createShelterSchema;
+export default editShelterSchema;

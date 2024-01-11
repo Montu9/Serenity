@@ -15,8 +15,8 @@ export function DataTableRowActions<TData>({ row }: DataTableRowActionsProps<TDa
     const dog = row.original as Dog;
     return (
         <Link to={`/panel/${shelterUuid}/dog/${dog.uuid}`}>
-            <Button className="w-full flex justify-between align-center">
-                Go <DoubleArrowRightIcon />
+            <Button className="w-full flex justify-between align-center text-xs ">
+                <DoubleArrowRightIcon className="h-4" />
             </Button>
         </Link>
     );

@@ -20,11 +20,11 @@ export const Caretakers = () => {
     }
 
     return (
-        <div>
+        <>
             <div className="flex items-center justify-between">
                 <div className="space-y-1">
                     <h2 className="text-2xl font-semibold tracking-tight">Caretaker list</h2>
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-sm text-muted-foreground text-justify">
                         Explore the "Caretaker List" to see all contributors to your shelter. As an admin, you can
                         seamlessly manage caretaker details. Remove caretakers, adjust roles, or copy emails for
                         effective communication. Your dedication ensures a nurturing environment for all our dogs!
@@ -32,7 +32,7 @@ export const Caretakers = () => {
                 </div>
             </div>
             <Separator className="my-4" />
-            <div>{content}</div>
-        </div>
+            <div className="relative">{content}</div>
+        </>
     );
 };

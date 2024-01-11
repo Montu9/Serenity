@@ -95,7 +95,7 @@ export const Kennels = () => {
                                     <div className="text-3xl font-bold">#{kennel.no}</div>
                                     <p className="text-xs text-muted-foreground">{kennel.desc}</p>
                                 </CardContent>
-                                <CardFooter className="flex justify-between gap-2">
+                                <CardFooter className="flex justify-between sm:justify-end gap-2">
                                     {/* Create QRCode */}
                                     <Dialog>
                                         <DialogTrigger asChild>
@@ -119,7 +119,7 @@ export const Kennels = () => {
                                                     includeMargin={true}
                                                 />
                                             </div>
-                                            <DialogFooter className="sm:justify-end">
+                                            <DialogFooter className="sm:justify-end gap-2">
                                                 <DialogClose asChild>
                                                     <Button type="button" variant="secondary">
                                                         Close
@@ -137,14 +137,14 @@ export const Kennels = () => {
                                         <DialogTrigger asChild>
                                             <Button variant="outline">Edit kennel</Button>
                                         </DialogTrigger>
-                                        <DialogContent className="sm:max-w-md">
+                                        <DialogContent>
                                             <DialogHeader>
                                                 <DialogTitle className="text-2xl flex items-center font-bold">
                                                     Kennel: #{kennel.no} <DotFilledIcon />{" "}
                                                     <span className="text-xs font-light">{kennel.uuid}</span>
                                                 </DialogTitle>
                                             </DialogHeader>
-                                            <div className="flex items-center space-x-2">
+                                            <div className="flex items-center space-x-2 w-full">
                                                 <EditKennelForm kennelUuid={kennel.uuid} />
                                             </div>
                                         </DialogContent>
@@ -163,7 +163,7 @@ export const Kennels = () => {
                                                 </DialogTitle>
                                             </DialogHeader>
                                             <div className="w-full py-4">{dogContent}</div>
-                                            <DialogFooter className="sm:justify-end">
+                                            <DialogFooter className="sm:justify-end gap-2">
                                                 <DialogClose asChild>
                                                     <Button type="button" variant="secondary">
                                                         Close
@@ -188,7 +188,7 @@ export const Kennels = () => {
             <div className="flex items-center justify-between">
                 <div className="space-y-1">
                     <h2 className="text-2xl font-semibold tracking-tight">Kennel list</h2>
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-sm text-muted-foreground text-justify">
                         In the kennels section, you'll find a comprehensive list of available spaces for our furry
                         friends. Explore the various kennels to view details and manage their occupancy, ensuring a
                         comfortable and organized environment for the dogs in our care.

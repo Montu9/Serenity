@@ -56,7 +56,7 @@ export class MedicateService {
   }
 
   async findOne(id: number) {
-    const medicate = await this.prisma.cleaning.findUnique({
+    const medicate = await this.prisma.medicate.findUnique({
       where: { id: id },
       include: {
         user: {
@@ -83,7 +83,7 @@ export class MedicateService {
   }
 
   async update(id: number, updateMedicateDto: UpdateMedicateDto) {
-    const medicate = await this.prisma.cleaning.update({
+    const medicate = await this.prisma.medicate.update({
       where: { id: id },
       data: {
         date: updateMedicateDto.actionDate || undefined,
@@ -114,7 +114,7 @@ export class MedicateService {
 
   async remove(id: number) {
     return new MedicateEntity(
-      await this.prisma.cleaning.delete({
+      await this.prisma.medicate.delete({
         where: {
           id: id,
         },

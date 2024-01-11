@@ -1,10 +1,13 @@
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
-import { DogInfo } from "./components/DogInfo";
+import { DogInfo } from "./components/dogInfo/DogInfo";
 import { CleaningPanel } from "./components/cleaningPanel/CleaningPanel";
 import { FeedingPanel } from "./components/feedingPanel/FeedingPanel";
 import { MedicatePanel } from "./components/medicatePanel/MedicatePanel";
 import { WalkDialog } from "./components/walkPanel/WalkDialog";
 import { WalkPanel } from "./components/walkPanel/WalkPanel";
+import { MedicateDialog } from "./components/medicatePanel/MedicateDialog";
+import { FeedingDialog } from "./components/feedingPanel/FeedingDialog";
+import { CleaningDialog } from "./components/cleaningPanel/CleaningDialog";
 
 export const DogPanel = () => {
     return (
@@ -21,13 +24,28 @@ export const DogPanel = () => {
                 </Dialog>
             </div>
             <div>
-                <FeedingPanel />
+                <Dialog>
+                    <DialogTrigger className="w-full">
+                        <FeedingPanel />
+                    </DialogTrigger>
+                    <FeedingDialog />
+                </Dialog>
             </div>
             <div>
-                <CleaningPanel />
+                <Dialog>
+                    <DialogTrigger className="w-full">
+                        <CleaningPanel />
+                    </DialogTrigger>
+                    <CleaningDialog />
+                </Dialog>
             </div>
             <div>
-                <MedicatePanel />
+                <Dialog>
+                    <DialogTrigger className="w-full">
+                        <MedicatePanel />
+                    </DialogTrigger>
+                    <MedicateDialog />
+                </Dialog>
             </div>
         </div>
     );

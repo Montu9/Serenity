@@ -93,7 +93,7 @@ export const KennelPanel = () => {
                                                 </DialogTitle>
                                             </DialogHeader>
                                             <div className="w-full py-4">{dogContent}</div>
-                                            <DialogFooter className="sm:justify-end">
+                                            <DialogFooter className="sm:justify-end gap-2">
                                                 <DialogClose asChild>
                                                     <Button type="button" variant="secondary">
                                                         Close
@@ -118,7 +118,7 @@ export const KennelPanel = () => {
             <div className="space-y-6">
                 <div>
                     <h2 className="text-lg font-medium">Kennel list</h2>
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-sm text-muted-foreground text-justify">
                         In this section, caretakers can display a table showcasing the dogs currently housed in each
                         kennel. This feature allows for a quick and organized overview, enhancing efficiency in managing
                         the well-being of our canine residents. Your attentive care makes a meaningful difference in the

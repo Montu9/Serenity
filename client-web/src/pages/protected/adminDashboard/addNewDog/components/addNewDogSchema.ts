@@ -14,9 +14,7 @@ const addNewDogSchema = z
                 required_error: "Date of birth is required",
                 invalid_type_error: "Date of birth must be a string",
             })
-            .refine((date) => !!date, {
-                message: "Date of birth is required and must be a valid date.",
-            }),
+            .optional(),
         gender: z
             .string({
                 required_error: "Gender is required",
@@ -36,9 +34,7 @@ const addNewDogSchema = z
                 required_error: "Intake date is required",
                 invalid_type_error: "Intake date must be a string",
             })
-            .refine((date) => !!date, {
-                message: "Intake date is required and must be a valid date.",
-            }),
+            .optional(),
         dogCondition: z
             .string({
                 required_error: "Dog condition is required",

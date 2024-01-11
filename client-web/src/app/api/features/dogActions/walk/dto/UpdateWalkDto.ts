@@ -1,5 +1,5 @@
-export default interface UpdateWalkDto {
-    date?: Date;
+export default interface UpactionDateWalkDto {
+    actionDate?: Date;
     dogUuid?: string;
     caretakerUuid?: string;
 }

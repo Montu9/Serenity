@@ -104,7 +104,7 @@ export const EditCarekater = ({ caretaker }: EditCaretakerProps) => {
                         )}
                     />
 
-                    <DialogFooter className="sm:justify-start">
+                    <DialogFooter className="sm:justify-end gap-2">
                         <DialogClose asChild>
                             <Button type="button" variant="secondary">
                                 Close

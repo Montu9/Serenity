@@ -8,10 +8,10 @@ import { selectCurrentUser } from "@/app/api/features/auth/authSlice";
 export const Welcome = () => {
     const user = useSelector(selectCurrentUser);
     return (
-        <div className="space-y-6 p-10 pb-16">
+        <div className="space-y-6 p-4 pt-10 md:p-10 pb-16">
             <div className="space-y-0.5">
                 <h2 className="text-2xl font-bold tracking-tight">{`Welcome ${user.firstName}!`}</h2>
-                <p className="text-muted-foreground">
+                <p className="text-muted-foreground text-justify">
                     Good to see you! Our Dog Shelter Management System – the comprehensive solution tailored to
                     streamline the care and well-being of our four-legged friends! Our system is designed to simplify
                     shelter operations, offering a centralized platform for medical records, daily activities, and more.

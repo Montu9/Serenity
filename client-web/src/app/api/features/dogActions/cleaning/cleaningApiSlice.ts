@@ -17,12 +17,15 @@ export const cleaningApiSlice = apiSlice.injectEndpoints({
                 method: "POST",
                 body: { ...data },
             }),
+            invalidatesTags: ["Cleaning"],
         }),
         getCleaning: builder.query<Cleaning, CleaningPrep>({
             query: ({ actionId }) => ({ url: `/cleanings/${actionId}` }),
+            providesTags: ["Cleaning"],
         }),
         getAllCleanings: builder.query<Cleaning[], CleaningPrep>({
             query: ({ dogId }) => ({ url: `/dogs/${dogId}/cleanings` }),
+            providesTags: ["Cleaning"],
         }),
         updateCleaning: builder.mutation<Cleaning, CleaningPrep<UpdateCleaningDto>>({
             query: ({ actionId, data }) => ({
@@ -30,12 +33,14 @@ export const cleaningApiSlice = apiSlice.injectEndpoints({
                 method: "PATCH",
                 body: { ...data },
             }),
+            invalidatesTags: ["Cleaning"],
         }),
         deleteCleaning: builder.mutation<Cleaning, CleaningPrep>({
             query: ({ actionId }) => ({
                 url: `cleanings/${actionId}`,
                 method: "DELETE",
             }),
+            invalidatesTags: ["Cleaning"],
         }),
     }),
 });

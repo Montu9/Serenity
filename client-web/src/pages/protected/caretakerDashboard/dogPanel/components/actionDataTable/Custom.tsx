@@ -3,8 +3,8 @@ import User from "@/app/api/features/user/entities/User";
 import { useSelector } from "react-redux";
 import { DataTableRowActions } from "./rowActions";
 
-export const Custom = ({ row }) => {
+export const Custom = ({ type, row }) => {
     const rowUser = row.getValue("user") as User;
     const user = useSelector(selectCurrentUser);
-    return rowUser.uuid === user.uuid ? <DataTableRowActions row={row} /> : "";
+    return rowUser.uuid === user.uuid ? <DataTableRowActions type={type} row={row} /> : "";
 };

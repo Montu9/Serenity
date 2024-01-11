@@ -31,7 +31,7 @@ export const Login = () => {
                                 <img src={logo} alt="logo" className="h-20 w-20 rounded-full lg:hidden" />
                             </Link>
                             <h1 className="text-3xl font-semibold tracking-tight">Sign in</h1>
-                            <p className="text-sm text-muted-foreground">
+                            <p className="text-sm text-muted-foreground text-justify">
                                 To sign in, please enter your registered email and password. Ensure the information
                                 provided is accurate to access your account securely.
                             </p>

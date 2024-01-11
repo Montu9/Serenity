@@ -3,7 +3,7 @@ import { FaNotesMedical } from "react-icons/fa";
 
 export const MedicatePanel = () => {
     return (
-        <Card>
+        <Card className="w-full">
             <CardHeader className="flex items-center justify-center">
                 <CardTitle className="text-2xl">
                     <FaNotesMedical />

@@ -17,18 +17,27 @@ import { useState } from "react";
 import { DataTablePagination } from "./pagination";
 
 interface DataTableProps<TData, TValue> {
+    type: string;
     columns: ColumnDef<TData, TValue>[];
     data: TData[];
 }
 
-export function ActionDataTable<TData, TValue>({ columns, data }: DataTableProps<TData, TValue>) {
+export function ActionDataTable<TData, TValue>({ type, columns, data }: DataTableProps<TData, TValue>) {
     const [rowSelection, setRowSelection] = useState({});
     const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-    const [sorting, setSorting] = useState<SortingState>([]);
+    const [sorting, setSorting] = useState<SortingState>([
+        {
+            id: "date", // Must be equal to the accessorKey of the coulmn you want sorted by default
+            desc: true,
+        },
+    ]);
 
     const table = useReactTable({
         data,
+        meta: {
+            type,
+        },
         columns,
         state: {
             sorting,

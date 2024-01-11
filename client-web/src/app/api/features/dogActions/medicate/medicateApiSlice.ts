@@ -17,12 +17,15 @@ export const medicateApiSlice = apiSlice.injectEndpoints({
                 method: "POST",
                 body: { ...data },
             }),
+            invalidatesTags: ["Medicate"],
         }),
         getMedicate: builder.query<Medicate, MedicatePrep>({
             query: ({ actionId }) => ({ url: `/medicate/${actionId}` }),
+            providesTags: ["Medicate"],
         }),
         getAllMedicate: builder.query<Medicate[], MedicatePrep>({
             query: ({ dogId }) => ({ url: `/dogs/${dogId}/medicate` }),
+            providesTags: ["Medicate"],
         }),
         updateMedicate: builder.mutation<Medicate, MedicatePrep<UpdateMedicateDto>>({
             query: ({ actionId, data }) => ({
@@ -30,12 +33,14 @@ export const medicateApiSlice = apiSlice.injectEndpoints({
                 method: "PATCH",
                 body: { ...data },
             }),
+            invalidatesTags: ["Medicate"],
         }),
         deleteMedicate: builder.mutation<Medicate, MedicatePrep>({
             query: ({ actionId }) => ({
                 url: `medicate/${actionId}`,
                 method: "DELETE",
             }),
+            invalidatesTags: ["Medicate"],
         }),
     }),
 });

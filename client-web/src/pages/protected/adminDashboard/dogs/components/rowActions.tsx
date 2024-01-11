@@ -81,7 +81,7 @@ export function DataTableRowActions<TData>({ row }: DataTableRowActionsProps<TDa
                         </DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
-                <DialogContent className="container max-w-4xl block">
+                <DialogContent className="max-w-4xl flex flex-col max-h-full box-border sm:h-fit">
                     <EditDog dog={dog as Dog} />
                 </DialogContent>
             </Dialog>

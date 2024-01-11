@@ -30,7 +30,7 @@ export const UserDashboardLayout = () => {
                 <aside className=" lg:w-1/5">
                     <SidebarNavPanel items={sidebarNavItems} />
                 </aside>
-                <div className="w-full h-full">
+                <div className="w-full h-full pb-6">
                     <Outlet />
                 </div>
             </div>

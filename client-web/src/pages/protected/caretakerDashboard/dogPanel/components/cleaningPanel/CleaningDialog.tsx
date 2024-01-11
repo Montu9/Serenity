@@ -1,5 +1,8 @@
 import { selectCurrentUser } from "@/app/api/features/auth/authSlice";
-import { useCreateWalkMutation, useGetAllWalksQuery } from "@/app/api/features/dogActions/walk/walkApiSlice";
+import {
+    useCreateCleaningMutation,
+    useGetAllCleaningsQuery,
+} from "@/app/api/features/dogActions/cleaning/cleaningApiSlice";
 import { CardSkeleton, LoadingError, NothingHere } from "@/components";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
@@ -21,19 +24,19 @@ import { useParams } from "react-router-dom";
 import * as z from "zod";
 import { ActionDataTable } from "../actionDataTable/ActionDataTable";
 import { columns } from "../actionDataTable/columns";
-import walkSchema from "./components/walkSchema";
+import cleaningSchema from "./components/cleaningSchema";
 
-export const WalkDialog = () => {
+export const CleaningDialog = () => {
     const caretaker = useSelector(selectCurrentUser);
     const { toast } = useToast();
     const { dogUuid } = useParams();
-    const { data, isLoading, isSuccess, isError } = useGetAllWalksQuery({ dogId: dogUuid || "" });
+    const { data, isLoading, isSuccess, isError } = useGetAllCleaningsQuery({ dogId: dogUuid || "" });
 
-    const [createWalk, { isLoading: isLoadingWalk, error }] = useCreateWalkMutation();
+    const [createCleaning, { isLoading: isLoadingCleaning, error }] = useCreateCleaningMutation();
     const { errorMessage: errMsg, errorData } = useFetchError(error);
 
-    const form = useForm<z.infer<typeof walkSchema>>({
-        resolver: zodResolver(walkSchema),
+    const form = useForm<z.infer<typeof cleaningSchema>>({
+        resolver: zodResolver(cleaningSchema),
         defaultValues: {
             actionDate: new Date(),
         },
@@ -42,7 +45,7 @@ export const WalkDialog = () => {
     useEffect(() => {
         if (errorData) {
             errorData.map((error) => {
-                form.setError(error.property as keyof z.infer<typeof walkSchema>, {
+                form.setError(error.property as keyof z.infer<typeof cleaningSchema>, {
                     type: "server",
                     message: error.constraints.join("\n"),
                 });
@@ -50,9 +53,9 @@ export const WalkDialog = () => {
         }
     }, [errorData, form]);
 
-    const onSubmit = async (values: z.infer<typeof walkSchema>) => {
+    const onSubmit = async (values: z.infer<typeof cleaningSchema>) => {
         try {
-            await createWalk({
+            await createCleaning({
                 data: {
                     actionDate: new Date(format(values.actionDate!, "yyyy-MM-dd")),
                     dogUuid: dogUuid || "",
@@ -78,7 +81,7 @@ export const WalkDialog = () => {
     if (isLoading) {
         content = <CardSkeleton />;
     } else if (isSuccess) {
-        content = data ? <ActionDataTable type="walk" data={data} columns={columns} /> : <NothingHere />;
+        content = data ? <ActionDataTable type="cleaning" data={data} columns={columns} /> : <NothingHere />;
     } else if (isError) {
         content = <LoadingError />;
     }
@@ -86,19 +89,19 @@ export const WalkDialog = () => {
     return (
         <DialogContent className="container max-w-2xl block overflow-auto max-h-full">
             <DialogHeader>
-                <DialogTitle className="text-xl flex items-center font-bold">Register new walk</DialogTitle>
+                <DialogTitle className="text-xl flex items-center font-bold">Register new cleaning</DialogTitle>
             </DialogHeader>
             <div className="flex items-center space-x-2 w-full">
                 <div className="w-full py-2">
                     <Tabs defaultValue="register" className="w-full">
                         <TabsList className="grid w-full grid-cols-2">
-                            <TabsTrigger value="register">Register new walk</TabsTrigger>
-                            <TabsTrigger value="list">Walk list</TabsTrigger>
+                            <TabsTrigger value="register">Register new cleaning</TabsTrigger>
+                            <TabsTrigger value="list">Cleaning list</TabsTrigger>
                         </TabsList>
                         <TabsContent value="register">
                             <p className="px-2 py-4 text-sm text-justify leading-5 font-light">
-                                You now have the ability to create new entries in the "Walk Log" by providing the date
-                                of the walk. Simply select the date you'd like to share about the stroll.
+                                You now have the ability to create new entries in the "Cleaning Log" by providing the
+                                date of the cleaning. Simply select the date you'd like to share about the stroll.
                             </p>
                             <Form {...form}>
                                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -108,7 +111,7 @@ export const WalkDialog = () => {
                                             name="actionDate"
                                             render={({ field }) => (
                                                 <FormItem className="flex flex-col col-span-2">
-                                                    <FormLabel>Walk Date</FormLabel>
+                                                    <FormLabel>Cleaning Date</FormLabel>
                                                     <Popover>
                                                         <PopoverTrigger asChild>
                                                             <FormControl>
@@ -143,8 +146,9 @@ export const WalkDialog = () => {
                                                 </FormItem>
                                             )}
                                         />
-                                        <Button className="col-span-2" type="submit" disabled={isLoadingWalk}>
-                                            {isLoadingWalk && <BiLoaderCircle className="animate-spin" />}Register Walk
+                                        <Button className="col-span-2" type="submit" disabled={isLoadingCleaning}>
+                                            {isLoadingCleaning && <BiLoaderCircle className="animate-spin" />}Register
+                                            Cleaning
                                         </Button>
                                     </div>
                                     {errMsg && errMsg?.length > 0 ? (
@@ -160,8 +164,8 @@ export const WalkDialog = () => {
                         <TabsContent value="list">
                             <div>
                                 <p className="px-2 py-4 text-sm text-justify leading-5 font-light">
-                                    Here, you can find a comprehensive list detailing who took each dog on a walk and
-                                    when. If you find an entry in the register that corresponds to your session, you
+                                    Here, you can find a comprehensive list detailing who took each dog on a cleaning
+                                    and when. If you find an entry in the register that corresponds to your session, you
                                     have the ability to manage the log by deleting entries.
                                 </p>
                                 {content}

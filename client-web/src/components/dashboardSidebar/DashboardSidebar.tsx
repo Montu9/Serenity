@@ -20,7 +20,7 @@ export const DashboardSidebar = () => {
                             <Button
                                 key={content.subTitle}
                                 variant={pathnameLastPart === content.href ? "secondary" : "ghost"}
-                                className="w-full justify-start gap-2 font-normal"
+                                className="w-full flex justify-start gap-2 font-normal"
                                 asChild>
                                 <Link to={content.href}>
                                     {content.icon}
@@ -47,9 +47,9 @@ export const DashboardSidebar = () => {
                         <SheetContent side="left" className="flex flex-col">
                             <SheetHeader>
                                 <SheetTitle>Menu</SheetTitle>
-                                <SheetDescription>
-                                    This action cannot be undone. This will permanently delete your account and remove
-                                    your data from our servers.
+                                <SheetDescription className="text-justify">
+                                    Explore the sidebar for quick and easy navigation. Access key features and sections
+                                    effortlessly.
                                 </SheetDescription>
                             </SheetHeader>
                             {content}

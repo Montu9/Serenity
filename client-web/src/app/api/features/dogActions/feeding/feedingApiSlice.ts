@@ -17,12 +17,15 @@ export const feedingApiSlice = apiSlice.injectEndpoints({
                 method: "POST",
                 body: { ...data },
             }),
+            invalidatesTags: ["Feeding"],
         }),
         getFeeding: builder.query<Feeding, FeedingPrep>({
             query: ({ actionId }) => ({ url: `/feedings/${actionId}` }),
+            providesTags: ["Feeding"],
         }),
         getAllFeedings: builder.query<Feeding[], FeedingPrep>({
             query: ({ dogId }) => ({ url: `/dogs/${dogId}/feedings` }),
+            providesTags: ["Feeding"],
         }),
         updateFeeding: builder.mutation<Feeding, FeedingPrep<UpdateFeedingDto>>({
             query: ({ actionId, data }) => ({
@@ -30,12 +33,14 @@ export const feedingApiSlice = apiSlice.injectEndpoints({
                 method: "PATCH",
                 body: { ...data },
             }),
+            invalidatesTags: ["Feeding"],
         }),
         deleteFeeding: builder.mutation<Feeding, FeedingPrep>({
             query: ({ actionId }) => ({
                 url: `feedings/${actionId}`,
                 method: "DELETE",
             }),
+            invalidatesTags: ["Feeding"],
         }),
     }),
 });

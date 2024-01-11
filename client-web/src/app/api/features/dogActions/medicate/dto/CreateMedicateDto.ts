@@ -1,5 +1,5 @@
 export default interface CreateMedicateDto {
-    date?: Date;
+    actionDate?: Date;
     dogUuid: string;
     caretakerUuid: string;
 }

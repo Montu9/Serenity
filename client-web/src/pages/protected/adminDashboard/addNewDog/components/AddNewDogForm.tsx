@@ -62,10 +62,10 @@ export const AddNewDogForm = () => {
         try {
             await createDog({
                 name: values.name,
-                dateOfBirth: values.dateOfBirth,
+                dateOfBirth: new Date(format(values.dateOfBirth!, "yyyy-MM-dd")),
                 gender: values.gender, // select
                 microchip: values.microchip,
-                intakeDate: values.intakeDate,
+                intakeDate: new Date(format(values.intakeDate!, "yyyy-MM-dd")),
                 dogCondition: values.dogCondition, //select
                 breed: values.breed, //select
                 kennel: values.kennel, // select

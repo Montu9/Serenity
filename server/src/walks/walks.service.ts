@@ -112,7 +112,7 @@ export class WalksService {
 
   async remove(id: number) {
     return new WalkEntity(
-      await this.prisma.cleaning.delete({
+      await this.prisma.walk.delete({
         where: {
           id: id,
         },
