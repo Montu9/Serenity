@@ -39,7 +39,7 @@ export const UserShelterList = () => {
                                     <div className="text-2xl font-bold">{shelter.shelter.name}</div>
                                     <p className="text-xs text-muted-foreground">{shelter.shelter.description}</p>
                                 </CardContent>
-                                <CardFooter className="grid gap-4 lg:grid-cols-2">
+                                <CardFooter className="grid gap-2 lg:grid-cols-2">
                                     <Button asChild>
                                         <Link to={`/panel/${shelter.shelter.uuid}`}>Caretaker Panel</Link>
                                     </Button>

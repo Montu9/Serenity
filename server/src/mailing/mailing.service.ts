@@ -27,6 +27,7 @@ export class MailingService {
     const accessToken: string = await new Promise((resolve, reject) => {
       oauth2Client.getAccessToken((err, token) => {
         if (err) {
+          console.log(err);
           reject('Failed to create access token');
         }
         resolve(token);
@@ -47,16 +48,13 @@ export class MailingService {
   }
 
   public async sendEmailConfirmation(user: User, confirmationToken: string) {
-    await this.setTransport();
-
     const confirmationUrl =
-      'http://192.168.0.66:3001/auth/confirmation/' +
+      'https://serenityms.pl:3001/api/auth/confirmation/' +
       confirmationToken +
       '/' +
       user.email;
 
-    this.mailerService.sendMail({
-      transporterName: 'gmail',
+    await this.mailerService.sendMail({
       to: user.email, // list of receivers
       from: 'noreply.serenityms@gmail.com', // sender address
       subject: 'Serenity - verficiaction link', // Subject line
@@ -69,16 +67,13 @@ export class MailingService {
   }
 
   public async sendEmailPasswordReset(user: User, confirmationToken: string) {
-    await this.setTransport();
-
     const confirmationUrl =
-      'http://192.168.0.66:5173/forgot-password/' +
+      'https://serenityms.pl:5173/forgot-password/' +
       confirmationToken +
       '/' +
       user.email;
 
-    this.mailerService.sendMail({
-      transporterName: 'gmail',
+    await this.mailerService.sendMail({
       to: user.email, // list of receivers
       from: 'noreply.serenityms@gmail.com', // sender address
       subject: 'Serenity - reset password', // Subject line

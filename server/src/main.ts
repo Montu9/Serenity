@@ -1,15 +1,27 @@
+import { ClassSerializerInterceptor } from '@nestjs/common';
 import { NestFactory, Reflector } from '@nestjs/core';
 import { SwaggerModule } from '@nestjs/swagger';
-import { AppModule } from './app.module';
-import { ClassSerializerInterceptor } from '@nestjs/common';
-import customValidationPipe from './utils/customValidationPipe';
 import * as cookieParser from 'cookie-parser';
+import { readFileSync } from 'fs';
+import { join } from 'path';
+import { AppModule } from './app.module';
 import { corsOptions } from './config/corsOptions';
 import { swaggerOptions } from './config/swaggerOptions';
+import customValidationPipe from './utils/customValidationPipe';
+
+const httpsOptions = {
+  key: readFileSync(join(__dirname, '/../secrets/private-key.pem'), 'utf-8'),
+  cert: readFileSync(
+    join(__dirname, '/../secrets/public-certificate.pem'),
+    'utf-8',
+  ),
+};
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
-
+  const app = await NestFactory.create(AppModule, {
+    httpsOptions,
+  });
+  app.setGlobalPrefix('api');
   app.use(cookieParser());
   app.enableCors(corsOptions);
 
@@ -17,7 +29,7 @@ async function bootstrap() {
   app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
 
   const document = SwaggerModule.createDocument(app, swaggerOptions);
-  SwaggerModule.setup('api', app, document);
+  SwaggerModule.setup('/', app, document);
 
   await app.listen(3001);
 }

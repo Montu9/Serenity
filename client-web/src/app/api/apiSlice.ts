@@ -11,7 +11,7 @@ import { Mutex } from "async-mutex";
 import AccessToken from "@/app/api/features/auth/entities/AccessToken";
 import { logOut, setTokens } from "./features/auth/authSlice";
 
-const BASE_URL = "http://192.168.0.66:3001";
+const BASE_URL = "/api";
 
 const mutex = new Mutex();
 const baseQuery = fetchBaseQuery({

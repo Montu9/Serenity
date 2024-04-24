@@ -18,6 +18,8 @@ import { dog } from './data/dog';
 const prisma = new PrismaClient();
 
 async function main() {
+  const check = await prisma.breed.count({});
+  if (check !== 0) return true;
   for (const x of breed) {
     await prisma.breed.create({
       data: x,

@@ -3,7 +3,10 @@
 node_modules
 build
 dist
+secrets
 
+.cert/
+.env
 # Logs
 logs
 *.log

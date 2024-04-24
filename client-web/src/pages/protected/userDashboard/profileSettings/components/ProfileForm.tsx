@@ -29,7 +29,7 @@ export const ProfileForm = () => {
             email: data?.email || "",
             firstName: data?.firstName || "",
             lastName: data?.lastName || "",
-            gender: data?.gender || "MALE",
+            gender: data?.gender || "Male",
         },
     });
 
@@ -38,7 +38,7 @@ export const ProfileForm = () => {
             form.setValue("email", data?.email || "");
             form.setValue("firstName", data?.firstName || "");
             form.setValue("lastName", data?.lastName || "");
-            form.setValue("gender", data?.gender || "MALE");
+            form.setValue("gender", data?.gender || "Male");
         };
         setFormValues();
     }, [data, form, isSuccess]);

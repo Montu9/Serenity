@@ -48,7 +48,7 @@ export class AuthController {
     return this.authService.refreshToken(userUuid, res);
   }
 
-  @Redirect('http://192.168.0.66:5173')
+  @Redirect('https://serenityms.pl:5173')
   @Get('confirmation/:confirmationToken/:email')
   emailConfirmation(
     @Param('confirmationToken') confirmationToken: string,

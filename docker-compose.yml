@@ -1,0 +1,55 @@
+version: "3.8"
+services:
+    server:
+        container_name: server
+        build:
+            context: ./server
+            dockerfile: Dockerfile
+        ports:
+            - 3001:3001
+        networks:
+            - backend
+            - frontend
+        depends_on:
+            - db
+        env_file:
+            - ./server/.env
+
+    client:
+        container_name: client
+        build:
+            context: ./client-web
+            dockerfile: Dockerfile
+        ports:
+            - 5173:5173
+        networks:
+            - frontend
+        depends_on:
+            - server
+
+    db:
+        image: postgres:14-alpine
+        container_name: db
+        restart: always
+        ports:
+            - 5432:5432
+        networks:
+            - backend
+        env_file:
+            - ./server/.env
+        volumes:
+            - postgres:/var/lib/postgresql/data
+        environment:
+            - POSTGRES_PASSWORD=Password1234
+            - POSTGRES_USER=postgresClient
+            - POSTGRES_DB=serenity
+
+volumes:
+    postgres:
+        name: server-db
+
+networks:
+    backend:
+        driver: bridge
+    frontend:
+        driver: bridge

@@ -19,13 +19,14 @@ import { useToast } from "@/components/ui/use-toast";
 import { DotFilledIcon } from "@radix-ui/react-icons";
 import QRCode from "qrcode.react";
 import { FaQrcode } from "react-icons/fa";
-import { useMatch } from "react-router-dom";
+import { useLocation, useMatch } from "react-router-dom";
 import { DogDataTable } from "../dogs/components/DogDataTable";
 import { columns } from "../dogs/components/columns";
 import { EditKennelForm } from "./components/EditKennelForm";
 
 export const Kennels = () => {
     const { toast } = useToast();
+    const location = useLocation();
     const match = useMatch("/dashboard/:shelterUuid/:lastPart");
     const shelterUuid = match?.params.shelterUuid || "";
     const { data, isLoading, isSuccess, isError } = useGetAllKennelsQuery({ shelterUuid });
@@ -114,7 +115,9 @@ export const Kennels = () => {
                                                 <QRCode
                                                     id="canvas"
                                                     size={320}
-                                                    value={`http://localhost:5173/panel/${shelterUuid}/${kennel.uuid}`}
+                                                    value={`${window.location.origin.toString()}/panel/${shelterUuid}/${
+                                                        kennel.uuid
+                                                    }`}
                                                     level={"H"}
                                                     includeMargin={true}
                                                 />
@@ -135,7 +138,7 @@ export const Kennels = () => {
                                     {/* Edit Kennel */}
                                     <Dialog>
                                         <DialogTrigger asChild>
-                                            <Button variant="outline">Edit kennel</Button>
+                                            <Button variant="outline">Edit</Button>
                                         </DialogTrigger>
                                         <DialogContent>
                                             <DialogHeader>
