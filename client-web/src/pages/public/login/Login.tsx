@@ -1,7 +1,9 @@
 import loginImg from "@/assets/images/login.png";
+import paperClip from "@/assets/images/paper_clip.png";
 import logo from "@/assets/svg/logo.svg";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Link } from "react-router-dom";
 import LoginForm from "./components/LoginForm";
 
@@ -24,17 +26,49 @@ export const Login = () => {
                     </Link>
                 </div>
 
-                <div className="lg:p-8">
+                <div className="relative lg:p-8">
                     <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
                         <div className="flex flex-col space-y-2 text-center items-center">
                             <Link to="/">
-                                <img src={logo} alt="logo" className="h-20 w-20 rounded-full lg:hidden" />
+                                <img
+                                    src={logo}
+                                    alt="logo"
+                                    className="h-20 w-20 rounded-full lg:hidden"
+                                />
                             </Link>
                             <h1 className="text-3xl font-semibold tracking-tight">Sign in</h1>
                             <p className="text-sm text-muted-foreground text-justify">
-                                To sign in, please enter your registered email and password. Ensure the information
-                                provided is accurate to access your account securely.
+                                To sign in, please enter your registered email and password. Ensure
+                                the information provided is accurate to access your account
+                                securely.
                             </p>
+                            <Popover defaultOpen={true}>
+                                <PopoverTrigger asChild>
+                                    <Button variant="outline">Demo credentials</Button>
+                                </PopoverTrigger>
+                                <PopoverContent className="w-1/2">
+                                    <div className="flex flex-col mx-auto justify-center content-center gap-2">
+                                        <img
+                                            src={paperClip}
+                                            alt="paperClip"
+                                            className="w-1/2 mx-auto"
+                                        />
+                                        <h4 className="font-medium leading-none">
+                                            Demo credentials
+                                        </h4>
+                                        <p className="text-sm text-muted-foreground">
+                                            This is just a demo to demonstrate the capabilities of
+                                            the system. Use these credentials to log in.
+                                        </p>
+                                        <code className="relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold">
+                                            kuziora.karolx@gmail.com
+                                        </code>
+                                        <code className="relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold">
+                                            Password1234$
+                                        </code>
+                                    </div>
+                                </PopoverContent>
+                            </Popover>
                         </div>
                         <div className="grid gap-6">
                             <LoginForm />
@@ -56,11 +90,15 @@ export const Login = () => {
                         </div>
                         <p className="px-8 text-center text-sm text-muted-foreground">
                             By clicking continue, you agree to our{" "}
-                            <Link to="/terms-of-service" className="underline underline-offset-4 hover:text-primary">
+                            <Link
+                                to="/terms-of-service"
+                                className="underline underline-offset-4 hover:text-primary">
                                 Terms of Service
                             </Link>{" "}
                             and{" "}
-                            <Link to="/privacy-policy" className="underline underline-offset-4 hover:text-primary">
+                            <Link
+                                to="/privacy-policy"
+                                className="underline underline-offset-4 hover:text-primary">
                                 Privacy Policy
                             </Link>
                             .
